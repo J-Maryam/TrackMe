@@ -1,11 +1,14 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.youcode.trackme.entities.enums.DiseaseStage;
 
 import java.util.Date;
 
@@ -19,17 +22,22 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank
     private String firstName;
 
-    @Column(nullable = false)
+    @NotBlank
     private String lastName;
 
     @Past
+    @NotNull
     private Date dateOfBirth;
 
     @Transient
     private int age;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DiseaseStage diseaseStage;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bracelet_id", referencedColumnName = "id")
