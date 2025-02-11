@@ -46,4 +46,9 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User caregiver;
+
+    @ManyToOne
+    @JoinColumn(name = "geofence_id")
+    private Geofence geofence;
+
 }
