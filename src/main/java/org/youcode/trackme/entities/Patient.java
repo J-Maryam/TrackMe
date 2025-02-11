@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.youcode.trackme.entities.enums.DiseaseStage;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,4 +52,6 @@ public class Patient {
     @JoinColumn(name = "geofence_id")
     private Geofence geofence;
 
+    @OneToMany(mappedBy = "patient")
+    private List<Alert> alerts;
 }

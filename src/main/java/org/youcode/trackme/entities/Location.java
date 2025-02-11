@@ -31,7 +31,4 @@ public class Location {
     @JoinColumn(name = "bracelet_id")
     private Bracelet bracelet;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;  // Le patient associé
 }
