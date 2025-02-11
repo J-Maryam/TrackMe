@@ -1,34 +1,29 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
 spring:
-application:
-name: TrackMe
-datasource:
-url: jdbc:postgresql://localhost:5432/trackme_db
-username: your_database_user
-password: your_database_password
-driver-class-name: org.postgresql.Driver
-jpa:
-hibernate:
-ddl-auto: update  # Options : validate, update, create, create-drop
-properties:
-hibernate:
-dialect: org.hibernate.dialect.PostgreSQLDialect
-sql:
-init:
-mode: always  # Exécuter les scripts SQL d'initialisation au démarrage
-profiles:
-active: dev  # Définit l'environnement actif (dev, test, prod)
+  application:
+    name: TrackMe
+  datasource:
+    url: jdbc:postgresql://localhost:5432/trackme_db
+    username: postgres
+    password: @aahmhmm28
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 logging:
-level:
-root: info
-org.springframework: debug  # Ajustez selon le niveau de logs souhaité
+  level:
+    root: info
+    org.springframework: debug
 
-server:
-port: 8080  # Port sur lequel l'application s'exécute
-servlet:
-context-path: /api/v1  # Préfixe pour toutes les URL de l'application
-
-mqtt:
-broker-url: tcp://broker.hivemq.com:1883  # Exemple d'URL de broker MQTT
-client-id: trackme-backend
-topic: trackme/gps  # Sujet pour les données GPS
+#mqtt:
+#  broker-url: tcp://broker.hivemq.com:1883  # Exemple d'URL de broker MQTT
+#  client-id: trackme-backend
+#  topic: trackme/gps  # Sujet pour les donnï¿½es GPS
