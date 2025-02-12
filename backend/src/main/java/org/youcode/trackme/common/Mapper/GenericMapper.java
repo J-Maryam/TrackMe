@@ -1,4 +1,4 @@
-package org.youcode.youquiz.common.Mapper;
+package org.youcode.trackme.common.Mapper;
 
 import org.mapstruct.MapperConfig;
 
