@@ -1,4 +1,4 @@
-package org.youcode.youquiz.common;
+package org.youcode.trackme.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
