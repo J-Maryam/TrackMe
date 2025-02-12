@@ -1,4 +1,15 @@
 package org.youcode.trackme.dtos.user;
 
-public record UserResponseDTO() {
+import org.youcode.trackme.entities.enums.Role;
+
+import java.util.List;
+
+public record UserResponseDTO(
+        Long id,
+        String username,
+        String email,
+        String phoneNumber,
+        Role role,
+        List<Long> patientIds
+) {
 }
