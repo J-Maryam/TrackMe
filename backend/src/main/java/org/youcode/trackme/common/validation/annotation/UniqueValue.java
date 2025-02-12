@@ -1,8 +1,8 @@
-package org.youcode.youquiz.common.validation.annotation;
+package org.youcode.trackme.common.validation.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.youcode.youquiz.common.validation.validator.UniqueValueValidator;
+import org.youcode.trackme.common.validation.validator.UniqueValueValidator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

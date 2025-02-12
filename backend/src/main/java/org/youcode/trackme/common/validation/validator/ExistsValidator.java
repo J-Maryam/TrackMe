@@ -1,11 +1,11 @@
-package org.youcode.youquiz.common.validation.validator;
+package org.youcode.trackme.common.validation.validator;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.youcode.youquiz.common.validation.annotation.Exists;
+import org.youcode.trackme.common.validation.annotation.Exists;
 
 @Component
 @RequiredArgsConstructor
