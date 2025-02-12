@@ -8,6 +8,7 @@ public class TrackMeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TrackMeApplication.class, args);
+        System.out.println("TrackMe Application Started");
     }
 
 }

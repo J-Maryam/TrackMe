@@ -45,6 +45,6 @@ public class User {
     @Column(nullable = false)
     private Role role; // Enum: ADMIN, CAREGIVER
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "caregiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Patient> patients = new ArrayList<>();
 }

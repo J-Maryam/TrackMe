@@ -8,8 +8,8 @@ spring:
     name: TrackMe
   datasource:
     url: jdbc:postgresql://localhost:5432/trackme_db
-    username: postgres
-    password: @aahmhmm28
+    username: "postgres"
+    password: "@aahmhmm28"
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
