@@ -8,12 +8,15 @@ import org.springframework.stereotype.Component;
 import org.youcode.trackme.common.validation.annotation.Exists;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ExistsValidator implements ConstraintValidator<Exists, Long> {
 
     private final EntityManager em;
     private Class<?> entityClass;
 
+    public ExistsValidator(EntityManager em) {
+        this.em = em;
+    }
     @Override
     public void initialize(Exists constraintAnnotation) {
         this.entityClass = constraintAnnotation.entityClass();

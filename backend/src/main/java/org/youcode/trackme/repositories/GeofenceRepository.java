@@ -1,4 +1,7 @@
 package org.youcode.trackme.repositories;
 
-public interface BraceletRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GeofenceRepository {
 }
