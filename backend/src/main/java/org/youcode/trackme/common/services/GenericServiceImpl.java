@@ -1,4 +1,4 @@
-package org.youcode.youquiz.common.services;
+package org.youcode.trackme.common.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.youcode.youquiz.common.Mapper.GenericMapper;
-import org.youcode.youquiz.common.PagedResponse;
-import org.youcode.youquiz.common.exceptions.EntityNotFoundException;
+import org.youcode.trackme.common.Mapper.GenericMapper;
+import org.youcode.trackme.common.PagedResponse;
+import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 
 import java.util.List;
 
