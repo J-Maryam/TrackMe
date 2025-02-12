@@ -1,6 +1,7 @@
 package org.youcode.trackme.dtos.user;
 
 import jakarta.validation.constraints.*;
+import org.youcode.trackme.entities.enums.Role;
 
 public record UserRequestDTO(
 
@@ -19,6 +20,6 @@ public record UserRequestDTO(
         @NotNull
         String phoneNumber,
 
-        Long role
+        Role role
 ) {
 }
