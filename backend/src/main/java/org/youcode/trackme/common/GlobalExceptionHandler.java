@@ -1,16 +1,15 @@
-package org.youcode.youquiz.common;
+package org.youcode.trackme.common;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.youcode.youquiz.common.exceptions.BadRequestException;
-import org.youcode.youquiz.common.exceptions.ConflictException;
-import org.youcode.youquiz.common.exceptions.EntityCreationException;
-import org.youcode.youquiz.common.exceptions.EntityNotFoundException;
+import org.youcode.trackme.common.exceptions.BadRequestException;
+import org.youcode.trackme.common.exceptions.ConflictException;
+import org.youcode.trackme.common.exceptions.EntityCreationException;
+import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 
 import java.time.LocalDateTime;
 
