@@ -1,4 +1,4 @@
-package org.youcode.youquiz.common.exceptions;
+package org.youcode.trackme.common.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {
