@@ -13,6 +13,7 @@ import org.youcode.trackme.entities.enums.Role;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "users")
 @Entity
 @Getter
 @Setter
