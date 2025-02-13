@@ -6,12 +6,8 @@ import org.youcode.trackme.entities.enums.BraceletStatus;
 
 public record BraceletResponseDTO(
         Long id,
-
         String serialNumber,
-
         BraceletStatus status,
-
-        BraceletState state,
-
+        String color,
         Patient patient
 ) {}

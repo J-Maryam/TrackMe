@@ -12,7 +12,7 @@ public record BraceletRequestDTO(
         @NotNull(message = "Status is mandatory")
         BraceletStatus status,
 
-        @NotNull(message = "State is mandatory")
-        BraceletState state
+        @NotNull(message = "Color is mandatory")
+        String color
 ) {
 }
