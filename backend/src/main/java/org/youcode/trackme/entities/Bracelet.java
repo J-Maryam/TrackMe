@@ -1,6 +1,7 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class Bracelet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @NotBlank
     @NotNull
     private String serialNumber;
 
@@ -30,9 +31,8 @@ public class Bracelet {
     @Column(nullable = false)
     private BraceletStatus status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private BraceletState state;
+    @NotBlank
+    private String color; // Ex: "Rouge", "Bleu", "Vert"
 
     @OneToOne(mappedBy = "bracelet")
     private Patient patient;

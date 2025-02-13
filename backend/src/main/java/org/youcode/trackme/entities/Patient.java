@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.youcode.trackme.entities.enums.DiseaseStage;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -24,10 +25,7 @@ public class Patient {
     private Long id;
 
     @NotBlank
-    private String firstName;
-
-    @NotBlank
-    private String lastName;
+    private String username;
 
     @Past
     @NotNull
@@ -54,4 +52,7 @@ public class Patient {
 
     @OneToMany(mappedBy = "patient")
     private List<Alert> alerts;
+
+    private LocalDateTime dateCreation;
+
 }
