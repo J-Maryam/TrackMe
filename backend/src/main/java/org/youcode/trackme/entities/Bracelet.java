@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.youcode.trackme.entities.enums.BraceletState;
 import org.youcode.trackme.entities.enums.BraceletStatus;
 
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class Bracelet {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BraceletStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BraceletState state;
 
     @OneToOne(mappedBy = "bracelet")
     private Patient patient;
