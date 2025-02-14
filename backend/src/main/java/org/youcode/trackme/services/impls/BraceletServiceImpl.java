@@ -36,11 +36,24 @@ public class BraceletServiceImpl extends GenericServiceImpl<Bracelet, Long, Brac
         Bracelet bracelet = new Bracelet();
         bracelet.setSerialNumber(serialNumber);
         bracelet.setStatus(BraceletStatus.INACTIVE);
-        bracelet.setState(BraceletState.AVAILABLE);
+        bracelet.setColor(requestDto.color());
 
         Bracelet savedBracelet = braceletRepository.save(bracelet);
 
         return braceletMapper.toDto(savedBracelet);
+    }
+
+    @Override
+    public BraceletResponseDTO update(Long id, BraceletRequestDTO requestDto) {
+        Bracelet bracelet = braceletRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Bracelet non trouvé avec l'ID : " + id));
+
+        bracelet.setStatus(requestDto.status());
+        bracelet.setColor(requestDto.color());
+
+        Bracelet updatedBracelet = braceletRepository.save(bracelet);
+
+        return braceletMapper.toDto(updatedBracelet);
     }
 
     /**
