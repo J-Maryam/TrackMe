@@ -6,13 +6,13 @@ import org.youcode.trackme.entities.enums.BraceletState;
 import org.youcode.trackme.entities.enums.BraceletStatus;
 
 public record BraceletRequestDTO(
-        @NotBlank(message = "Serial number is mandatory")
+//        @NotBlank(message = "Serial number is mandatory")
         String serialNumber,
 
-        @NotNull(message = "Status is mandatory")
+//        @NotNull(message = "Status is mandatory")
         BraceletStatus status,
 
-        @NotNull(message = "Color is mandatory")
+        @NotBlank(message = "La couleur ne doit pas être vide")
         String color
 ) {
 }
