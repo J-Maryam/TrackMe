@@ -34,9 +34,9 @@ public class Patient {
     @Transient
     private int age;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DiseaseStage diseaseStage;
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private DiseaseStage diseaseStage;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bracelet_id", referencedColumnName = "id")
@@ -46,12 +46,12 @@ public class Patient {
     @JoinColumn(name = "user_id")
     private User caregiver;
 
-    @ManyToOne
-    @JoinColumn(name = "geofence_id")
-    private Geofence geofence;
-
-    @OneToMany(mappedBy = "patient")
-    private List<Alert> alerts;
+//    @ManyToOne
+//    @JoinColumn(name = "geofence_id")
+//    private Geofence geofence;
+//
+//    @OneToMany(mappedBy = "patient")
+//    private List<Alert> alerts;
 
     private LocalDateTime dateCreation;
 
