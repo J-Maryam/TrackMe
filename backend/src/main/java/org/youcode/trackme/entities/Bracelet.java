@@ -24,14 +24,13 @@ public class Bracelet {
     private Long id;
 
     @NotBlank
-    @NotNull
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BraceletStatus status;
 
-    @NotBlank
+    @NotBlank(message = "La couleur ne doit pas être vide")
     private String color; // Ex: "Rouge", "Bleu", "Vert"
 
     @OneToOne(mappedBy = "bracelet")
