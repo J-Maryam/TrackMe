@@ -10,7 +10,6 @@ import org.youcode.trackme.entities.Patient;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 
 @Mapper(componentModel = "spring")
 public interface PatientMapper extends GenericMapper<Patient, PatientRequestDTO, PatientResponseDTO> {
@@ -18,9 +17,8 @@ public interface PatientMapper extends GenericMapper<Patient, PatientRequestDTO,
     PatientResponseDTO toDto(Patient patient);
 
     @Named("calculateAge")
-    default int calculateAge(Date dateOfBirth) {
+    default int calculateAge(LocalDate dateOfBirth) {
         if (dateOfBirth == null) return 0;
-        LocalDate birthDate = new java.sql.Date(dateOfBirth.getTime()).toLocalDate();
-        return Period.between(birthDate, LocalDate.now()).getYears();
+        return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.youcode.trackme.entities.enums.DiseaseStage;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Patient {
 
     @Past
     @NotNull
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Transient
     private int age;
