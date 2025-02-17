@@ -6,13 +6,14 @@ import {FooterComponent} from '../../shared/components/footer/footer.component';
 import {HeroSectionComponent} from './hero-section/hero-section.component';
 import {FonctionnalitiesSectionComponent} from './fonctionnalities-section/fonctionnalities-section.component';
 import {HowItWorksSectionComponent} from './how-it-works-section/how-it-works-section.component';
+import {CallToActionSectionComponent} from './call-to-action-section/call-to-action-section.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, NgOptimizedImage, HeroSectionComponent, FonctionnalitiesSectionComponent, HowItWorksSectionComponent]
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, NgOptimizedImage, HeroSectionComponent, FonctionnalitiesSectionComponent, HowItWorksSectionComponent, CallToActionSectionComponent]
 })
 export class HomeComponent {
 }
