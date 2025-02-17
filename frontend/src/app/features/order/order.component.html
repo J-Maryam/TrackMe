@@ -1,0 +1,46 @@
+<app-header></app-header>
+
+<div class="w-full min-h-screen flex flex-col items-center justify-center bg-gray-100 py-26">
+  <div class="w-full max-w-3xl p-8 bg-white rounded-lg shadow-lg">
+
+    <!-- Titre principal -->
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800">Commander votre bracelet</h2>
+      <p class="text-gray-600">Suivez les étapes pour finaliser votre commande</p>
+    </div>
+
+    <!-- Indicateur des étapes -->
+    <div class="mb-8 flex justify-between">
+      <div *ngFor="let step of steps" class="flex-1 text-center">
+        <div [ngClass]="{'bg-[#E67E22]': currentStep === step.index, 'bg-gray-300': currentStep !== step.index}"
+             class="mx-auto w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
+          {{ step.index }}
+        </div>
+        <p class="mt-2 text-sm font-medium">{{ step.title }}</p>
+      </div>
+    </div>
+
+    <!-- Formulaires des étapes -->
+    <div class="p-4 bg-gray-50 rounded-lg shadow-inner">
+<!--      p-4-->
+      <app-step1 *ngIf="currentStep === 1" [orderForm]="orderForm"></app-step1>
+      <app-step2 *ngIf="currentStep === 2" [orderForm]="orderForm"></app-step2>
+      <app-step3 *ngIf="currentStep === 3" [orderForm]="orderForm"></app-step3>
+      <app-step4 *ngIf="currentStep === 4" [orderForm]="orderForm"></app-step4>
+    </div>
+
+    <!-- Boutons de navigation -->
+    <div class="flex justify-between items-center mt-8">
+      <button type="button" (click)="prevStep()" [disabled]="currentStep === 1"
+              class="bg-gray-300 hover:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+        Retour
+      </button>
+      <button type="button" (click)="nextStep()" [disabled]="!orderForm.valid"
+              class="bg-[#E67E22] hover:bg-[#D35400] text-white px-6 py-3 rounded-lg font-medium transition duration-300">
+        {{ currentStep === 4 ? 'Valider' : 'Suivant' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
