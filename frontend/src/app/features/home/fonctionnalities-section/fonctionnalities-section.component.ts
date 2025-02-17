@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-fonctionnalities-section',
   imports: [],
   templateUrl: './fonctionnalities-section.component.html',
+  standalone: true,
   styleUrl: './fonctionnalities-section.component.css'
 })
 export class FonctionnalitiesSectionComponent {
