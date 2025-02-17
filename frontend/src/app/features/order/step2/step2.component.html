@@ -1,7 +1,39 @@
 <div class="mb-6">
-  <label for="bracelet" class="text-sm font-medium text-gray-700">Choisissez le modèle de bracelet</label>
-  <select id="bracelet" formControlName="bracelet" class="w-full px-5 py-3 mt-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
-    <option value="bracelet1">Bracelet de modèle 1</option>
-    <option value="bracelet2">Bracelet de modèle 2</option>
-  </select>
+  <label class="text-sm flex align-center justify-center font-medium text-gray-700 transform transition-transform duration-500 hover:scale-105">
+    Choisissez votre bracelet
+  </label>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+    <!-- Bracelet 1 (Rouge) -->
+    <div class="border border-gray-300 rounded-xl shadow-lg text-center bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+      <img src="https://i.etsystatic.com/37484115/r/il/99a7da/5169969530/il_570xN.5169969530_snqw.jpg" alt="Bracelet rouge" class="w-52 h-42 rounded-t-lg mx-auto transform transition-transform duration-300 hover:scale-110">
+      <p class="mt-2 text-sm text-gray-700 font-semibold">Bracelet élégant en rouge</p>
+      <button type="button" (click)="selectBracelet('bracelet1')"
+              [ngClass]="{'bg-[#E67E22] text-white': selectedBracelet === 'bracelet1', 'bg-gray-300': selectedBracelet !== 'bracelet1'}"
+              class="mt-5 mb-2 px-4 py-2 rounded-lg font-medium transition duration-300 hover:bg-[#D35400] hover:text-white">
+        Sélectionner
+      </button>
+    </div>
+
+    <!-- Bracelet 2 (Bleu) -->
+    <div class="border border-gray-300 rounded-xl shadow-lg text-center bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+      <img src="https://i.etsystatic.com/44802764/r/il/a28c4d/5145060151/il_570xN.5145060151_82le.jpg" alt="Bracelet bleu" class="w-52 h-42 rounded-t-lg mx-auto transform transition-transform duration-300 hover:scale-110">
+      <p class="mt-2 text-sm text-gray-700 font-semibold">Bracelet moderne en bleu</p>
+      <button type="button" (click)="selectBracelet('bracelet2')"
+              [ngClass]="{'bg-[#E67E22] text-white': selectedBracelet === 'bracelet2', 'bg-gray-300': selectedBracelet !== 'bracelet2'}"
+              class="mt-5 mb-2 px-4 py-2 rounded-lg font-medium transition duration-300 hover:bg-[#D35400] hover:text-white">
+        Sélectionner
+      </button>
+    </div>
+
+    <!-- Bracelet 3 (Noir) -->
+    <div class="border border-gray-300 rounded-xl shadow-lg text-center bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+      <img src="https://i.etsystatic.com/37484115/r/il/882981/5358254745/il_570xN.5358254745_ax4p.jpg" alt="Bracelet noir" class="w-52 h-42 rounded-t-lg mx-auto transform transition-transform duration-300 hover:scale-110">
+      <p class="mt-2 text-sm text-gray-700 font-semibold">Bracelet sobre en noir</p>
+      <button type="button" (click)="selectBracelet('bracelet3')"
+              [ngClass]="{'bg-[#E67E22] text-white': selectedBracelet === 'bracelet3', 'bg-gray-300': selectedBracelet !== 'bracelet3'}"
+              class="mt-5 mb-2 px-4 py-2 rounded-lg font-medium transition duration-300 hover:bg-[#D35400] hover:text-white">
+        Sélectionner
+      </button>
+    </div>
+  </div>
 </div>
