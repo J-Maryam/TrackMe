@@ -7,7 +7,12 @@
     <a href="#pricing" class="text-gray-700 hover:text-indigo-600 transition-all">Pricing</a>
     <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-all">Contact</a>
   </nav>
-  <button class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-all mr-6">
+
+  <!-- Bouton pour ouvrir la popup -->
+  <button (click)="openLogin()" class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition-all mr-6">
     Get Started
   </button>
 </header>
+
+<!-- Intégration du composant login -->
+<app-login #loginPopup></app-login>
