@@ -1,47 +1,61 @@
-<section class="py-20 bg-gradient-to-r from-[#3498DB] to-[#2C3E50] relative overflow-hidden">
-  <!-- Fond animé avec des formes géométriques -->
-  <div class="absolute inset-0 z-0">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-  </div>
-
-  <div class="container mx-auto px-12 relative z-10">
-    <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16 animate-fade-in">Comment ça marche ?</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<section class="py-16 relative">
+  <div class="container mx-auto px-6 md:px-12">
+    <h2 class="text-4xl md:text-4xl font-bold text-center text-[#2C3E50] mb-12 animate-fade-in">Comment ça marche ?</h2>
+    <div class="flex flex-col md:flex-row items-center justify-center relative">
 
       <!-- Étape 1 -->
-      <div class="text-center bg-white/10 backdrop-blur-md text-white p-8 rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 animate-slide-in-left">
-        <div class="text-6xl font-bold text-[#E67E22] mb-6 animate-bounce">1</div>
-        <h3 class="text-2xl font-semibold mb-4">Commandez le Bracelet</h3>
-        <p class="text-[#BDC3C7]">
+      <div class="text-center bg-white text-[#2C3E50] p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 relative z-10 animate-slide-in-left w-full md:w-1/4 mx-4">
+        <div class="text-5xl font-bold text-[#E67E22] mb-4">1</div>
+        <h3 class="text-xl font-semibold mb-3">Commandez le Bracelet</h3>
+        <p class="text-[#7F8C8D] text-sm">
           Choisissez le bracelet adapté à vos besoins et passez votre commande en quelques clics.
         </p>
       </div>
 
+      <!-- Flèche entre Étape 1 et Étape 2 -->
+      <div class="hidden md:block my-8 md:my-0 mx-2 relative z-10 animate-fade-in">
+        <svg class="w-12 h-12 text-[#E67E22] animate-bounce-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+        </svg>
+      </div>
+
       <!-- Étape 2 -->
-      <div class="text-center bg-white/10 backdrop-blur-md text-white p-8 rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 animate-slide-in-right">
-        <div class="text-6xl font-bold text-[#F1C40F] mb-6 animate-bounce">2</div>
-        <h3 class="text-2xl font-semibold mb-4">Recevez le Bracelet</h3>
-        <p class="text-[#BDC3C7]">
+      <div class="text-center bg-white text-[#2C3E50] p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 relative z-10 mt-8 md:mt-0 animate-slide-in-right w-full md:w-1/4 mx-4">
+        <div class="text-5xl font-bold text-[#F1C40F] mb-4">2</div>
+        <h3 class="text-xl font-semibold mb-3">Recevez le Bracelet</h3>
+        <p class="text-[#7F8C8D] text-sm">
           Le bracelet vous est livré rapidement, prêt à être configuré et utilisé.
         </p>
       </div>
 
+      <!-- Flèche entre Étape 2 et Étape 3 -->
+      <div class="hidden md:block my-8 md:my-0 mx-2 relative z-10 animate-fade-in">
+        <svg class="w-12 h-12 text-[#F1C40F] animate-bounce-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+        </svg>
+      </div>
+
       <!-- Étape 3 -->
-      <div class="text-center bg-white/10 backdrop-blur-md text-white p-8 rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 animate-slide-in-left">
-        <div class="text-6xl font-bold text-[#E67E22] mb-6 animate-bounce">3</div>
-        <h3 class="text-2xl font-semibold mb-4">Configurez le Bracelet</h3>
-        <p class="text-[#BDC3C7]">
+      <div class="text-center bg-white text-[#2C3E50] p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 relative z-10 mt-8 md:mt-0 animate-slide-in-left w-full md:w-1/4 mx-4">
+        <div class="text-5xl font-bold text-[#E67E22] mb-4">3</div>
+        <h3 class="text-xl font-semibold mb-3">Configurez le Bracelet</h3>
+        <p class="text-[#7F8C8D] text-sm">
           Associez le bracelet à l'application et configurez les paramètres de suivi.
         </p>
       </div>
 
+      <!-- Flèche entre Étape 3 et Étape 4 -->
+      <div class="hidden md:block my-8 md:my-0 mx-2 relative z-10 animate-fade-in">
+        <svg class="w-12 h-12 text-[#E67E22] animate-bounce-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
+        </svg>
+      </div>
+
       <!-- Étape 4 -->
-      <div class="text-center bg-white/10 backdrop-blur-md text-white p-8 rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300 animate-slide-in-right">
-        <div class="text-6xl font-bold text-[#F1C40F] mb-6 animate-bounce">4</div>
-        <h3 class="text-2xl font-semibold mb-4">Suivez en Temps Réel</h3>
-        <p class="text-[#BDC3C7]">
+      <div class="text-center bg-white text-[#2C3E50] p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 relative z-10 mt-8 md:mt-0 animate-slide-in-right w-full md:w-1/4 mx-4">
+        <div class="text-5xl font-bold text-[#F1C40F] mb-4">4</div>
+        <h3 class="text-xl font-semibold mb-3">Suivez en Temps Réel</h3>
+        <p class="text-[#7F8C8D] text-sm">
           Visualisez la localisation du patient en temps réel sur l'application.
         </p>
       </div>
