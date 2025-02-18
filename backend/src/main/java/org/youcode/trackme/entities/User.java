@@ -40,6 +40,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotBlank(message = "Address is mandatory")
+    @Size(min = 5, max = 255, message = "Address must be between 5 and 255 characters")
+    private String address;
+
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
