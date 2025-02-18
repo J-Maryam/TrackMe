@@ -13,3 +13,9 @@ button:hover {
 .bg-white {
   transition: max-height 0.4s ease-out;
 }
+
+img {
+  max-width: 90%;
+  height: auto;
+  object-fit: cover;
+}

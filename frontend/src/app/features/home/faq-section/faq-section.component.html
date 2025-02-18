@@ -1,17 +1,26 @@
 <section class="bg-gray-100 py-16">
-  <div class="max-w-5xl mx-auto px-6">
-    <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-8">🤔 Questions Fréquentes</h2>
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
-    <!-- Liste des Questions -->
-    <div *ngFor="let item of faqList; let i = index" class="mb-4">
-      <button (click)="toggleFAQ(i)"
-              class="w-full flex justify-between items-center bg-white p-5 rounded-lg shadow-md text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-300">
-        <span>{{ item.question }}</span>
-        <span class="text-[#E67E22] text-2xl">{{ activeFAQ === i ? '−' : '+' }}</span>
-      </button>
+    <!-- 📸 Image à gauche -->
+    <div class="flex justify-center">
+      <img src="https://files.oaiusercontent.com/file-MTVQduSPMW5sViDnxJbBYE?se=2025-02-18T13%3A41%3A14Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Df1c92463-afec-4bf4-b7dd-8e8512a9d71c.webp&sig=3YwtL8z4Tk2/DvMR6Cs%2Bvk/Kuw6Ar7Nabi3FtJXH2T8%3D" alt="Aide Alzheimer"
+           class="max-w-full rounded-lg shadow-lg">
+    </div>
 
-      <div *ngIf="activeFAQ === i" class="bg-white p-5 mt-2 rounded-lg shadow-md text-gray-600">
-        {{ item.answer }}
+    <!-- ❓ Questions Fréquentes à droite -->
+    <div>
+      <h2 class="text-3xl font-extrabold text-gray-800 mb-8 text-center md:text-left">🤔 Questions Fréquentes</h2>
+
+      <div *ngFor="let item of faqList; let i = index" class="mb-4">
+        <button (click)="toggleFAQ(i)"
+                class="w-full flex justify-between items-center bg-white p-5 rounded-lg shadow-md text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-300">
+          <span>{{ item.question }}</span>
+          <span class="text-[#E67E22] text-2xl">{{ activeFAQ === i ? '−' : '+' }}</span>
+        </button>
+
+        <div *ngIf="activeFAQ === i" class="bg-white p-5 mt-2 rounded-lg shadow-md text-gray-600">
+          {{ item.answer }}
+        </div>
       </div>
     </div>
   </div>
