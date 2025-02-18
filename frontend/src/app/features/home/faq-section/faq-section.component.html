@@ -1,0 +1,18 @@
+<section class="bg-gray-100 py-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-8">🤔 Questions Fréquentes</h2>
+
+    <!-- Liste des Questions -->
+    <div *ngFor="let item of faqList; let i = index" class="mb-4">
+      <button (click)="toggleFAQ(i)"
+              class="w-full flex justify-between items-center bg-white p-5 rounded-lg shadow-md text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-300">
+        <span>{{ item.question }}</span>
+        <span class="text-[#E67E22] text-2xl">{{ activeFAQ === i ? '−' : '+' }}</span>
+      </button>
+
+      <div *ngIf="activeFAQ === i" class="bg-white p-5 mt-2 rounded-lg shadow-md text-gray-600">
+        {{ item.answer }}
+      </div>
+    </div>
+  </div>
+</section>
