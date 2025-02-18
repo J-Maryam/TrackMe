@@ -1,0 +1,51 @@
+.shape {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float 6s infinite ease-in-out;
+}
+.shape-1 {
+  width: 200px;
+  height: 200px;
+  top: -50px;
+  left: -50px;
+  animation-delay: 0s;
+}
+.shape-2 {
+  width: 150px;
+  height: 150px;
+  bottom: -75px;
+  right: -75px;
+  animation-delay: 2s;
+}
+.shape-3 {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  right: 10%;
+  animation-delay: 4s;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+@keyframes animate-fade-in {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes animate-slide-in-left {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes animate-slide-in-right {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-fade-in { animation: animate-fade-in 1s ease-out; }
+.animate-slide-in-left { animation: animate-slide-in-left 1s ease-out; }
+.animate-slide-in-right { animation: animate-slide-in-right 1s ease-out; }
+.animate-bounce { animation: bounce 2s infinite; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
