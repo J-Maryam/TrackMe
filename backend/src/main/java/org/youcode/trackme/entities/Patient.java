@@ -1,19 +1,14 @@
 package org.youcode.trackme.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.youcode.trackme.entities.enums.DiseaseStage;
-
+import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import java.time.Period;
 
 @Entity
 @Getter
@@ -35,11 +30,7 @@ public class Patient {
     @Transient
     private int age;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private DiseaseStage diseaseStage;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bracelet_id", referencedColumnName = "id")
     private Bracelet bracelet;
 
@@ -47,13 +38,14 @@ public class Patient {
     @JoinColumn(name = "user_id")
     private User caregiver;
 
-//    @ManyToOne
-//    @JoinColumn(name = "geofence_id")
-//    private Geofence geofence;
-//
-//    @OneToMany(mappedBy = "patient")
-//    private List<Alert> alerts;
-
     private LocalDateTime dateCreation;
 
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    public void calculateAge() {
+        if (dateOfBirth != null) {
+            this.age = Period.between(dateOfBirth, LocalDate.now()).getYears();
+        }
+    }
 }
