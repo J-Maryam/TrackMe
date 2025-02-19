@@ -8,12 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.youcode.trackme.entities.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "users")
 @Entity
 @Getter
 @Setter
@@ -44,11 +42,12 @@ public class User {
     @Size(min = 5, max = 255, message = "Address must be between 5 and 255 characters")
     private String address;
 
+    @NotBlank(message = "Phone number is mandatory")
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role; // Enum: ADMIN, CAREGIVER
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @OneToMany(mappedBy = "caregiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Patient> patients = new ArrayList<>();
