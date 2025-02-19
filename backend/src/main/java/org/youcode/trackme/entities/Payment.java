@@ -1,10 +1,7 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.youcode.trackme.entities.enums.PaymentStatus;
 
 import java.time.LocalDateTime;
@@ -25,8 +22,14 @@ public class Payment {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentStatus status; // EN_ATTENTE, REUSSI, ECHOE
+    private PaymentStatus status;
 
     private LocalDateTime datePaiement;
-    private String transactionId; // ID de la transaction chez le processeur de paiement
+
+    private String transactionId;
+
+    @PrePersist
+    public void prePersist() {
+        this.datePaiement = LocalDateTime.now();
+    }
 }
