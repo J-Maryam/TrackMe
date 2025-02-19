@@ -8,7 +8,7 @@ import org.youcode.trackme.dtos.patient.PatientRequestDTO;
 import org.youcode.trackme.dtos.patient.PatientResponseDTO;
 import org.youcode.trackme.entities.Bracelet;
 import org.youcode.trackme.entities.Patient;
-import org.youcode.trackme.entities.User;
+import org.youcode.trackme.entities.AppUser;
 import org.youcode.trackme.mappers.PatientMapper;
 import org.youcode.trackme.repositories.BraceletRepository;
 import org.youcode.trackme.repositories.PatientRepository;
@@ -49,7 +49,7 @@ public class PatientServiceImpl extends GenericServiceImpl<Patient, Long, Patien
         }
 
         if (requestDto.caregiverId() != null) {
-            User caregiver = userRepository.findById(requestDto.caregiverId())
+            AppUser caregiver = userRepository.findById(requestDto.caregiverId())
                     .orElseThrow(() -> new RuntimeException("Soignant non trouvé avec l'ID : " + requestDto.caregiverId()));
             patient.setCaregiver(caregiver);
         }

@@ -22,7 +22,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private AppUser appUser;
 
     @ManyToOne
     @JoinColumn(name = "bracelet_id", nullable = false)

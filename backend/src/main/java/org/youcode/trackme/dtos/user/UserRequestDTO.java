@@ -1,7 +1,7 @@
 package org.youcode.trackme.dtos.user;
 
 import jakarta.validation.constraints.*;
-import org.youcode.trackme.entities.enums.Role;
+import org.youcode.trackme.entities.enums.RoleEnum;
 
 public record UserRequestDTO(
 
@@ -17,9 +17,9 @@ public record UserRequestDTO(
         @Email(message = "Email should be valid")
         String email,
 
-        @NotNull
+        @NotBlank(message = "Phone number is mandatory")
         String phoneNumber,
 
-        Role role
+        Long roleId
 ) {
 }

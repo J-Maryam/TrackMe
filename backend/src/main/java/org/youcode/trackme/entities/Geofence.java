@@ -23,7 +23,7 @@ public class Geofence {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User caregiver;
+    private AppUser caregiver;
 
 }
 

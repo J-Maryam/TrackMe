@@ -35,7 +35,7 @@ public class Patient {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User caregiver;
+    private AppUser caregiver;
 
     private LocalDateTime dateCreation;
 

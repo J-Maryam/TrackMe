@@ -1,8 +1,7 @@
 package org.youcode.trackme.dtos.user;
 
 import org.youcode.trackme.dtos.patient.EmbeddablePatientResponseDTO;
-import org.youcode.trackme.dtos.patient.PatientResponseDTO;
-import org.youcode.trackme.entities.enums.Role;
+import org.youcode.trackme.entities.Role;
 
 import java.util.List;
 

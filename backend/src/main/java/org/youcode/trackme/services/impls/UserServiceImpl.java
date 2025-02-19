@@ -7,7 +7,7 @@ import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.common.services.GenericServiceImpl;
 import org.youcode.trackme.dtos.user.UserRequestDTO;
 import org.youcode.trackme.dtos.user.UserResponseDTO;
-import org.youcode.trackme.entities.User;
+import org.youcode.trackme.entities.AppUser;
 import org.youcode.trackme.mappers.UserMapper;
 import org.youcode.trackme.repositories.UserRepository;
 import org.youcode.trackme.services.UserService;
@@ -15,7 +15,7 @@ import org.youcode.trackme.services.UserService;
 @Service
 @Transactional
 @Validated
-public class UserServiceImpl extends GenericServiceImpl<User, Long, UserRequestDTO, UserResponseDTO> implements UserService {
+public class UserServiceImpl extends GenericServiceImpl<AppUser, Long, UserRequestDTO, UserResponseDTO> implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -28,17 +28,16 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserRequestD
 
     @Override
     public UserResponseDTO update(Long id, UserRequestDTO request) {
-        User existingUser = userRepository.findById(id)
+        AppUser existingAppUser = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with Id " + id + " not found"));
 
-        existingUser.setUsername(request.username());
-        existingUser.setPassword(request.password());
-        existingUser.setEmail(request.email());
-        existingUser.setPhoneNumber(request.phoneNumber());
-        existingUser.setRole(request.role());
+        existingAppUser.setUsername(request.username());
+        existingAppUser.setPassword(request.password());
+        existingAppUser.setEmail(request.email());
+        existingAppUser.setPhoneNumber(request.phoneNumber());
 
-        User updatedUser = userRepository.save(existingUser);
+        AppUser updatedAppUser = userRepository.save(existingAppUser);
 
-        return userMapper.toDto(updatedUser);
+        return userMapper.toDto(updatedAppUser);
     }
 }
