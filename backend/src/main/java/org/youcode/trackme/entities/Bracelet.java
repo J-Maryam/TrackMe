@@ -2,12 +2,7 @@ package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.youcode.trackme.entities.enums.BraceletState;
+import lombok.*;
 import org.youcode.trackme.entities.enums.BraceletStatus;
 
 import java.util.ArrayList;
@@ -24,6 +19,7 @@ public class Bracelet {
     private Long id;
 
     @NotBlank
+    @Column(nullable = false, unique = true)
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
@@ -31,11 +27,11 @@ public class Bracelet {
     private BraceletStatus status;
 
     @NotBlank(message = "La couleur ne doit pas être vide")
-    private String color; // Ex: "Rouge", "Bleu", "Vert"
+    private String color;
 
-    @OneToOne(mappedBy = "bracelet")
+    @OneToOne(mappedBy = "bracelet", cascade = CascadeType.ALL, orphanRemoval = true)
     private Patient patient;
 
-    @OneToMany(mappedBy = "bracelet")
+    @OneToMany(mappedBy = "bracelet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Location> locations = new ArrayList<>();
 }
