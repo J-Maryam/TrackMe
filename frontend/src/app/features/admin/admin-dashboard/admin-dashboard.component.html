@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>📍 TrackMe</h2>
+    <nav>
+      <ul>
+        <li class="active">🏠 Dashboard</li>
+        <li>📊 Statistiques</li>
+        <li>🛰️ Suivi</li>
+        <li>⚙️ Paramètres</li>
+        <li>🚪 Déconnexion</li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Header -->
+    <header>
+      <h1>Bienvenue, Admin</h1>
+      <input type="text" placeholder="🔍 Rechercher..." class="search-bar">
+    </header>
+
+    <!-- Statistiques -->
+    <section class="stats">
+      <div class="stat-card">
+        <h3>Utilisateurs actifs</h3>
+        <p>🟢 1,245</p>
+      </div>
+      <div class="stat-card">
+        <h3>Appareils suivis</h3>
+        <p>📡 320</p>
+      </div>
+      <div class="stat-card">
+        <h3>Alertes</h3>
+        <p>⚠️ 12</p>
+      </div>
+    </section>
+
+    <!-- Graphiques -->
+    <section class="charts">
+      <div class="chart-container">
+        <h2>📈 Activité</h2>
+        <canvas #trackingChart></canvas>
+      </div>
+      <div class="chart-container">
+        <h2>🛰️ État des appareils</h2>
+        <canvas #activityChart></canvas>
+      </div>
+    </section>
+  </main>
+</div>

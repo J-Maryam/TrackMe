@@ -1,42 +1,31 @@
+<!-- Montant total à payer -->
 <div class="mb-6">
-  <label for="paymentMethod" class="text-sm font-medium text-gray-700">Méthode de paiement</label>
-  <select id="paymentMethod" formControlName="paymentMethod"
-
-          class="w-full px-5 py-3 mt-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
-    <option value="stripe">Carte de crédit (Stripe)</option>
-<!--    (change)="onPaymentMethodChange($event.target.value)"-->
-
-    <option value="paypal">PayPal</option>
-    <option value="bankTransfer">Virement bancaire</option>
-  </select>
+  <label class="text-sm font-medium text-gray-700">Montant à payer</label>
+  <p class="w-full px-5 py-3 mt-2 border border-gray-300 rounded-xl bg-gray-50 text-gray-900 font-medium">
+    {{ totalAmount | currency:'EUR' }}
+  </p>
 </div>
 
-<!-- Section Carte Bancaire (Stripe) -->
-<div *ngIf="selectedPaymentMethod === 'stripe'" class="mb-6">
+<!-- Détails de la carte Stripe -->
+<div class="mb-6">
   <label class="text-sm font-medium text-gray-700">Détails de la carte</label>
   <div id="card-element" class="w-full px-5 py-3 mt-2 border border-gray-300 rounded-xl bg-gray-50"></div>
-  <p id="card-errors" class="text-red-500 text-sm mt-2"></p>
+  <p id="card-errors" class="text-red-500 text-sm mt-2">{{ errorMessage }}</p>
 </div>
 
-<!-- Section PayPal -->
-<div *ngIf="selectedPaymentMethod === 'paypal'" class="mb-6">
-  <p class="text-gray-700 text-sm">Vous serez redirigé vers PayPal pour finaliser le paiement.</p>
+<!-- Identifiant de transaction -->
+<div *ngIf="transactionId" class="mb-6">
+  <label class="text-sm font-medium text-gray-700">Identifiant de transaction</label>
+  <p class="w-full px-5 py-3 mt-2 border border-gray-300 rounded-xl bg-gray-100 text-gray-900">
+    {{ transactionId }}
+  </p>
 </div>
 
-<!-- Section Virement Bancaire -->
-<div *ngIf="selectedPaymentMethod === 'bankTransfer'" class="mb-6">
-  <p class="text-gray-700 text-sm">Les informations pour le virement bancaire seront affichées après validation.</p>
-</div>
-
-<div class="mb-6">
-  <label for="paymentAmount" class="text-sm font-medium text-gray-700">Montant à payer</label>
-  <input type="text" id="paymentAmount" formControlName="paymentAmount" placeholder="Montant total"
-         class="w-full px-5 py-3 mt-2 border border-gray-300 rounded-xl bg-gray-50 transition duration-300">
-</div>
-
+<!-- Bouton de paiement -->
 <div class="mb-6">
   <button type="button"
-          class="w-full bg-[#E67E22] hover:bg-[#D35400] text-white py-3 rounded-xl text-lg font-medium transition duration-300 ease-in-out"
+          class="w-full bg-[#E67E22] hover:bg-[#D35400] text-white py-3 rounded-xl
+          text-lg font-medium transition duration-300 ease-in-out"
           (click)="processPayment()" [disabled]="!orderForm?.valid">
     Confirmer le paiement
   </button>
