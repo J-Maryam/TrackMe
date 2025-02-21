@@ -1,4 +1,12 @@
 package org.youcode.trackme.repositories;
 
-public interface RoleRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.youcode.trackme.entities.Role;
+
+import java.util.Optional;
+
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Optional<Role> findByName(String name);
 }
