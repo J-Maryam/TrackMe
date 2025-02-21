@@ -1,4 +1,4 @@
-package org.youcode.majesticcup.common.exceptions.business;
+package org.youcode.trackme.common.exceptions;
 
 public class UsernameAlreadyExistsException extends RuntimeException {
     public UsernameAlreadyExistsException(String username) {
