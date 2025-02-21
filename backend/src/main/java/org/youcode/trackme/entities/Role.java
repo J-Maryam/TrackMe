@@ -1,8 +1,8 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.youcode.trackme.entities.enums.RoleEnum;
 
 @Entity
 @Getter
@@ -15,7 +15,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20, unique = true, nullable = false)
-    private RoleEnum name;
+    @NotBlank(message = "Role's name cannot be blank.")
+    private String name;
 }
