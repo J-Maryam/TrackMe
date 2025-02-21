@@ -6,4 +6,5 @@ import org.youcode.trackme.dtos.user.UserResponseDTO;
 import org.youcode.trackme.entities.AppUser;
 
 public interface UserService extends GenericService<AppUser, Long, UserRequestDTO, UserResponseDTO> {
+//    UserResponseDTO register(UserRequestDTO dto);
 }
