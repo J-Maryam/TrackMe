@@ -13,6 +13,7 @@ import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
   styleUrl: './faq-section.component.css'
 })
 export class FaqSectionComponent {
+  image = 'faq_img.webp';
   activeFAQ: number | null = null;
 
   faqList = [
