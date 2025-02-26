@@ -1,4 +1,4 @@
-package org.youcode.trackme.entities;
+package org.youcode.trackme.security.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -8,17 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
+import org.youcode.trackme.entities.Patient;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppUser {
@@ -49,46 +46,12 @@ public class AppUser {
     @NotBlank(message = "Phone number is mandatory")
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    @NotBlank(message = "Role cannot be null or empty.")
-    private Role role;
-
     @OneToMany(mappedBy = "caregiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Patient> patients = new ArrayList<>();
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role.getName().toString()));
-//    }
-//
-//    @Override
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
+    @ManyToOne
+    private AppRole role;
+
 }
+
+

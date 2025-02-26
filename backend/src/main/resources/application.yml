@@ -1,14 +1,14 @@
 server:
   port: 8080
-  servlet:
-    context-path: /api/v1
+#  servlet:
+#    context-path: /api/v1
 
 spring:
   application:
     name: TrackMe
   datasource:
     url: jdbc:postgresql://localhost:5432/trackme_db
-    username: "postgres"
+    username: postgres
     password: "@aahmhmm28"
     driver-class-name: org.postgresql.Driver
   jpa:
@@ -17,13 +17,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+jwt:
+  secret: Gz1yS8hN3qU3bV5mT8pW2xY7sB9cD1jL4rP6nQ8oF2kT7mW5yZ9pC3kL6vM8xR1g2zW2a6J9K1sH6Y5R3cT2
+  expirationMs: 3600000  # Corrigez le nom de la propriété
 
 logging:
   level:
-    root: info
-    org.springframework: debug
+    org.springframework.security: TRACE
+    org.springframework.data.mongodb: DEBUG
 
+# MQTT (commenté, pas de correction nécessaire)
 #mqtt:
-#  broker-url: tcp://broker.hivemq.com:1883  # Exemple d'URL de broker MQTT
+#  broker-url: tcp://broker.hivemq.com:1883
 #  client-id: trackme-backend
-#  topic: trackme/gps  # Sujet pour les donn�es GPS
+#  topic: trackme/gps

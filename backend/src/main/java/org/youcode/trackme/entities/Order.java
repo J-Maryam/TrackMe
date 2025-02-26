@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.youcode.trackme.entities.enums.OrderStatus;
 import org.youcode.trackme.entities.enums.PaymentMethod;
+import org.youcode.trackme.security.entities.AppUser;
 
 import java.time.LocalDateTime;
 

@@ -1,7 +1,7 @@
 package org.youcode.trackme.dtos.user;
 
 import org.youcode.trackme.dtos.patient.EmbeddablePatientResponseDTO;
-import org.youcode.trackme.entities.Role;
+import org.youcode.trackme.security.entities.AppRole;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public record UserResponseDTO(
         String username,
         String email,
         String phoneNumber,
-        Role role,
+        AppRole role,
         List<EmbeddablePatientResponseDTO> patients
 ) {
 }

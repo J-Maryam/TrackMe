@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;
+import org.youcode.trackme.security.entities.AppUser;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;

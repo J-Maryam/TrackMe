@@ -8,11 +8,13 @@ import org.youcode.trackme.dtos.patient.PatientRequestDTO;
 import org.youcode.trackme.dtos.patient.PatientResponseDTO;
 import org.youcode.trackme.entities.Bracelet;
 import org.youcode.trackme.entities.Patient;
-import org.youcode.trackme.entities.AppUser;
+//import org.youcode.trackme.entities.AppUser;
 import org.youcode.trackme.mappers.PatientMapper;
 import org.youcode.trackme.repositories.BraceletRepository;
 import org.youcode.trackme.repositories.PatientRepository;
+//import org.youcode.trackme.repositories.UserRepository;
 import org.youcode.trackme.repositories.UserRepository;
+import org.youcode.trackme.security.entities.AppUser;
 import org.youcode.trackme.services.PatientService;
 
 import java.time.LocalDateTime;
