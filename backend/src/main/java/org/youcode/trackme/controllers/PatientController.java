@@ -9,7 +9,7 @@ import org.youcode.trackme.entities.Patient;
 import org.youcode.trackme.services.PatientService;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/api/client/patients")
 public class PatientController extends GenericControllerImpl<Patient, Long, PatientRequestDTO, PatientResponseDTO> {
     public PatientController(PatientService service) {
         super(service);
