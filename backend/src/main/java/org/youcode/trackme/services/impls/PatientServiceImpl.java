@@ -8,13 +8,9 @@ import org.youcode.trackme.dtos.patient.PatientRequestDTO;
 import org.youcode.trackme.dtos.patient.PatientResponseDTO;
 import org.youcode.trackme.entities.Bracelet;
 import org.youcode.trackme.entities.Patient;
-//import org.youcode.trackme.entities.AppUser;
 import org.youcode.trackme.mappers.PatientMapper;
 import org.youcode.trackme.repositories.BraceletRepository;
 import org.youcode.trackme.repositories.PatientRepository;
-//import org.youcode.trackme.repositories.UserRepository;
-import org.youcode.trackme.repositories.UserRepository;
-import org.youcode.trackme.security.entities.AppUser;
 import org.youcode.trackme.services.PatientService;
 
 import java.time.LocalDateTime;
@@ -27,14 +23,12 @@ public class PatientServiceImpl extends GenericServiceImpl<Patient, Long, Patien
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
     private final BraceletRepository braceletRepository;
-    private final UserRepository userRepository;
 
-    public PatientServiceImpl(PatientRepository repository, PatientMapper mapper, BraceletRepository braceletRepository, UserRepository userRepository) {
+    public PatientServiceImpl(PatientRepository repository, PatientMapper mapper, BraceletRepository braceletRepository) {
         super(repository, mapper);
         this.patientRepository = repository;
         this.patientMapper = mapper;
         this.braceletRepository = braceletRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -48,12 +42,6 @@ public class PatientServiceImpl extends GenericServiceImpl<Patient, Long, Patien
             Bracelet bracelet = braceletRepository.findById(requestDto.braceletId())
                     .orElseThrow(() -> new RuntimeException("Bracelet non trouvé avec l'ID : " + requestDto.braceletId()));
             patient.setBracelet(bracelet);
-        }
-
-        if (requestDto.caregiverId() != null) {
-            AppUser caregiver = userRepository.findById(requestDto.caregiverId())
-                    .orElseThrow(() -> new RuntimeException("Soignant non trouvé avec l'ID : " + requestDto.caregiverId()));
-            patient.setCaregiver(caregiver);
         }
 
         Patient savedPatient = patientRepository.save(patient);

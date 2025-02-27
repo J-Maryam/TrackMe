@@ -9,7 +9,6 @@ import org.youcode.trackme.security.entities.AppUser;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 @Entity
 @Getter
@@ -41,12 +40,4 @@ public class Patient {
 
     private LocalDateTime dateCreation;
 
-    @PostLoad
-    @PostPersist
-    @PostUpdate
-    public void calculateAge() {
-        if (dateOfBirth != null) {
-            this.age = Period.between(dateOfBirth, LocalDate.now()).getYears();
-        }
-    }
 }

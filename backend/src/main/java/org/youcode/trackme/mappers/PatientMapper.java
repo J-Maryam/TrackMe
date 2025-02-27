@@ -13,12 +13,5 @@ import java.time.Period;
 
 @Mapper(componentModel = "spring")
 public interface PatientMapper extends GenericMapper<Patient, PatientRequestDTO, PatientResponseDTO> {
-//    @Mapping(target = "age", source = "dateOfBirth", qualifiedByName = "calculateAge")
     PatientResponseDTO toDto(Patient patient);
-
-//    @Named("calculateAge")
-//    default int calculateAge(LocalDate dateOfBirth) {
-//        if (dateOfBirth == null) return 0;
-//        return Period.between(dateOfBirth, LocalDate.now()).getYears();
-//    }
 }
