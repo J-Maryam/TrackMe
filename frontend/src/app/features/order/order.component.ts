@@ -26,7 +26,7 @@ import {FooterComponent} from '../../shared/components/footer/footer.component';
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent {
-  currentStep = 4;
+  currentStep = 2;
   orderForm: FormGroup;
 
   steps = [
