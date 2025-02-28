@@ -26,13 +26,13 @@ import {FooterComponent} from '../../shared/components/footer/footer.component';
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent {
-  currentStep = 3;
+  currentStep = 1;
   orderForm: FormGroup;
 
   steps = [
     { index: 1, title: 'Inscription' },
-    { index: 2, title: 'Choisir le bracelet' },
-    { index: 3, title: 'Infos patient' },
+    { index: 2, title: 'Infos patient' },
+    { index: 3, title: 'Choisir le bracelet' },
     { index: 4, title: 'Paiement' }
   ];
 

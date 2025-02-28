@@ -1,39 +1,65 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DatePipe, NgClass} from '@angular/common';
+import {pastDateValidator} from '../../../validators/pastDateValidator';
 
 @Component({
   selector: 'app-step2',
   templateUrl: './step2.component.html',
   standalone: true,
-  imports: [NgClass, DatePipe],
+  imports: [NgClass, DatePipe, ReactiveFormsModule],
   styleUrls: ['./step2.component.css']
 })
-export class Step2Component {
+export class Step2Component implements OnInit{
   @Input() orderForm: FormGroup | undefined;
 
-  selectedColor: string = 'gray';
-  selectedBraceletImage: string = 'https://i.etsystatic.com/37484115/r/il/99a7da/5169969530/il_570xN.5169969530_snqw.jpg';
+  form!: FormGroup;
 
-  braceletImages: { [key: string]: string } = {
-    'gray': 'https://i.etsystatic.com/37484115/r/il/99a7da/5169969530/il_570xN.5169969530_snqw.jpg',
-    'blue': 'https://i.etsystatic.com/44802764/r/il/a28c4d/5145060151/il_570xN.5145060151_82le.jpg',
-    'black': 'https://i.etsystatic.com/37484115/r/il/882981/5358254745/il_570xN.5358254745_ax4p.jpg'
-  };
+  constructor(private fb: FormBuilder) {}
 
-  selectColor(color: string) {
-    this.selectedColor = color;
-    this.selectedBraceletImage = this.braceletImages[color];
+  ngOnInit(): void {
+    // Initialisation du formulaire
+    this.form = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      dateOfBirth: ['', [Validators.required, pastDateValidator()]],
+      age: [''], // Champ simple, readonly géré dans le HTML
+    });
 
-    if (this.orderForm) {
-      this.orderForm.patchValue({ braceletColor: color });
+    // Écouter les changements sur dateOfBirth
+    this.form.get('dateOfBirth')?.valueChanges.subscribe((value) => {
+      console.log('Date de naissance changée :', value);
+      this.calculateAge();
+    });
+
+    // Si une valeur initiale existe via orderForm, la charger
+    if (this.orderForm?.get('dateOfBirth')?.value) {
+      this.form.patchValue({
+        dateOfBirth: this.orderForm.get('dateOfBirth')?.value
+      });
+      this.calculateAge(); // Calculer l'âge initial
     }
   }
 
-  getDeliveryDate(): Date {
-    const today = new Date();
-    const deliveryDate = new Date(today);
-    deliveryDate.setDate(today.getDate() + 5);
-    return deliveryDate;
+  // Méthode pour calculer l'âge
+  calculateAge(): void {
+    const dateOfBirth = this.form.get('dateOfBirth')?.value;
+    console.log('Valeur de dateOfBirth :', dateOfBirth);
+
+    if (dateOfBirth) {
+      const birthDate = new Date(dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      console.log('Âge calculé :', age);
+      this.form.get('age')?.setValue(age);
+    } else {
+      this.form.get('age')?.setValue('');
+      console.log('Aucune date, âge réinitialisé');
+    }
   }
 }
