@@ -1,6 +1,7 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.youcode.trackme.entities.enums.OrderStatus;
 import org.youcode.trackme.security.entities.AppUser;
@@ -35,6 +36,7 @@ public class Order {
     private OrderStatus status; // EN_ATTENTE, PAYEE, LIVREE, CONFIRMEE
 
     @Column(nullable = false)
+    @Positive
     private double totalAmount;
 
     @Column(nullable = false)

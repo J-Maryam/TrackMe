@@ -28,6 +28,9 @@ logging:
     org.springframework.security: TRACE
     org.springframework.data.mongodb: DEBUG
 
+stripe:
+  secret-key: "sk_test_51Qtm19I3zg9rkCm2Ks0t7RsOZn45OhjzNmHUg9CFReGLfTUo4Vg7UR3KPq1l2F2OWOK3FRNiGuJupkVRvsFCR3hz00ddW4ZLJw"
+
 # MQTT (commenté, pas de correction nécessaire)
 #mqtt:
 #  broker-url: tcp://broker.hivemq.com:1883
