@@ -46,7 +46,10 @@ public class AppUser {
     @NotBlank(message = "Phone number is mandatory")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "caregiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "caregiver",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<Patient> patients = new ArrayList<>();
 
     @ManyToOne

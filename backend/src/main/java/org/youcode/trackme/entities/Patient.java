@@ -30,14 +30,9 @@ public class Patient {
     @Transient
     private int age;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "bracelet_id", referencedColumnName = "id")
-    private Bracelet bracelet;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "caregiver_id")
     private AppUser caregiver;
 
     private LocalDateTime dateCreation;
-
 }

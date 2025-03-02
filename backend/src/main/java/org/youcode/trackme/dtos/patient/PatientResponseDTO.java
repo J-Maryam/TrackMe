@@ -1,17 +1,16 @@
 package org.youcode.trackme.dtos.patient;
 
-import org.youcode.trackme.dtos.bracelet.EmbeddableBraceletResponseDTO;
 import org.youcode.trackme.dtos.user.EmbeddableUserResponseDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public record PatientResponseDTO(
         Long id,
         String username,
-        Date dateOfBirth,
+        LocalDate dateOfBirth,
         int age,
-        EmbeddableBraceletResponseDTO bracelet,
+//        EmbeddableBraceletResponseDTO bracelet,
         EmbeddableUserResponseDTO caregiver,
         LocalDateTime dateCreation
 ) {}

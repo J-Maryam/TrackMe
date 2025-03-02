@@ -29,7 +29,8 @@ public class Bracelet {
     @NotBlank(message = "La couleur ne doit pas être vide")
     private String color;
 
-    @OneToOne(mappedBy = "bracelet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "patient_id", unique = true)
     private Patient patient;
 
     @OneToMany(mappedBy = "bracelet", cascade = CascadeType.ALL, orphanRemoval = true)

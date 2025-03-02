@@ -37,7 +37,7 @@ public class AppUserService implements IAppUserService {
     public final AppRoleRepository appRoleRepository;
     public final AppUserMapper appUserMapper;
     public final PasswordEncoder passwordEncoder;
-    public final HaveIBeenPwnedService haveIBeenPwnedService;
+//    public final HaveIBeenPwnedService haveIBeenPwnedService;
     public final AuthenticationManager authenticationManager;
     public final JwtUtils jwtUtils;
 
@@ -49,9 +49,9 @@ public class AppUserService implements IAppUserService {
         if (appUserRepository.findByEmail(createAppUserDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Cette email existe déjà.");
         }
-        if (haveIBeenPwnedService.isPasswordPwned(createAppUserDTO.getPassword())) {
-            throw new IllegalArgumentException("Le mot de passe est compromis. Veuillez en choisir un autre.");
-        }
+//        if (haveIBeenPwnedService.isPasswordPwned(createAppUserDTO.getPassword())) {
+//            throw new IllegalArgumentException("Le mot de passe est compromis. Veuillez en choisir un autre.");
+//        }
         AppUser user = appUserMapper.toEntity(createAppUserDTO);
         user.setPassword(passwordEncoder.encode(createAppUserDTO.getPassword()));
         return appUserMapper.toDTO(appUserRepository.save(user)) ;

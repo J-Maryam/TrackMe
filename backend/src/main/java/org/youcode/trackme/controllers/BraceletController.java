@@ -9,7 +9,7 @@ import org.youcode.trackme.entities.Bracelet;
 import org.youcode.trackme.services.BraceletService;
 
 @RestController
-@RequestMapping("/api/client/bracelets")
+@RequestMapping("/api/public/bracelets")
 public class BraceletController extends GenericControllerImpl<Bracelet, Long, BraceletRequestDTO, BraceletResponseDTO> {
     public BraceletController(BraceletService service) {
         super(service);

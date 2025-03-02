@@ -13,6 +13,9 @@ public record BraceletRequestDTO(
         BraceletStatus status,
 
         @NotBlank(message = "La couleur ne doit pas être vide")
-        String color
+        String color,
+
+        @NotNull
+        Long patientId
 ) {
 }

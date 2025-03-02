@@ -14,7 +14,7 @@ public record PatientRequestDTO(
         @NotNull(message = "La date de naissance est obligatoire")
         LocalDate dateOfBirth,
 
-        Long braceletId,
+        @NotNull
         Long caregiverId
 ) {
 }

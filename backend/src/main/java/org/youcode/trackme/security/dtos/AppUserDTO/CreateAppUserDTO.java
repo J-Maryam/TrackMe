@@ -31,5 +31,5 @@ public class CreateAppUserDTO {
     @NotBlank(message = "Phone number is mandatory")
     private String phoneNumber;
 
-    private Long roleId = 1L;
+    private Long roleId = 2L;
 }
