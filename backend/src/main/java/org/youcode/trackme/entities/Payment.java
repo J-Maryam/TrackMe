@@ -1,6 +1,7 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.youcode.trackme.entities.enums.PaymentStatus;
 
@@ -16,20 +17,25 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @NotNull
+    @Column(nullable = false)
+    private Double amount; // Montant du paiement
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentStatus status;
+    private PaymentStatus status; // PENDING, SUCCEEDED, FAILED
 
+    @Column(nullable = false)
     private LocalDateTime datePaiement;
 
-    private String transactionId;
+    @Column(unique = true)
+    private String transactionId; // ID Stripe (ex. pi_xxxxx)
 
     @PrePersist
     public void prePersist() {
         this.datePaiement = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = PaymentStatus.PENDING; // Statut par défaut
+        }
     }
 }

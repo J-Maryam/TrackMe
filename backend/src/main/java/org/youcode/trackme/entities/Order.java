@@ -1,12 +1,8 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.youcode.trackme.entities.enums.OrderStatus;
-import org.youcode.trackme.entities.enums.PaymentMethod;
 import org.youcode.trackme.security.entities.AppUser;
 
 import java.time.LocalDateTime;
@@ -22,6 +18,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "payment_id", nullable = false)
+    private Payment payment;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser appUser;
@@ -34,8 +34,21 @@ public class Order {
     @Column(nullable = false)
     private OrderStatus status; // EN_ATTENTE, PAYEE, LIVREE, CONFIRMEE
 
+    @Column(nullable = false)
     private double totalAmount;
+
+    @Column(nullable = false)
     private LocalDateTime dateCommande;
+
     private LocalDateTime deliveryDate;
+
     private String deliveryAddress;
+
+    @PrePersist
+    public void prePersist() {
+        this.dateCommande = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = OrderStatus.EN_ATTENTE; // Statut par défaut
+        }
+    }
 }

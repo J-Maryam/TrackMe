@@ -6,7 +6,7 @@ import org.youcode.trackme.entities.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 
-public record OrderResponseDTO(
+public record EmbeddableOrderResponseDTO(
         Long id,
         EmbeddableUserResponseDTO userId,
         EmbeddableBraceletResponseDTO braceletId,
@@ -15,5 +15,5 @@ public record OrderResponseDTO(
         LocalDateTime dateCommande,
         LocalDateTime dateLivraison,
         String deliveryAddress,
-        Long paymentId
+        Long paymentId 
 ) {}
