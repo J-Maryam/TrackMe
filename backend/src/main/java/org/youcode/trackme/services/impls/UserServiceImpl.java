@@ -40,4 +40,9 @@ public class UserServiceImpl extends GenericServiceImpl<AppUser, Long, UserReque
 
         return userMapper.toDto(updatedAppUser);
     }
+
+    @Override
+    public boolean checkEmailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
