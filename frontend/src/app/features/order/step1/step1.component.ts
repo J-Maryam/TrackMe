@@ -1,14 +1,23 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-step1',
   templateUrl: './step1.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [
+    ReactiveFormsModule,
+    NgIf
+  ],
   styleUrls: ['./step1.component.css']
 })
 export class Step1Component {
   @Input() orderForm!: FormGroup;
+  @Output() next = new EventEmitter<void>();
+
+  saveAndNext() {
+    this.next.emit();
+  }
+
 }
