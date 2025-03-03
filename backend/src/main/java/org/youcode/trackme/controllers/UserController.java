@@ -12,6 +12,7 @@ import org.youcode.trackme.services.UserService;
 
 @RestController
 //@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200") // Autorise uniquement cette origine
 public class UserController extends GenericControllerImpl<AppUser, Long, UserRequestDTO, UserResponseDTO> {
 
     private final UserService userService;
