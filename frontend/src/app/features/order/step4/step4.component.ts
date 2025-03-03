@@ -25,8 +25,8 @@ export class Step4Component implements OnInit {
   transactionId: string | null = null;
 
   async ngOnInit() {
-    // 🔹 Charger Stripe avec ta clé publique
-    this.stripe = await loadStripe('pk_test_xxxx');  // Remplace avec ta clé Stripe
+    // La clé publique de stripe
+    this.stripe = await loadStripe('pk_test_51Qtm19I3zg9rkCm2XRAv4nyJpzCEokVp2h1Nh2bVmDj1D6FJFqfAFW1kCjxYNGUl3oglV5d8G2Z93xvc9J2QQZ0Y00ficTvBFP');  // Remplace avec ta clé Stripe
 
     if (this.stripe) {
       this.elements = this.stripe.elements();
