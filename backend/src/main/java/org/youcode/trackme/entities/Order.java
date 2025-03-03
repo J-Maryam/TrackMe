@@ -19,13 +19,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "payment_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id")
     private Payment payment;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private AppUser appUser;
+    private AppUser user;
 
     @ManyToOne
     @JoinColumn(name = "bracelet_id", nullable = false)
