@@ -22,7 +22,7 @@
     <!-- Formulaires des étapes -->
     <div class="p-4 bg-gray-50 rounded-lg shadow-inner">
       <app-step1 *ngIf="currentStep === 1" [orderForm]="orderForm" (next)="nextStep()"></app-step1>
-      <app-step2 *ngIf="currentStep === 2" [orderForm]="orderForm" (next)="nextStep()" (prev)="prevStep()"></app-step2>
+      <app-step2 *ngIf="currentStep === 2" [orderForm]="orderForm" (prev)="prevStep()" (next)="nextStep()"></app-step2>
       <app-step3 *ngIf="currentStep === 3" [orderForm]="orderForm" (next)="nextStep()" (prev)="prevStep()"></app-step3>
       <app-step4 *ngIf="currentStep === 4" [orderForm]="orderForm" (prev)="prevStep()" (submit)="onSubmit()"></app-step4>
     </div>

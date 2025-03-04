@@ -10,6 +10,7 @@ import { Step1Component } from './step1/step1.component';
 import { Step2Component } from './step2/step2.component';
 import { Step3Component } from './step3/step3.component';
 import { Step4Component } from './step4/step4.component';
+import {pastDateValidator} from '../../validators/pastDateValidator';
 
 @Component({
   selector: 'app-order',
@@ -47,13 +48,12 @@ export class OrderComponent implements OnInit {
       address: ['', [Validators.required, Validators.minLength(5)]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\+\d{2,3}\s?\d{3}\s?\d{3}\s?\d{3}$/)]],
       patientName: ['', [Validators.required]],
-      dateOfBirth: ['', Validators.required],
-      patientCondition: ['', Validators.required],
+      dateOfBirth: ['', [Validators.required, pastDateValidator()]],
+      patientAge: [''],
       braceletColor: ['', Validators.required],
       paymentMethod: ['', Validators.required],
       paymentAmount: [{ value: '50.00', disabled: true }, Validators.required],
       transactionId: [''],
-      patientAge: ['']
     });
 
     this.orderForm.get('dateOfBirth')?.valueChanges.subscribe(() => this.calculateAge());
@@ -102,7 +102,7 @@ export class OrderComponent implements OnInit {
   private getControlsForStep(step: number): string[] {
     const stepControls: { [key: number]: string[] } = {
       1: ['username', 'email', 'password', 'address', 'phoneNumber'],
-      2: ['patientName', 'dateOfBirth', 'patientCondition'],
+      2: ['patientName', 'dateOfBirth'],
       3: ['braceletColor'],
       4: ['paymentMethod', 'paymentAmount', 'transactionId']
     };

@@ -1,65 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {DatePipe, NgClass} from '@angular/common';
-import {pastDateValidator} from '../../../validators/pastDateValidator';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-step2',
   templateUrl: './step2.component.html',
   standalone: true,
-  imports: [NgClass, DatePipe, ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    NgIf,
+    /* ... */],
   styleUrls: ['./step2.component.css']
 })
-export class Step2Component implements OnInit{
-  @Input() orderForm: FormGroup | undefined;
-
-  form!: FormGroup;
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    // Initialisation du formulaire
-    this.form = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      dateOfBirth: ['', [Validators.required, pastDateValidator()]],
-      age: [''], // Champ simple, readonly géré dans le HTML
-    });
-
-    // Écouter les changements sur dateOfBirth
-    this.form.get('dateOfBirth')?.valueChanges.subscribe((value) => {
-      console.log('Date de naissance changée :', value);
-      this.calculateAge();
-    });
-
-    // Si une valeur initiale existe via orderForm, la charger
-    if (this.orderForm?.get('dateOfBirth')?.value) {
-      this.form.patchValue({
-        dateOfBirth: this.orderForm.get('dateOfBirth')?.value
-      });
-      this.calculateAge(); // Calculer l'âge initial
-    }
-  }
-
-  // Méthode pour calculer l'âge
-  calculateAge(): void {
-    const dateOfBirth = this.form.get('dateOfBirth')?.value;
-    console.log('Valeur de dateOfBirth :', dateOfBirth);
-
-    if (dateOfBirth) {
-      const birthDate = new Date(dateOfBirth);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDifference = today.getMonth() - birthDate.getMonth();
-
-      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-
-      console.log('Âge calculé :', age);
-      this.form.get('age')?.setValue(age);
-    } else {
-      this.form.get('age')?.setValue('');
-      console.log('Aucune date, âge réinitialisé');
-    }
-  }
+export class Step2Component {
+  @Input() orderForm!: FormGroup; // Utiliser le formulaire parent directement
+  @Output() next = new EventEmitter<void>();
+  @Output() prev = new EventEmitter<void>();
 }
