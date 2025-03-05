@@ -1,66 +1,110 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { NgIf, CurrencyPipe } from '@angular/common';
 import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
-import {CurrencyPipe, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-step4',
   templateUrl: './step4.component.html',
   standalone: true,
-  imports: [
-    CurrencyPipe,
-    NgIf
-  ],
+  imports: [ReactiveFormsModule, NgIf, CurrencyPipe],
   styleUrls: ['./step4.component.css']
 })
 export class Step4Component implements OnInit {
-  @Input() orderForm: FormGroup | undefined;
+  @Input() orderForm!: FormGroup;
+  @Output() prev = new EventEmitter<void>();
+  @Output() submit = new EventEmitter<void>();
 
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   cardElement: StripeCardElement | null = null;
+  http = inject(HttpClient);
 
-  totalAmount: number = 50; // Ex: montant en euros
   errorMessage: string = '';
-  transactionId: string | null = null;
+  processing: boolean = false;
 
   async ngOnInit() {
-    // La clé publique de stripe
-    this.stripe = await loadStripe('pk_test_51Qtm19I3zg9rkCm2XRAv4nyJpzCEokVp2h1Nh2bVmDj1D6FJFqfAFW1kCjxYNGUl3oglV5d8G2Z93xvc9J2QQZ0Y00ficTvBFP');  // Remplace avec ta clé Stripe
-
-    if (this.stripe) {
-      this.elements = this.stripe.elements();
-      this.cardElement = this.elements.create('card');  // Créer un champ de carte sécurisé
-      this.cardElement.mount('#card-element');  // Afficher le champ dans le div #card-element
+    console.log('Initialisation de Step4...');
+    try {
+      this.stripe = await loadStripe('pk_test_51Qtm19I3zg9rkCm2XRAv4nyJpzCEokVp2h1Nh2bVmDj1D6FJFqfAFW1kCjxYNGUl3oglV5d8G2Z93xvc9J2QQZ0Y00ficTvBFP');
+      if (this.stripe) {
+        this.elements = this.stripe.elements();
+        this.cardElement = this.elements.create('card');
+        this.cardElement.mount('#card-element');
+        console.log('Stripe initialisé et élément de carte monté');
+      } else {
+        throw new Error('Stripe non initialisé');
+      }
+    } catch (error) {
+      this.errorMessage = 'Erreur lors du chargement de Stripe. Veuillez réessayer.';
+      console.error('Erreur lors de l\'initialisation de Stripe:', error);
     }
   }
 
-  // 🔥 Méthode pour traiter le paiement Stripe
   async processPayment() {
+    console.log('Début de processPayment...');
     if (!this.stripe || !this.elements || !this.cardElement) {
-      this.errorMessage = 'Erreur lors de l’initialisation du paiement.';
+      this.errorMessage = 'Système de paiement non initialisé.';
+      console.error('Stripe ou éléments non disponibles');
       return;
     }
 
-    // 🔄 Demander au backend de créer un PaymentIntent
-    const response = await fetch('http://localhost:3000/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: this.totalAmount * 100 }) // Montant en centimes
-    });
-
-    const { clientSecret } = await response.json();
-
-    // 💳 Confirmer le paiement avec Stripe
-    const { error, paymentIntent } = await this.stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card: this.cardElement }
-    });
-
-    if (error) {
-      this.errorMessage = 'Échec du paiement : ' + error.message;
-    } else if (paymentIntent.status === 'succeeded') {
-      this.transactionId = paymentIntent.id; // Stocke l'ID du paiement réussi
-      this.errorMessage = '';
+    const paymentAmount = this.orderForm.getRawValue().paymentAmount;
+    if (!paymentAmount || isNaN(parseFloat(paymentAmount))) {
+      this.errorMessage = 'Montant de paiement invalide.';
+      console.error('Montant invalide:', paymentAmount);
+      return;
     }
+
+    this.processing = true;
+    this.errorMessage = '';
+
+    try {
+      const amount = parseFloat(paymentAmount) * 100;
+      console.log('Montant à envoyer au backend:', amount);
+
+      // Étape 1 : Créer un PaymentIntent
+      const response = await this.http.post<{ clientSecret: string }>(
+        'http://localhost:8080/api/public/payments/create-payment-intent',
+        { amount }
+      ).toPromise();
+
+      console.log('Réponse brute du backend:', response);
+      if (!response || !response.clientSecret) {
+        throw new Error('Aucun clientSecret valide reçu du backend');
+      }
+      console.log('clientSecret extrait:', response.clientSecret);
+
+      // Étape 2 : Confirmer le paiement avec Stripe
+      const { error, paymentIntent } = await this.stripe.confirmCardPayment(response.clientSecret, {
+        payment_method: { card: this.cardElement }
+      });
+
+      if (error) {
+        this.errorMessage = 'Échec du paiement : ' + error.message;
+        console.error('Erreur Stripe:', error);
+        return;
+      }
+
+      if (paymentIntent?.status === 'succeeded') {
+        this.orderForm.patchValue({ transactionId: paymentIntent.id });
+        console.log('Paiement réussi, transactionId:', paymentIntent.id);
+        this.submit.emit();
+      } else {
+        throw new Error('Statut du paiement inattendu: ' + paymentIntent?.status);
+      }
+    } catch (error) {
+      this.errorMessage = 'Erreur lors du paiement : ' + (error instanceof Error ? error.message : 'Erreur inconnue');
+      console.error('Erreur dans processPayment:', error);
+    } finally {
+      this.processing = false;
+      console.log('processPayment terminé, processing:', this.processing);
+    }
+  }
+
+  goBack(): void {
+    this.prev.emit();
+    console.log('Retour à l\'étape précédente');
   }
 }
