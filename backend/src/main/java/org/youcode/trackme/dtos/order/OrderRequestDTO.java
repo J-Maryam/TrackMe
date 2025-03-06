@@ -1,12 +1,17 @@
 package org.youcode.trackme.dtos.order;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import java.time.LocalDate;
 
 public record OrderRequestDTO(
-        @NotNull Long braceletId,
-        @NotNull Long userId,
-        @NotNull @Positive double totalAmount,
-        @NotNull String deliveryAddress,
-        @NotNull String transactionId
+        String username,
+        String email,
+        String password,
+        String address,
+        String phoneNumber,
+        String patientName,
+        LocalDate dateOfBirth,
+        Integer patientAge,
+        String braceletColor,
+        String paymentAmount,
+        String transactionId
 ) {}
