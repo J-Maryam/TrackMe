@@ -61,13 +61,13 @@ export class Step4Component implements OnInit {
     this.errorMessage = '';
 
     try {
-      const amount = parseFloat(paymentAmount) * 100;
-      console.log('Montant à envoyer au backend:', amount);
+      const amountInCents = Math.round(parseFloat(paymentAmount) * 100); // Convertir en centimes
+      console.log('Montant à envoyer au backend (centimes):', amountInCents);
 
-      // Étape 1 : Créer un PaymentIntent
+      // Envoyer un PaymentRequestDTO
       const response = await this.http.post<{ clientSecret: string }>(
         'http://localhost:8080/api/public/payments/create-payment-intent',
-        { amount }
+        { amount: amountInCents }
       ).toPromise();
 
       console.log('Réponse brute du backend:', response);
@@ -76,7 +76,6 @@ export class Step4Component implements OnInit {
       }
       console.log('clientSecret extrait:', response.clientSecret);
 
-      // Étape 2 : Confirmer le paiement avec Stripe
       const { error, paymentIntent } = await this.stripe.confirmCardPayment(response.clientSecret, {
         payment_method: { card: this.cardElement }
       });
