@@ -4,5 +4,5 @@ import org.youcode.trackme.dtos.order.OrderRequestDTO;
 import org.youcode.trackme.dtos.order.OrderResponseDTO;
 
 public interface OrderService {
-    OrderResponseDTO completeOrder(OrderRequestDTO request);
+    void completeOrder(OrderRequestDTO orderData);
 }
