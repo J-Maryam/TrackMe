@@ -7,6 +7,7 @@ import org.youcode.trackme.entities.enums.BraceletStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,8 +19,7 @@ public class Bracelet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = true) // Rendre nullable pour permettre la génération
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
@@ -35,4 +35,19 @@ public class Bracelet {
 
     @OneToMany(mappedBy = "bracelet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Location> locations = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (this.serialNumber == null || this.serialNumber.isEmpty()) {
+            this.serialNumber = generateSerialNumber();
+        }
+        if (this.status == null) {
+            this.status = BraceletStatus.INACTIVE;
+        }
+    }
+
+    private String generateSerialNumber() {
+        String randomPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return "BRAC-" + randomPart;
+    }
 }
