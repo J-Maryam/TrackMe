@@ -19,23 +19,23 @@ public class Payment {
 
     @NotNull
     @Column(nullable = false)
-    private Double amount; // Montant du paiement
+    private Integer amount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentStatus status; // PENDING, SUCCEEDED, FAILED
+    private PaymentStatus status;
 
     @Column(nullable = false)
     private LocalDateTime datePaiement;
 
     @Column(unique = true)
-    private String transactionId; // ID Stripe (ex. pi_xxxxx)
+    private String transactionId;
 
     @PrePersist
     public void prePersist() {
         this.datePaiement = LocalDateTime.now();
         if (this.status == null) {
-            this.status = PaymentStatus.PENDING; // Statut par défaut
+            this.status = PaymentStatus.PENDING;
         }
     }
 }
