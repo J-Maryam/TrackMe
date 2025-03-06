@@ -6,6 +6,7 @@ import com.stripe.param.PaymentIntentCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youcode.trackme.common.exceptions.EntityCreationException;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
 import org.youcode.trackme.entities.Payment;
@@ -40,15 +41,18 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             Payment payment = paymentMapper.toEntity(requestDTO);
             if (payment == null) {
-                throw new RuntimeException("Le mappage de PaymentRequestDTO vers Payment a retourné null.");
+                throw new EntityCreationException("Le mappage a retourné une entité null.");
             }
             payment.setStatus(PaymentStatus.PENDING);
             payment.setTransactionId(paymentIntent.getId());
             payment = paymentRepository.save(payment);
             System.out.println("Payment sauvegardé avec transactionId: " + payment.getTransactionId());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Erreur de validation lors du mappage: " + e.getMessage());
+            throw new EntityCreationException("Erreur de validation lors de la création du paiement: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Erreur lors du mappage ou de la sauvegarde: " + e.getMessage());
-            throw new RuntimeException("Erreur lors de la création du paiement: " + e.getMessage(), e);
+            throw new EntityCreationException("Erreur lors de la création du paiement: " + e.getMessage());
         }
 
         return paymentIntent.getClientSecret();

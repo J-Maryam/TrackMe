@@ -14,14 +14,14 @@ import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/s
 export class Step4Component implements OnInit {
   @Input() orderForm!: FormGroup;
   @Output() prev = new EventEmitter<void>();
-  @Output() submit = new EventEmitter<void>();
+  @Output() submit = new EventEmitter<string | null>();
 
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   cardElement: StripeCardElement | null = null;
   http = inject(HttpClient);
 
-  errorMessage: string = '';
+  errorMessage: string = ''; // Conservé pour la logique, mais plus affiché
   processing: boolean = false;
 
   async ngOnInit() {
@@ -37,23 +37,23 @@ export class Step4Component implements OnInit {
         throw new Error('Stripe non initialisé');
       }
     } catch (error) {
-      this.errorMessage = 'Erreur lors du chargement de Stripe. Veuillez réessayer.';
       console.error('Erreur lors de l\'initialisation de Stripe:', error);
+      this.errorMessage = 'Erreur lors du chargement de Stripe. Veuillez réessayer.';
     }
   }
 
   async processPayment() {
     console.log('Début de processPayment...');
     if (!this.stripe || !this.elements || !this.cardElement) {
-      this.errorMessage = 'Système de paiement non initialisé.';
       console.error('Stripe ou éléments non disponibles');
+      this.errorMessage = 'Système de paiement non initialisé.';
       return;
     }
 
     const paymentAmount = this.orderForm.getRawValue().paymentAmount;
     if (!paymentAmount || isNaN(parseFloat(paymentAmount))) {
-      this.errorMessage = 'Montant de paiement invalide.';
       console.error('Montant invalide:', paymentAmount);
+      this.errorMessage = 'Montant de paiement invalide.';
       return;
     }
 
@@ -61,10 +61,9 @@ export class Step4Component implements OnInit {
     this.errorMessage = '';
 
     try {
-      const amountInCents = Math.round(parseFloat(paymentAmount) * 100); // Convertir en centimes
+      const amountInCents = Math.round(parseFloat(paymentAmount) * 100);
       console.log('Montant à envoyer au backend (centimes):', amountInCents);
 
-      // Envoyer un PaymentRequestDTO
       const response = await this.http.post<{ clientSecret: string }>(
         'http://localhost:8080/api/public/payments/create-payment-intent',
         { amount: amountInCents }
@@ -81,21 +80,24 @@ export class Step4Component implements OnInit {
       });
 
       if (error) {
-        this.errorMessage = 'Échec du paiement : ' + error.message;
         console.error('Erreur Stripe:', error);
+        this.errorMessage = 'Échec du paiement : ' + error.message;
+        this.submit.emit(null);
         return;
       }
 
       if (paymentIntent?.status === 'succeeded') {
-        this.orderForm.patchValue({ transactionId: paymentIntent.id });
-        console.log('Paiement réussi, transactionId:', paymentIntent.id);
-        this.submit.emit();
+        const transactionId = paymentIntent.id;
+        this.orderForm.patchValue({ transactionId });
+        console.log('Paiement réussi, transactionId:', transactionId);
+        this.submit.emit(transactionId);
       } else {
         throw new Error('Statut du paiement inattendu: ' + paymentIntent?.status);
       }
     } catch (error) {
-      this.errorMessage = 'Erreur lors du paiement : ' + (error instanceof Error ? error.message : 'Erreur inconnue');
       console.error('Erreur dans processPayment:', error);
+      this.errorMessage = 'Erreur lors du paiement : ' + (error instanceof Error ? error.message : 'Erreur inconnue');
+      this.submit.emit(null);
     } finally {
       this.processing = false;
       console.log('processPayment terminé, processing:', this.processing);

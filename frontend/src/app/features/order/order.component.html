@@ -11,8 +11,9 @@
     <!-- Indicateur des étapes -->
     <div class="mb-8 flex justify-between">
       <div *ngFor="let step of steps" class="flex-1 text-center">
-        <div [ngClass]="{'bg-[#E67E22]': currentStep === step.index, 'bg-gray-300': currentStep !== step.index}"
-             class="mx-auto w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
+        <div
+          [ngClass]="{'bg-[#E67E22]': currentStep === step.index, 'bg-gray-300': currentStep !== step.index}"
+          class="mx-auto w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
           {{ step.index }}
         </div>
         <p class="mt-2 text-sm font-medium">{{ step.title }}</p>
@@ -24,8 +25,13 @@
       <app-step1 *ngIf="currentStep === 1" [orderForm]="orderForm" (next)="nextStep()"></app-step1>
       <app-step2 *ngIf="currentStep === 2" [orderForm]="orderForm" (prev)="prevStep()" (next)="nextStep()"></app-step2>
       <app-step3 *ngIf="currentStep === 3" [orderForm]="orderForm" (next)="nextStep()" (prev)="prevStep()"></app-step3>
-      <app-step4 *ngIf="currentStep === 4" [orderForm]="orderForm" (prev)="prevStep()" (submit)="onSubmit()"></app-step4>
+      <app-step4 *ngIf="currentStep === 4" [orderForm]="orderForm" (prev)="prevStep()" (submit)="onSubmit($event)"></app-step4>
     </div>
+
+    <!-- Suppression de l'affichage de l'erreur -->
+    <!-- <div *ngIf="errorMessage" class="mt-4 p-4 bg-red-100 text-red-700 rounded-lg text-center">
+      {{ errorMessage }}
+    </div> -->
   </div>
 </div>
 

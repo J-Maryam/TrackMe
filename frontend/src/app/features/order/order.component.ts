@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
@@ -10,7 +12,7 @@ import { Step1Component } from './step1/step1.component';
 import { Step2Component } from './step2/step2.component';
 import { Step3Component } from './step3/step3.component';
 import { Step4Component } from './step4/step4.component';
-import {pastDateValidator} from '../../validators/pastDateValidator';
+import { pastDateValidator } from '../../validators/pastDateValidator';
 
 @Component({
   selector: 'app-order',
@@ -32,6 +34,7 @@ import {pastDateValidator} from '../../validators/pastDateValidator';
 export class OrderComponent implements OnInit {
   currentStep = 1;
   orderForm: FormGroup;
+  errorMessage: string = ''; // Conservé pour la logique interne, mais plus affiché dans l'UI
 
   steps = [
     { index: 1, title: 'Inscription' },
@@ -40,8 +43,21 @@ export class OrderComponent implements OnInit {
     { index: 4, title: 'Paiement' }
   ];
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.orderForm = this.fb.group({
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.orderForm = this.initializeForm();
+  }
+
+  ngOnInit(): void {
+    this.loadSavedData();
+    this.subscribeToDateOfBirthChanges();
+  }
+
+  private initializeForm(): FormGroup {
+    return this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email], [this.emailUniqueValidator()]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -51,15 +67,13 @@ export class OrderComponent implements OnInit {
       dateOfBirth: ['', [Validators.required, pastDateValidator()]],
       patientAge: [''],
       braceletColor: ['', Validators.required],
-      paymentMethod: ['', Validators.required],
+      patientId: [''],
       paymentAmount: [{ value: '50.00', disabled: true }, Validators.required],
-      transactionId: [''],
+      transactionId: ['']
     });
-
-    this.orderForm.get('dateOfBirth')?.valueChanges.subscribe(() => this.calculateAge());
   }
 
-  ngOnInit(): void {
+  private loadSavedData(): void {
     const savedData = this.getOrderData();
     if (savedData) {
       this.orderForm.patchValue(savedData);
@@ -67,11 +81,18 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  nextStep(): void {
-    const controlsForStep = this.getControlsForStep(this.currentStep);
-    controlsForStep.forEach(control => this.orderForm.get(control)?.markAsTouched());
+  private subscribeToDateOfBirthChanges(): void {
+    this.orderForm.get('dateOfBirth')?.valueChanges.subscribe(() => this.calculateAge());
+  }
 
-    if (this.isStepValid(controlsForStep) && this.currentStep < this.steps.length) {
+  nextStep(): void {
+    const controls = this.getControlsForStep();
+    this.markControlsAsTouched(controls);
+
+    if (this.isStepValid(controls) && this.currentStep < this.steps.length) {
+      if (this.currentStep === 2) {
+        this.generatePatientId();
+      }
       this.saveToLocalStorage();
       this.currentStep++;
     }
@@ -84,29 +105,82 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    if (this.orderForm.valid) {
-      console.log('Commande soumise :', this.orderForm.value);
-      localStorage.removeItem('orderData');
+  async onSubmit(transactionId: string | null): Promise<void> {
+    if (!transactionId) {
+      console.error('Paiement non confirmé (transactionId manquant):', this.orderForm.getRawValue());
+      this.errorMessage = 'Paiement non confirmé (transactionId manquant)';
+      return;
+    }
+
+    const rawValue = this.orderForm.getRawValue();
+    console.log('Début de onSubmit, données envoyées:', rawValue);
+
+    this.errorMessage = ''; // Réinitialiser l'erreur avant la tentative
+    try {
+      const response = await this.http.post<any>('http://localhost:8080/api/public/orders/complete', rawValue).toPromise();
+      // Vérifier si la réponse indique un succès
+      if (response && response.text === 'Commande insérée avec succès') {
+        this.showSuccessAlert();
+      } else {
+        throw new Error('Réponse inattendue du serveur');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'insertion:', error);
+      let errorDetail = 'Erreur lors de l\'insertion dans la base de données';
+      if (error instanceof HttpErrorResponse) {
+        errorDetail += ` (Statut: ${error.status}, Message: ${JSON.stringify(error.error)})`;
+        if (error.status === 404) {
+          errorDetail += ' Vérifiez que le transactionId est correct et que le paiement a été enregistré.';
+        }
+      } else if (error instanceof Error) {
+        errorDetail += ` (Message: ${error.message})`;
+      }
+      console.error(errorDetail); // Loguer l'erreur dans la console pour le débogage
+      // Ne plus assigner errorDetail à errorMessage pour éviter l'affichage dans l'UI
+      this.errorMessage = ''; // Optionnel : garder vide pour ne rien afficher
     }
   }
 
-  private saveToLocalStorage(): void {
-    localStorage.setItem('orderData', JSON.stringify(this.orderForm.value));
+  private showSuccessAlert(): void {
+    this.errorMessage = ''; // Effacer tout message d'erreur
+    Swal.fire({
+      title: 'Commande réussie !',
+      text: 'Votre commande a été insérée avec succès. Le bracelet sera livré dans les 5 prochains jours.',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#E67E22',
+      // timer: 5000,
+      timerProgressBar: true,
+      didClose: () => {
+        this.router.navigate(['/login']);
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
-  private getOrderData() {
+  private saveToLocalStorage(): void {
+    localStorage.setItem('orderData', JSON.stringify(this.orderForm.getRawValue()));
+  }
+
+  private getOrderData(): any {
     return JSON.parse(localStorage.getItem('orderData') || '{}');
   }
 
-  private getControlsForStep(step: number): string[] {
-    const stepControls: { [key: number]: string[] } = {
+  private getControlsForStep(): string[] {
+    const stepControls = {
       1: ['username', 'email', 'password', 'address', 'phoneNumber'],
       2: ['patientName', 'dateOfBirth'],
       3: ['braceletColor'],
-      4: ['paymentMethod', 'paymentAmount', 'transactionId']
+      4: ['paymentAmount']
     };
-    return stepControls[step] || [];
+    return stepControls[this.currentStep as keyof typeof stepControls] || [];
+  }
+
+  private markControlsAsTouched(controls: string[]): void {
+    controls.forEach(control => this.orderForm.get(control)?.markAsTouched());
   }
 
   private isStepValid(controls: string[]): boolean {
@@ -122,13 +196,21 @@ export class OrderComponent implements OnInit {
       const birthDate = new Date(dateOfBirth);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
-      if (today.getMonth() < birthDate.getMonth() ||
-        (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+      if (today.getMonth() < birthDate.getMonth() || (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
         age--;
       }
       this.orderForm.get('patientAge')?.setValue(age);
     } else {
       this.orderForm.get('patientAge')?.setValue('');
+    }
+  }
+
+  private generatePatientId(): void {
+    const patientName = this.orderForm.get('patientName')?.value;
+    const dateOfBirth = this.orderForm.get('dateOfBirth')?.value;
+    if (patientName && dateOfBirth) {
+      const patientId = `${patientName.toLowerCase().replace(/\s/g, '-')}-${new Date(dateOfBirth).getTime()}`;
+      this.orderForm.patchValue({ patientId });
     }
   }
 

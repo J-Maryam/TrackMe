@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.trackme.common.ErrorResponse;
+import org.youcode.trackme.common.exceptions.EntityCreationException;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.dtos.payment.ConfirmPaymentRequest;
 import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
@@ -39,15 +40,18 @@ public class PaymentController {
             String clientSecret = paymentService.createPaymentIntent(request);
             Map<String, String> responseData = new HashMap<>();
             responseData.put("clientSecret", clientSecret);
-            return ResponseEntity.ok(responseData); // Retourner directement la Map
+            return ResponseEntity.ok(responseData);
         } catch (StripeException e) {
-            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Stripe Error", "Erreur lors de la création du paiement : " + e.getMessage());
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Stripe Error", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        } catch (EntityCreationException e) {
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Entity Creation Error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         } catch (IllegalArgumentException e) {
             ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Invalid Argument", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         } catch (Exception e) {
-            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "Erreur inattendue : " + e.getMessage());
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
