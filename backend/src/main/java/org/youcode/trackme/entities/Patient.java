@@ -35,4 +35,9 @@ public class Patient {
     private AppUser caregiver;
 
     private LocalDateTime dateCreation;
+
+    @PrePersist
+    public void prePersist() {
+        this.dateCreation = LocalDateTime.now();
+    }
 }
