@@ -6,14 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.youcode.trackme.common.ErrorResponse;
+import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.dtos.payment.ConfirmPaymentRequest;
 import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
 import org.youcode.trackme.dtos.payment.PaymentResponseDTO;
+import org.youcode.trackme.entities.Payment;
 import org.youcode.trackme.mappers.PaymentMapper;
 import org.youcode.trackme.services.PaymentService;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/public/payments")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -26,18 +34,36 @@ public class PaymentController {
     }
 
     @PostMapping("/create-payment-intent")
-    public ResponseEntity<String> createPaymentIntent(@Valid @RequestBody PaymentRequestDTO request) {
+    public ResponseEntity<?> createPaymentIntent(@Valid @RequestBody PaymentRequestDTO request) {
         try {
             String clientSecret = paymentService.createPaymentIntent(request);
-            return new ResponseEntity<>(clientSecret, HttpStatus.OK);
+            Map<String, String> responseData = new HashMap<>();
+            responseData.put("clientSecret", clientSecret);
+            return ResponseEntity.ok(responseData); // Retourner directement la Map
         } catch (StripeException e) {
-            return new ResponseEntity<>("Erreur lors de la création du paiement : " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Stripe Error", "Erreur lors de la création du paiement : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        } catch (IllegalArgumentException e) {
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), "Invalid Argument", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        } catch (Exception e) {
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "Erreur inattendue : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 
     @PostMapping("/confirm")
-    public ResponseEntity<PaymentResponseDTO> confirmPayment(@Valid @RequestBody ConfirmPaymentRequest request) {
-        PaymentResponseDTO paymentResponse = paymentMapper.toDto(paymentService.confirmPayment(request.transactionId()));
-        return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
+    public ResponseEntity<?> confirmPayment(@Valid @RequestBody ConfirmPaymentRequest request) {
+        try {
+            Payment payment = paymentService.confirmPayment(request.transactionId());
+            PaymentResponseDTO paymentResponse = paymentMapper.toDto(payment);
+            return ResponseEntity.ok(paymentResponse); // Retourner directement le DTO
+        } catch (EntityNotFoundException e) {
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Not Found", "Paiement non trouvé : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        } catch (Exception e) {
+            ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "Erreur inattendue : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
     }
 }
