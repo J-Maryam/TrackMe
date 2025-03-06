@@ -11,6 +11,7 @@ import org.youcode.trackme.services.OrderService;
 
 @RestController
 @RequestMapping("/api/public/orders")
+@CrossOrigin(origins = "http://localhost:4200") // Autorise uniquement cette origine
 public class OrderController {
 
     private final OrderService orderService;
@@ -21,8 +22,12 @@ public class OrderController {
     }
 
     @PostMapping("/complete")
-    public ResponseEntity<OrderResponseDTO> completeOrder(@Valid @RequestBody OrderRequestDTO request) {
-        OrderResponseDTO response = orderService.completeOrder(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<String> completeOrder(@RequestBody OrderRequestDTO orderData) {
+        try {
+            orderService.completeOrder(orderData);
+            return new ResponseEntity<>("Commande insérée avec succès", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erreur lors de l'insertion: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
