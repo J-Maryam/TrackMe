@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.security.config.Jwt.JwtUtils;
 import org.youcode.trackme.security.dtos.AppUserDTO.CreateAppUserDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.ResponseAppUserDTO;
@@ -49,13 +50,18 @@ public class AppUserService implements IAppUserService {
         if (appUserRepository.findByEmail(createAppUserDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Cette email existe déjà.");
         }
+
+        AppRole role = appRoleRepository.findById(createAppUserDTO.getRoleId())
+                .orElseThrow(() -> new EntityNotFoundException("Role not found with Id : " + createAppUserDTO.getRoleId()));
 //        if (haveIBeenPwnedService.isPasswordPwned(createAppUserDTO.getPassword())) {
 //            throw new IllegalArgumentException("Le mot de passe est compromis. Veuillez en choisir un autre.");
 //        }
         AppUser user = appUserMapper.toEntity(createAppUserDTO);
         user.setPassword(passwordEncoder.encode(createAppUserDTO.getPassword()));
+        user.setRole(role);
         return appUserMapper.toDTO(appUserRepository.save(user)) ;
     }
+
     @Override
     public ResponseLoginDTO login(RequestLoginDTO loginRequest) {
 
