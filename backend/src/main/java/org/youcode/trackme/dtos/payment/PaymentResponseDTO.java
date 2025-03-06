@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 
 public record PaymentResponseDTO(
         Long id,
-        Double amount,
+        Integer amount,
         EmbeddableOrderResponseDTO order,
         PaymentStatus status,
         LocalDateTime paymentDate,
         String transactionId
-) {}
+) {
+}
