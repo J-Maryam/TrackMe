@@ -5,6 +5,6 @@ import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
 import org.youcode.trackme.entities.Payment;
 
 public interface PaymentService {
-    String createPaymentIntent(PaymentRequestDTO payment) throws StripeException;
+    String createPaymentIntent(PaymentRequestDTO requestDTO) throws StripeException;
     Payment confirmPayment(String transactionId);
 }
