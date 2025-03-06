@@ -9,10 +9,7 @@
   </nav>
 
   <!-- Bouton pour ouvrir la popup -->
-  <button (click)="openLogin()" class="bg-[#E67E22] text-white px-6 py-2 rounded-full hover:bg-[#D35400] transition-all mr-6">
+  <button routerLink="/login" class="bg-[#E67E22] text-white px-6 py-2 rounded-full hover:bg-[#D35400] transition-all mr-6">
     Get Started
   </button>
 </header>
-
-<!-- Intégration du composant login -->
-<app-login #loginPopup></app-login>
