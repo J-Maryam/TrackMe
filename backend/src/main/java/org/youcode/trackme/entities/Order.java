@@ -1,9 +1,8 @@
 package org.youcode.trackme.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
-import lombok.*;
-import org.youcode.trackme.entities.enums.OrderStatus;
+import lombok.Getter;
+import lombok.Setter;
 import org.youcode.trackme.security.entities.AppUser;
 
 import java.time.LocalDateTime;
@@ -11,46 +10,32 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
-
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private AppUser user;
 
     @ManyToOne
-    @JoinColumn(name = "bracelet_id", nullable = false)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "bracelet_id")
     private Bracelet bracelet;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private OrderStatus status; // EN_ATTENTE, PAYEE, LIVREE, CONFIRMEE
+    @ManyToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
-    @Column(nullable = false)
-    @Positive
-    private double totalAmount;
-
-    @Column(nullable = false)
-    private LocalDateTime dateCommande;
-
-    private LocalDateTime deliveryDate;
-
-    private String deliveryAddress;
+    private LocalDateTime orderDate;
 
     @PrePersist
     public void prePersist() {
-        this.dateCommande = LocalDateTime.now();
-        if (this.status == null) {
-            this.status = OrderStatus.EN_ATTENTE; // Statut par défaut
-        }
+        this.orderDate = LocalDateTime.now();
     }
 }
