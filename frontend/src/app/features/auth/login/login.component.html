@@ -1,38 +1,105 @@
-<div *ngIf="isLoginPopupOpen" class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-md z-50 transition-opacity duration-300">
-  <div class="bg-white dark:bg-gray-900 shadow-lg rounded-3xl p-8 w-full max-w-md relative animate-fade-in">
-
-    <!-- Bouton pour fermer la popup -->
-    <button (click)="closeLoginPopup()" class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl">
-      ✖
-    </button>
-
-    <div class="text-center mb-8">
-      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Welcome Back to TrackMe</h2>
-      <p class="text-gray-600 dark:text-gray-400 text-sm">Please login to continue</p>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#3498DB]/80 via-[#2C3E50]/80 to-[#3498DB]/80 py-12 px-4 sm:px-6 lg:px-8 animate-gradient">
+  <div class="grid grid-cols-1 lg:grid-cols-2 max-w-5xl w-full bg-white/80  backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden">
+    <!-- Section visuelle (image ou design) -->
+    <div class="hidden lg:block relative">
+      <div class="absolute inset-0 bg-gradient-to-br from-[#3498DB]/50 to-[#2C3E50]/50"></div>
+      <div class="flex items-center justify-center h-full p-4">
+        <img [src]= "image" alt="SafeTrack Bracelet" class="w-110 h-100 object-cover shadow-none animate-pulse-slow">
+      </div>
+      <div class="absolute bottom-8 left-8 text-white">
+        <h3 class="text-2xl font-bold">SafeTrack</h3>
+        <p class="text-sm text-gray-300">Sécurisez vos proches avec notre bracelet intelligent.</p>
+      </div>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="mb-6">
-        <input type="email" formControlName="email" placeholder="Email"
-               class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#3498DB] focus:border-[#3498DB] bg-gray-50 dark:bg-gray-800 dark:text-white transition duration-300 ease-in-out">
-        <div class="text-red-500 text-sm mt-1" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-          Please enter a valid email.
-        </div>
+    <!-- Section du formulaire -->
+    <div class="p-8 w-full max-w-md">
+      <!-- Logo ou icône -->
+      <div class="flex justify-center mb-8">
+        <svg class="w-12 h-12 text-[#E67E22] dark:text-[#F59E0B] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
       </div>
 
-      <div class="mb-6">
-        <input type="password" formControlName="password" placeholder="Password"
-               class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#3498DB] focus:border-[#3498DB] bg-gray-50 dark:bg-gray-800 dark:text-white transition duration-300 ease-in-out">
-        <div class="text-red-500 text-sm mt-1" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
-          Password is required
-        </div>
+      <!-- Titre et description -->
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">Welcome to SafeTrack</h2>
+        <p class="text-[#7F8C8D] dark:text-gray-400 text-sm mt-2">Sign in to manage your bracelets</p>
       </div>
 
-      <button type="submit"
-              class="w-full bg-[#E67E22] hover:bg-[#D35400] text-white py-3 rounded-xl text-lg font-medium transition duration-300 ease-in-out disabled:opacity-50"
-              [disabled]="!loginForm.valid">
-        Login
-      </button>
-    </form>
+      <!-- Message d'erreur serveur -->
+      <div *ngIf="serverError" class="mb-6 p-4 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 rounded-xl text-center animate-pulse">
+        {{ serverError }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Champ Email -->
+        <div class="mb-6 relative group">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none transition-all duration-300 group-focus-within:text-[#E67E22]">
+            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-[#E67E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m4-4v8m-7 4h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <input type="email" formControlName="email" placeholder="Email address" autocomplete="email"
+                 class="w-full pl-12 pr-5 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white transition-all duration-300 ease-in-out placeholder-gray-400 dark:placeholder-gray-500 transform group-focus-within:scale-105"
+                 aria-label="Adresse email">
+          <div class="text-red-500 dark:text-red-400 text-sm mt-2 pl-2" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+          </div>
+        </div>
+
+        <!-- Champ Mot de passe -->
+        <div class="mb-6 relative group">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none transition-all duration-300 group-focus-within:text-[#E67E22]">
+            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500 group-focus-within:text-[#E67E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 2c-2.761 0-5 2.239-5 5h10c0-2.761-2.239-5-5-5z"></path>
+            </svg>
+          </div>
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Password" autocomplete="current-password"
+                 class="w-full pl-12 pr-12 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50/50 dark:bg-gray-800/50 text-gray-900 dark:text-white transition-all duration-300 ease-in-out placeholder-gray-400 dark:placeholder-gray-500 transform group-focus-within:scale-105"
+                 aria-label="Mot de passe">
+          <button type="button" (click)="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center pr-5 focus:outline-none focus:ring-2 focus:ring-[#E67E22] rounded-r-xl transition-all duration-300" aria-label="Afficher ou masquer le mot de passe">
+            <svg *ngIf="!showPassword" class="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-[#E67E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+            </svg>
+            <svg *ngIf="showPassword" class="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-[#E67E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          </button>
+          <div class="text-red-500 dark:text-red-400 text-sm mt-2 pl-2" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</span>
+          </div>
+        </div>
+
+        <!-- Bouton de connexion -->
+        <button type="submit"
+                class="relative w-full bg-[#E67E22] hover:bg-[#D35400] text-white py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[#E67E22] focus:ring-offset-2 dark:focus:ring-offset-gray-900 transform hover:scale-105"
+                [disabled]="!loginForm.valid || isLoading"
+                aria-label="Se connecter">
+          <span class="flex items-center justify-center">
+            <svg *ngIf="isLoading" class="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 1116 0A8 8 0 014 12z"></path>
+            </svg>
+            {{ isLoading ? 'Logging in...' : 'Login' }}
+          </span>
+        </button>
+      </form>
+
+      <!-- Lien pour mot de passe oublié -->
+      <div class="text-center mt-6">
+        <a [routerLink]="['/forgot-password']" class="text-sm text-[#7F8C8D] hover:text-[#E67E22] dark:text-gray-400 dark:hover:text-[#F59E0B] transition-all duration-300 ease-in-out">Forgot your password?</a>
+      </div>
+
+      <!-- Lien pour s'inscrire -->
+      <div class="text-center mt-4">
+        <p class="text-sm text-[#7F8C8D] dark:text-gray-400">
+          Don't have an account?
+          <a [routerLink]="['/signup']" class="text-[#E67E22] hover:text-[#D35400] dark:text-[#F59E0B] dark:hover:text-[#FBBF24] transition-all duration-300 ease-in-out">Sign up</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
