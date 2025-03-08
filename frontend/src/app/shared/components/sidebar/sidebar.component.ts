@@ -1,30 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Router, RouterLink, NavigationEnd, RouterLinkActive} from '@angular/router';
+import {NgClass, NgIf} from '@angular/common';
+import { Subscription } from 'rxjs';
 import {AuthService} from '../../../core/services/auth.service';
-import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
   standalone: true,
-  imports: [
-    RouterLink,
-    NgIf
-  ]
+  imports: [RouterLink, NgIf, RouterLinkActive, NgClass],
 })
-export class SidebarComponent implements OnInit {
-  isAdmin: boolean = false; // Variable pour déterminer si l'utilisateur est un admin
+export class SidebarComponent implements OnInit, OnDestroy {
+  isAdmin: boolean = false;
+  currentRoute: string = '';
+  private roleSubscription: Subscription = new Subscription();
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects;
+      }
+    });
+  }
 
   ngOnInit(): void {
-    // Vérifier le rôle de l'utilisateur via un service d'authentification
-    this.isAdmin = this.authService.getUserRole() === 'admin'; // Suppose que le service retourne 'admin' ou 'caregiver'
+    this.roleSubscription = this.authService.getRole$().subscribe((role) => {
+      this.isAdmin = role === 'ROLE_ADMIN';
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.roleSubscription.unsubscribe();
   }
 
   logout(): void {
-    this.authService.logout(); // Déconnexion via le service
-    this.router.navigate(['/login']); // Redirection vers la page de login
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  // Vérifier si un lien est actif
+  isActive(route: string): boolean {
+    return this.currentRoute === route;
   }
 }

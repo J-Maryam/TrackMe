@@ -22,3 +22,14 @@
 .w-64 {
   width: 16rem;
 }
+
+/* Lien actif */
+.active {
+  background-color: #F4A261/30 !important; /* Couleur plus marquée pour l'élément actif */
+  color: white !important;
+}
+
+/* Amélioration de l'accessibilité */
+[aria-current="page"] {
+  font-weight: bold;
+}
