@@ -25,8 +25,9 @@ export class AuthService {
         tap((response) => {
           if (response.token) {
             localStorage.setItem(this.tokenKey, response.token);
-            localStorage.setItem(this.roleKey, response.role || 'caregiver');
-            this.roleSubject.next(response.role || 'caregiver'); // Mettre à jour le rôle
+            // Stocker le rôle (ROLE_ADMIN ou ROLE_USER)
+            localStorage.setItem(this.roleKey, response.role || 'ROLE_USER');
+            this.roleSubject.next(response.role || 'ROLE_USER'); // Mettre à jour le rôle
           }
         })
     );
@@ -36,7 +37,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.roleKey);
-    this.roleSubject.next(null); // Réinitialiser le rôle
+    this.roleSubject.next(null);
   }
 
   // Récupérer le token
@@ -44,7 +45,7 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // Récupérer le rôle (pour compatibilité)
+  // Récupérer le rôle (synchrone)
   getUserRole(): string | null {
     return localStorage.getItem(this.roleKey);
   }
@@ -56,6 +57,6 @@ export class AuthService {
 
   // Vérifier si l'utilisateur est admin
   isAdmin(): boolean {
-    return this.getUserRole() === 'admin';
+    return this.getUserRole() === 'ROLE_ADMIN';
   }
 }

@@ -11,5 +11,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'commande', component: OrderComponent },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: ClientDashboardComponent }
+  { path: 'dashboard', component: ClientDashboardComponent, canActivate: [AuthGuard] },
 ];
