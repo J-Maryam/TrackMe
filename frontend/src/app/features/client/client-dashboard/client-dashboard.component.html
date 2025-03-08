@@ -1,27 +1,97 @@
-<div class="flex h-screen bg-white">
-  <!-- Sidebar -->
-  <aside class="w-64 bg-[#3498db] text-white">
-    <div class="p-4 text-xl font-bold">Client Dashboard</div>
-    <nav>
-      <a href="#" class="block p-3 hover:bg-[#2980b9]">🏠 Accueil</a>
-      <a href="#" class="block p-3 hover:bg-[#2980b9]">🛒 Mes Commandes</a>
-      <a href="#" class="block p-3 hover:bg-[#2980b9]">💳 Paiements</a>
-      <a href="#" class="block p-3 hover:bg-[#2980b9]">👤 Mon Profil</a>
-    </nav>
-  </aside>
+<div class="min-h-screen flex bg-[#F0F4F8] dark:bg-[#1E2A44] animate-fade">
+  <app-sidebar></app-sidebar>
+  <!-- Section principale -->
+  <main class="flex-1 p-8 ml-64">
+    <!-- En-tête -->
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Caregiver Dashboard Overview</h1>
+      <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Monitor your bracelets and alerts in real-time.</p>
+    </header>
 
-  <!-- Main Content -->
-  <main class="flex-1 p-6">
-    <h1 class="text-3xl font-bold text-gray-800">Bonjour, [Client] 👋</h1>
-
-    <div class="grid grid-cols-2 gap-6 mt-6">
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <h2 class="text-lg font-semibold text-gray-700">Mes Commandes</h2>
-        <p class="text-xl font-bold text-[#3498db]">5 en cours</p>
+    <!-- Cartes principales -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Carte Bracelets Actifs -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Active Bracelets</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 2c-2.761 0-5 2.239-5 5h10c0-2.761-2.239-5-5-5z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">7</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Online devices</p>
       </div>
-      <div class="bg-white p-4 rounded-lg shadow-md">
-        <h2 class="text-lg font-semibold text-gray-700">Paiements Réussis</h2>
-        <p class="text-xl font-bold text-[#27ae60]">1,250 €</p>
+
+      <!-- Carte Alertes -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Pending Alerts</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">4</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Awaiting action</p>
+      </div>
+
+      <!-- Carte Batterie -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Average Battery</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">82%</p>
+        <div class="w-full bg-gray-200 dark:bg-[#34495E] rounded-full h-2 mt-2">
+          <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" style="width: 82%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Historique et Graphique -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+      <!-- Historique des alertes -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Alert History</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+            <tr class="border-b dark:border-[#34495E]">
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]">Bracelet ID</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]">Time</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
+              <td class="py-2">BR-001</td>
+              <td class="py-2">10:30 AM</td>
+              <td class="py-2 text-green-500">Resolved</td>
+            </tr>
+            <tr class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
+              <td class="py-2">BR-002</td>
+              <td class="py-2">09:15 AM</td>
+              <td class="py-2 text-red-500">Pending</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <a href="#" class="text-[#F4A261] dark:text-[#E07A5F] hover:underline mt-4 inline-block">View all</a>
+      </div>
+
+      <!-- Graphique des tendances -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Tracking Trends</h3>
+        <div class="flex justify-between text-sm mb-2">
+          <span class="text-[#7D9D9C] dark:text-[#A3BFFA]/70">Success Rate</span>
+          <span class="text-green-500">88%</span>
+        </div>
+        <div class="w-full bg-gray-200 dark:bg-[#34495E] rounded-full h-2 mb-4">
+          <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" style="width: 88%"></div>
+        </div>
+        <!-- Placeholder pour un graphique -->
+        <div class="h-48 bg-gray-200 dark:bg-[#34495E]/50 rounded-lg animate-pulse"></div>
       </div>
     </div>
   </main>

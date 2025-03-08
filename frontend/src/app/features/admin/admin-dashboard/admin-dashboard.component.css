@@ -1,99 +1,88 @@
-/* 🎨 Styles Généraux */
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  display: flex;
+/* Animation de fondu pour le fond */
+.animate-fade {
+  animation: fadeIn 2s ease-in-out;
 }
 
-/* 📌 Sidebar */
-.sidebar {
-  width: 250px;
-  background: #3498db;
-  color: white;
-  height: 100vh;
-  padding: 20px;
-  position: fixed;
-  left: 0;
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-.sidebar h2 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 30px;
+/* Animation pour les placeholders */
+.animate-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
-.sidebar nav ul {
-  list-style: none;
-  padding: 0;
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
 }
 
-.sidebar nav ul li {
-  padding: 15px;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: background 0.3s;
-  border-radius: 5px;
+/* Animation lente pour le logo */
+.animate-pulse-slow {
+  animation: pulseSlow 4s infinite;
 }
 
-.sidebar nav ul li:hover, .sidebar nav ul li.active {
-  background: #2980b9;
+@keyframes pulseSlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
-/* 🏠 Contenu Principal */
-.content {
-  margin-left: 270px;
-  padding: 20px;
-  flex: 1;
+/* Styles généraux */
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 📌 Header */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
 
-.search-bar {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 200px;
+.transition-all {
+  transition: all 0.3s ease-in-out;
 }
 
-/* 📊 Statistiques */
-.stats {
-  display: flex;
-  gap: 20px;
-  margin: 20px 0;
+.transform:hover:scale-105 {
+  transform: scale(1.05);
 }
 
-.stat-card {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 18px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Grille */
+.grid-cols-1 {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
-/* 📈 Graphiques */
-.charts {
-  display: flex;
-  gap: 20px;
+.md\:grid-cols-2, .lg\:grid-cols-3 {
+  grid-template-columns: 1fr;
 }
 
-.chart-container {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Barre latérale */
+.w-64 {
+  width: 16rem;
+}
+
+.ml-64 {
+  margin-left: 16rem;
+}
+
+/* Cartes */
+.bg-white {
+  background-color: #FFFFFF;
+}
+
+.dark\:bg-\[#2E4057\] {
+  background-color: #2E4057;
 }
