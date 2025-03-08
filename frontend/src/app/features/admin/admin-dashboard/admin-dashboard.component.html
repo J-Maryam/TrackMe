@@ -3,13 +3,20 @@
   <!-- Section principale -->
   <main class="flex-1 p-8 ml-64">
     <!-- En-tête -->
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Admin Dashboard Overview</h1>
-      <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Monitor your bracelets and alerts in real-time.</p>
+    <header class="mb-8 flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Admin Dashboard Overview</h1>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Monitor and manage your SafeTrack system.</p>
+      </div>
+      <div>
+        <button (click)="addUser()" class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-2 px-4 rounded-xl transition-all duration-300" aria-label="Add new user">
+          Add New User
+        </button>
+      </div>
     </header>
 
     <!-- Cartes principales -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Carte Bracelets Actifs -->
       <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
         <div class="flex justify-between items-center mb-4">
@@ -18,7 +25,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 2c-2.761 0-5 2.239-5 5h10c0-2.761-2.239-5-5-5z"></path>
           </svg>
         </div>
-        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">7</p>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.activeBracelets || 0 }}</p>
         <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Online devices</p>
       </div>
 
@@ -30,7 +37,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </div>
-        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">4</p>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.pendingAlerts || 0 }}</p>
         <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Awaiting action</p>
       </div>
 
@@ -42,45 +49,55 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg>
         </div>
-        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">82%</p>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.averageBattery || 0 }}%</p>
         <div class="w-full bg-gray-200 dark:bg-[#34495E] rounded-full h-2 mt-2">
-          <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" style="width: 82%"></div>
+          <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" [style.width]="(stats?.averageBattery || 0) + '%'"></div>
         </div>
+      </div>
+
+      <!-- Carte Total Utilisateurs -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Total Users</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.totalUsers || 0 }}</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Registered caregivers</p>
       </div>
     </div>
 
-    <!-- Section Historique et Graphique -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-      <!-- Historique des alertes -->
+    <!-- Section Historique, Graphique, Bracelets et Utilisateurs (2 colonnes par ligne) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <!-- Ligne 1 : Historique des alertes et Graphique -->
       <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
         <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Alert History</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
             <tr class="border-b dark:border-[#34495E]">
-              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]">Bracelet ID</th>
-              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]">Time</th>
-              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]">Status</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Bracelet ID</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Time</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Status</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
-              <td class="py-2">BR-001</td>
-              <td class="py-2">10:30 AM</td>
-              <td class="py-2 text-green-500">Resolved</td>
-            </tr>
-            <tr class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
-              <td class="py-2">BR-002</td>
-              <td class="py-2">09:15 AM</td>
-              <td class="py-2 text-red-500">Pending</td>
+            <tr *ngFor="let alert of alerts" class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
+              <td class="py-2">{{ alert.braceletId }}</td>
+              <td class="py-2">{{ alert.time }}</td>
+              <td class="py-2" [ngClass]="alert.status === 'resolved' ? 'text-green-500' : 'text-red-500'">
+                {{ alert.status | titlecase }}
+              </td>
             </tr>
             </tbody>
           </table>
         </div>
-        <a href="#" class="text-[#F4A261] dark:text-[#E07A5F] hover:underline mt-4 inline-block">View all</a>
+        <a routerLink="/history" class="text-[#F4A261] dark:text-[#E07A5F] hover:underline mt-4 inline-block" aria-label="View all alert history">
+          View all
+        </a>
       </div>
 
-      <!-- Graphique des tendances -->
       <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
         <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Tracking Trends</h3>
         <div class="flex justify-between text-sm mb-2">
@@ -90,8 +107,73 @@
         <div class="w-full bg-gray-200 dark:bg-[#34495E] rounded-full h-2 mb-4">
           <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" style="width: 88%"></div>
         </div>
-        <!-- Placeholder pour un graphique -->
-        <div class="h-48 bg-gray-200 dark:bg-[#34495E]/50 rounded-lg animate-pulse"></div>
+        <!-- Graphique -->
+        <div class="h-48">
+          <canvas baseChart
+                  [data]="lineChartData"
+                  [options]="lineChartOptions"
+                  type="line">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Ligne 2 : Bracelets Overview et Users Overview -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Bracelets Overview</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+            <tr class="border-b dark:border-[#34495E]">
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Bracelet ID</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Status</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Battery</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Assigned User</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let bracelet of bracelets" class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
+              <td class="py-2">{{ bracelet.id }}</td>
+              <td class="py-2" [ngClass]="bracelet.status === 'active' ? 'text-green-500' : 'text-red-500'">
+                {{ bracelet.status | titlecase }}
+              </td>
+              <td class="py-2">{{ bracelet.batteryLevel }}%</td>
+              <td class="py-2">{{ bracelet.assignedUser || 'Unassigned' }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Users Overview</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+            <tr class="border-b dark:border-[#34495E]">
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Name</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Role</th>
+              <th class="py-2 text-left text-[#4A6572] dark:text-[#A3BFFA]" scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of users" class="border-b dark:border-[#34495E] hover:bg-gray-50 dark:hover:bg-[#34495E]/50 transition-all duration-200">
+              <td class="py-2">{{ user.name }}</td>
+              <td class="py-2">{{ user.role }}</td>
+              <td class="py-2">
+                <button (click)="editUser(user.id)" class="text-[#F4A261] hover:text-[#E07A5F] mr-2" aria-label="Edit user">
+                  Edit
+                </button>
+                <button (click)="deleteUser(user.id)" class="text-red-500 hover:text-red-700" aria-label="Delete user">
+                  Delete
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <a routerLink="/user-management" class="text-[#F4A261] dark:text-[#E07A5F] hover:underline mt-4 inline-block" aria-label="Manage all users">
+          Manage all users
+        </a>
       </div>
     </div>
   </main>

@@ -53,7 +53,7 @@
   grid-template-columns: 1fr;
 }
 
-.md\:grid-cols-2, .lg\:grid-cols-3 {
+.md\:grid-cols-2, .lg\:grid-cols-4 {
   grid-template-columns: 1fr;
 }
 
@@ -64,8 +64,8 @@
 }
 
 @media (min-width: 1024px) {
-  .lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -85,4 +85,18 @@
 
 .dark\:bg-\[#2E4057\] {
   background-color: #2E4057;
+}
+
+/* Boutons */
+button {
+  outline: none;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
 }
