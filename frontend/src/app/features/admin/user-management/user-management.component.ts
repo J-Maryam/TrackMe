@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {SidebarComponent} from '../../../shared/components/sidebar/sidebar.component';
-import {UserService} from '../../../core/services/user.service';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import {SidebarComponent} from '../../../shared/components/sidebar/sidebar.component';
 import {User} from '../../../shared/models/user.model';
+import {UserService} from '../../../core/services/user.service';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-user-management',
@@ -21,27 +22,51 @@ export class UserManagementComponent implements OnInit {
   selectedUserId: string | null = null;
   errorMessage: string | null = null;
   currentPage: number = 1;
-  itemsPerPage: number = 5; // Nombre d'éléments par page
+  itemsPerPage: number = 5;
+  isLoading: boolean = false;
 
-  constructor(private userService: UserService, private fb: FormBuilder) {
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
+      username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       role: ['ROLE_USER', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    if (!this.authService.isAuthenticated() || !this.authService.isAdmin()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadUsers();
   }
 
   loadUsers(): void {
+    this.isLoading = true;
+    this.errorMessage = null;
     this.userService.getUsers().subscribe({
       next: (users) => {
         this.users = users;
+        this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = 'Failed to load users.';
+        this.isLoading = false;
+        if (err.status === 401) {
+          this.errorMessage = 'Session expired or invalid. Please login again.';
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        } else if (err.status === 403) {
+          this.errorMessage = 'Access denied. You must be an admin.';
+          this.router.navigate(['/login']);
+        } else {
+          this.errorMessage = 'Failed to load users. Error: ' + err.message;
+        }
+        console.error('Error loading users:', err);
       },
     });
   }
@@ -56,8 +81,8 @@ export class UserManagementComponent implements OnInit {
             this.resetForm();
             this.errorMessage = null;
           },
-          error: () => {
-            this.errorMessage = 'Failed to update user.';
+          error: (err) => {
+            this.errorMessage = 'Failed to update user. Error: ' + err.message;
           },
         });
       } else {
@@ -67,8 +92,8 @@ export class UserManagementComponent implements OnInit {
             this.resetForm();
             this.errorMessage = null;
           },
-          error: () => {
-            this.errorMessage = 'Failed to add user.';
+          error: (err) => {
+            this.errorMessage = 'Failed to add user. Error: ' + err.message;
           },
         });
       }
@@ -81,7 +106,7 @@ export class UserManagementComponent implements OnInit {
       this.isEditing = true;
       this.selectedUserId = id;
       this.userForm.patchValue({
-        name: user.name,
+        username: user.username,
         email: user.email,
         role: user.role,
       });
@@ -95,8 +120,8 @@ export class UserManagementComponent implements OnInit {
           this.loadUsers();
           this.errorMessage = null;
         },
-        error: () => {
-          this.errorMessage = 'Failed to delete user.';
+        error: (err) => {
+          this.errorMessage = 'Failed to delete user. Error: ' + err.message;
         },
       });
     }
@@ -112,7 +137,6 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  // Méthodes pour la pagination
   get paginatedUsers(): User[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;

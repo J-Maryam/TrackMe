@@ -1,52 +1,59 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { User } from '../../shared/models/user.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private apiUrl = 'http://localhost:8080/api/admin/users';
-  private users: User[] = [
-    { id: '1', name: 'John Doe', email: 'john.doe@example.com', role: 'ROLE_USER', address: '123 Main St', telephone: '+1-555-123-4567' },
-    { id: '2', name: 'Jane Smith', email: 'jane.smith@example.com', role: 'ROLE_USER', address: '456 Oak Ave', telephone: '+1-555-987-6543' },
-    { id: '3', name: 'Admin User', email: 'admin@example.com', role: 'ROLE_ADMIN', address: '789 Pine Rd', telephone: '+1-555-456-7890' },
-  ];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // Récupérer la liste des utilisateurs
-  getUsers(): Observable<User[]> {
-    return of(this.users);
-    // return this.http.get<User[]>(`${this.apiUrl}`);
-  }
-
-  // Ajouter un nouvel utilisateur
-  addUser(user: Omit<User, 'id'>): Observable<User> {
-    const newUser: User = {
-      id: (this.users.length + 1).toString(),
-      ...user,
-    };
-    this.users.push(newUser);
-    return of(newUser);
-    // return this.http.post<User>(`${this.apiUrl}`, user);
-  }
-
-  // Mettre à jour un utilisateur
-  updateUser(user: User): Observable<User> {
-    const index = this.users.findIndex(u => u.id === user.id);
-    if (index !== -1) {
-      this.users[index] = user;
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error('No authentication token found. Please login first.');
     }
-    return of(user);
-    // return this.http.put<User>(`${this.apiUrl}/${user.id}`, user);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  // Supprimer un utilisateur
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}`, { headers: this.getAuthHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error fetching users:', error);
+        return throwError(() => new Error('Failed to load users: ' + error.message));
+      })
+    );
+  }
+
+  addUser(user: Omit<User, 'id'>): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}`, user, { headers: this.getAuthHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error adding user:', error);
+        return throwError(() => new Error('Failed to add user: ' + error.message));
+      })
+    );
+  }
+
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/${user.id}`, user, { headers: this.getAuthHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error updating user:', error);
+        return throwError(() => new Error('Failed to update user: ' + error.message));
+      })
+    );
+  }
+
   deleteUser(id: string): Observable<void> {
-    this.users = this.users.filter(u => u.id !== id);
-    return of(undefined);
-    // return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error deleting user:', error);
+        return throwError(() => new Error('Failed to delete user: ' + error.message));
+      })
+    );
   }
 }

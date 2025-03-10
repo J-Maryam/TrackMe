@@ -17,10 +17,10 @@
       </h2>
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <div>
-          <label for="name" class="block text-[#4A6572] dark:text-[#A3BFFA] mb-1">Name</label>
-          <input id="name" formControlName="name" type="text" class="w-full p-2 rounded-lg bg-gray-100 dark:bg-[#34495E] text-[#4A6572] dark:text-white border border-gray-300 dark:border-[#34495E] focus:outline-none focus:ring-2 focus:ring-[#F4A261] dark:focus:ring-[#E07A5F]" placeholder="Enter name">
-          <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched" class="text-red-500 text-sm">
-            Name is required and must be at least 2 characters.
+          <label for="username" class="block text-[#4A6572] dark:text-[#A3BFFA] mb-1">Username</label>
+          <input id="username" formControlName="username" type="text" class="w-full p-2 rounded-lg bg-gray-100 dark:bg-[#34495E] text-[#4A6572] dark:text-white border border-gray-300 dark:border-[#34495E] focus:outline-none focus:ring-2 focus:ring-[#F4A261] dark:focus:ring-[#E07A5F]" placeholder="Enter name">
+          <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-red-500 text-sm">
+            Username is required and must be at least 2 characters.
           </div>
         </div>
         <div>
@@ -50,24 +50,26 @@
     <!-- Liste des utilisateurs -->
     <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
       <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Users List</h2>
-      <div class="overflow-x-auto">
+      <div *ngIf="isLoading" class="text-center py-4 text-[#4A6572] dark:text-[#A3BFFA]">Loading...</div>
+      <div *ngIf="errorMessage" class="text-red-500 text-sm mb-2">{{ errorMessage }}</div>
+      <div class="overflow-x-auto" *ngIf="!isLoading">
         <table class="w-full text-sm border-collapse">
           <thead>
           <tr class="bg-gray-100 dark:bg-[#34495E] border-b-2 border-[#4A6572]/20 dark:border-[#A3BFFA]/20">
             <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Name</th>
             <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Email</th>
             <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Address</th>
-            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Telephone</th>
+            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Phone Number</th>
             <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Role</th>
             <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider" scope="col">Actions</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let user of users" class="border-b border-gray-200 dark:border-[#34495E]/50 hover:bg-gray-50 dark:hover:bg-[#34495E]/30 transition-all duration-200">
-            <td class="py-3 px-4">{{ user.name }}</td>
+          <tr *ngFor="let user of paginatedUsers" class="border-b border-gray-200 dark:border-[#34495E]/50 hover:bg-gray-50 dark:hover:bg-[#34495E]/30 transition-all duration-200">
+            <td class="py-3 px-4">{{ user.username }}</td>
             <td class="py-3 px-4">{{ user.email }}</td>
             <td class="py-3 px-4">{{ user.address || 'N/A' }}</td>
-            <td class="py-3 px-4">{{ user.telephone || 'N/A' }}</td>
+            <td class="py-3 px-4">{{ user.phoneNumber || 'N/A' }}</td>
             <td class="py-3 px-4">{{ user.role | titlecase }}</td>
             <td class="py-3 px-4 flex space-x-2">
               <button (click)="editUser(user.id)" class="text-[#F4A261] hover:text-[#E07A5F] px-2 py-1 rounded transition-all duration-300" aria-label="Edit user">
@@ -86,7 +88,7 @@
         </table>
       </div>
       <!-- Pagination simple -->
-      <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-end" *ngIf="!isLoading">
         <button class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg mr-2 transition-all duration-300" [disabled]="currentPage === 1" (click)="previousPage()" aria-label="Previous page">
           Previous
         </button>
