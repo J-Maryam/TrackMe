@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { User, UserResponse } from '../../shared/models/user.model';
+import { UserResponse } from '../../shared/models/user.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -43,48 +43,6 @@ export class UserService {
       catchError(error => {
         console.error('Error fetching users:', error);
         return throwError(() => new Error('Failed to load users: ' + error.message));
-      })
-    );
-  }
-
-  addUser(user: Omit<User, 'id'>): Observable<UserResponse> {
-    return this.http.post<{ id: string; username: string; email: string; role: { roleName: string }; address: string; phoneNumber: string }>(
-      `${this.apiUrl}`,
-      { username: user.username, email: user.email, role: { roleName: user.role }, address: user.address, phoneNumber: user.phoneNumber, password: user.password },
-      { headers: this.getAuthHeaders() }
-    ).pipe(
-      map(response => ({
-        id: response.id,
-        username: response.username,
-        email: response.email,
-        role: response.role?.roleName || 'N/A',
-        address: response.address || 'N/A',
-        phoneNumber: response.phoneNumber || 'N/A'
-      })),
-      catchError(error => {
-        console.error('Error adding user:', error);
-        return throwError(() => new Error('Failed to add user: ' + error.message));
-      })
-    );
-  }
-
-  updateUser(user: User): Observable<UserResponse> {
-    return this.http.put<{ id: string; username: string; email: string; role: { roleName: string }; address: string; phoneNumber: string }>(
-      `${this.apiUrl}/${user.id}`,
-      { username: user.username, email: user.email, role: { roleName: user.role }, address: user.address, phoneNumber: user.phoneNumber, password: user.password },
-      { headers: this.getAuthHeaders() }
-    ).pipe(
-      map(response => ({
-        id: response.id,
-        username: response.username,
-        email: response.email,
-        role: response.role?.roleName || 'N/A',
-        address: response.address || 'N/A',
-        phoneNumber: response.phoneNumber || 'N/A'
-      })),
-      catchError(error => {
-        console.error('Error updating user:', error);
-        return throwError(() => new Error('Failed to update user: ' + error.message));
       })
     );
   }
