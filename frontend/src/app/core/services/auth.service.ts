@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import {Observable, BehaviorSubject, tap, throwError} from 'rxjs';
 import { User, AuthResponse } from '../../shared/models/user.model';
+import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +24,16 @@ export class AuthService {
         tap((response) => {
           if (response.token) {
             localStorage.setItem(this.tokenKey, response.token);
-            localStorage.setItem(this.roleKey, response.role || 'ROLE_USER');
-            this.roleSubject.next(response.role || 'ROLE_USER');
+            if (!response.role) {
+              throw new Error('Role not provided in the login response.');
+            }
+            localStorage.setItem(this.roleKey, response.role);
+            this.roleSubject.next(response.role);
           }
+        }),
+        catchError((error) => {
+          console.error('Login failed:', error);
+          return throwError(() => new Error('Login failed. Please check your credentials.'));
         })
     );
   }
