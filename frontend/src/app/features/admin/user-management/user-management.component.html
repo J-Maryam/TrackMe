@@ -88,14 +88,16 @@
         </table>
       </div>
       <!-- Pagination simple -->
-      <div class="mt-4 flex justify-end" *ngIf="!isLoading">
+      <div class="mt-4 flex justify-end" *ngIf="!isLoading && users.length > 0">
+        <span class="mr-4 text-[#4A6572] dark:text-[#A3BFFA]">Page {{ currentPage }} of {{ totalPages }}</span>
         <button class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg mr-2 transition-all duration-300" [disabled]="currentPage === 1" (click)="previousPage()" aria-label="Previous page">
           Previous
         </button>
-        <button class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg" [disabled]="currentPage * itemsPerPage >= users.length" (click)="nextPage()" aria-label="Next page">
+        <button class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg" [disabled]="currentPage === totalPages" (click)="nextPage()" aria-label="Next page">
           Next
         </button>
       </div>
+      <div *ngIf="!isLoading && users.length === 0" class="text-center py-4 text-[#4A6572] dark:text-[#A3BFFA]">No users found.</div>
     </div>
   </main>
 </div>

@@ -3,10 +3,10 @@ import { RouterLink, Router } from '@angular/router';
 import { NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import {SidebarComponent} from '../../../shared/components/sidebar/sidebar.component';
-import {User} from '../../../shared/models/user.model';
-import {UserService} from '../../../core/services/user.service';
-import {AuthService} from '../../../core/services/auth.service';
+import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { User, UserResponse } from '../../../shared/models/user.model';
+import { UserService } from '../../../core/services/user.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-user-management',
@@ -16,7 +16,7 @@ import {AuthService} from '../../../core/services/auth.service';
   imports: [SidebarComponent, RouterLink, NgFor, NgIf, NgClass, TitleCasePipe, ReactiveFormsModule],
 })
 export class UserManagementComponent implements OnInit {
-  users: User[] = [];
+  users: UserResponse[] = []; // Utilise UserResponse pour la liste
   userForm: FormGroup;
   isEditing: boolean = false;
   selectedUserId: string | null = null;
@@ -52,6 +52,7 @@ export class UserManagementComponent implements OnInit {
     this.userService.getUsers().subscribe({
       next: (users) => {
         this.users = users;
+        console.log('Loaded users:', this.users);
         this.isLoading = false;
       },
       error: (err) => {
@@ -131,16 +132,20 @@ export class UserManagementComponent implements OnInit {
     this.isEditing = false;
     this.selectedUserId = null;
     this.userForm.reset({
-      name: '',
+      username: '',
       email: '',
       role: 'ROLE_USER',
     });
   }
 
-  get paginatedUsers(): User[] {
+  get paginatedUsers(): UserResponse[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     return this.users.slice(start, end);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.users.length / this.itemsPerPage) || 1;
   }
 
   previousPage(): void {
@@ -150,7 +155,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   nextPage(): void {
-    if (this.currentPage * this.itemsPerPage < this.users.length) {
+    if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
   }
