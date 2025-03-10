@@ -8,12 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.youcode.trackme.common.ApiResponse;
 import org.youcode.trackme.security.dtos.AppUserDTO.CreateAppUserDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.ResponseAppUserDTO;
 import org.youcode.trackme.security.dtos.AuthDTO.RequestLoginDTO;
 import org.youcode.trackme.security.dtos.AuthDTO.ResponseLoginDTO;
 import org.youcode.trackme.security.dtos.PasswordDTO.ChangePasswordDTO;
 import org.youcode.trackme.security.services.interfaces.IAppUserService;
+import org.youcode.trackme.services.UserService;
 
 import java.util.List;
 
@@ -51,13 +53,17 @@ public class AppUserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/users/{username}")
-    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
-        appUserService.deleteUser(username);
-        return new ResponseEntity<>("Utilisateur est supprimé avec succès", HttpStatus.OK);
+//    @DeleteMapping("/admin/users/{username}")
+//    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) {
+//        appUserService.deleteUser(username);
+//        return new ResponseEntity<>("Utilisateur est supprimé avec succès", HttpStatus.OK);
+//    }
+
+    @DeleteMapping("/admin/users/{user_id}")
+    public ResponseEntity<ApiResponse<Void>> deleteUserById(@PathVariable("user_id") Long id) {
+        appUserService.delete(id);
+        return ResponseEntity.ok(ApiResponse.success(null, "Item deleted successfully"));
     }
-
-
 
     @PostMapping("/updatePassword")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
