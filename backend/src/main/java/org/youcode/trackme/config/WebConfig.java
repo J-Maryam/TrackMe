@@ -9,10 +9,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/public/**") // Autorise toutes les routes sous /api/public
-                .allowedOrigins("http://localhost:4200") // Autorise Angular
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Méthodes HTTP autorisées
-                .allowedHeaders("*") // Autorise tous les headers
-                .allowCredentials(true); // Permet les cookies/sessions
+        registry.addMapping("/api/**") // Applique CORS à toutes les routes
+                .allowedOrigins("http://localhost:4200") // Autorise uniquement localhost:4200
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // Méthodes HTTP autorisées
+                .allowedHeaders("*") // Tous les en-têtes autorisés
+                .allowCredentials(true); // Autorise les cookies/authentification si nécessaire
     }
 }
