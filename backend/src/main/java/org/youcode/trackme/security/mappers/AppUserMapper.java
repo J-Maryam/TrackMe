@@ -1,14 +1,15 @@
 package org.youcode.trackme.security.mappers;
 
-
 import org.mapstruct.*;
 import org.youcode.trackme.security.dtos.AppUserDTO.CreateAppUserDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.ResponseAppUserDTO;
+import org.youcode.trackme.security.dtos.AppRoleDTO.EmbeddableAppRoleDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.UpdateAppUserDTO;
+import org.youcode.trackme.security.entities.AppRole;
 import org.youcode.trackme.security.entities.AppUser;
 import org.youcode.trackme.security.mappers.helpers.AppRoleMapperHelper;
 
-@Mapper(componentModel = "spring",uses = {AppRoleMapperHelper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {AppRoleMapperHelper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AppUserMapper {
 
     @Mapping(target = "role", source = "roleId")
@@ -17,5 +18,11 @@ public interface AppUserMapper {
     @Mapping(target = "role", source = "roleId")
     AppUser updateEntityFromDTO(UpdateAppUserDTO updateAppUserDTO, @MappingTarget AppUser entity);
 
+    @Mapping(target = "role", expression = "java(mapRole(entity.getRole()))")
     ResponseAppUserDTO toDTO(AppUser entity);
+
+    default EmbeddableAppRoleDTO mapRole(AppRole role) {
+        if (role == null) return null;
+        return new EmbeddableAppRoleDTO(role.getRoleName());
+    }
 }
