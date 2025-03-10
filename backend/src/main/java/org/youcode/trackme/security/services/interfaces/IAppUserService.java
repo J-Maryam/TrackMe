@@ -14,6 +14,7 @@ public interface IAppUserService {
     ResponseAppUserDTO getByUsername(String username);
     List<ResponseAppUserDTO> getAllUsers();
     void deleteUser(String username);
+    void delete(Long id);
     ResponseAppUserDTO updateUser(String username , UpdateAppUserDTO updateAppUserDTO);
     void changePassword(ChangePasswordDTO changePasswordDTO);
     ResponseLoginDTO login(RequestLoginDTO loginRequest);

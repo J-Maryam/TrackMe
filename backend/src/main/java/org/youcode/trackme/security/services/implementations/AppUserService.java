@@ -80,13 +80,26 @@ public class AppUserService implements IAppUserService {
 
     }
 
+//    @Override
+//    public List<ResponseAppUserDTO> getAllUsers() {
+//        List<AppUser> users = appUserRepository.findAll();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String userAuth = authentication.getName();
+//        List<AppUser> newUsers = users.stream().filter(user -> !user.getUsername().equals(userAuth)).toList();
+//        return newUsers.stream().map(appUserMapper::toDTO).toList();
+//    }
+
     @Override
     public List<ResponseAppUserDTO> getAllUsers() {
         List<AppUser> users = appUserRepository.findAll();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userAuth = authentication.getName();
-        List<AppUser> newUsers = users.stream().filter(user -> !user.getUsername().equals(userAuth)).toList();
-        return newUsers.stream().map(appUserMapper::toDTO).toList();
+
+        List<AppUser> clientUsers = users.stream()
+                .filter(user -> user.getRole().getRoleName().equals("ROLE_CLIENT"))
+                .toList();
+
+        return clientUsers.stream()
+                .map(appUserMapper::toDTO)
+                .toList();
     }
 
     @Override
@@ -100,6 +113,13 @@ public class AppUserService implements IAppUserService {
         }
         appUserRepository.delete(user);
 
+    }
+
+    @Override
+    public void delete(Long id) {
+        AppUser entity = appUserRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with Id " + id + " not found"));
+        appUserRepository.delete(entity);
     }
 
     @Override
