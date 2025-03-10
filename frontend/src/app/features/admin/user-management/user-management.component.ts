@@ -7,6 +7,8 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
 import { User, UserResponse } from '../../../shared/models/user.model';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { RoleService } from '../../../core/services/role.service';
+import {Role} from '../../../shared/models/role.model';
 
 @Component({
   selector: 'app-user-management',
@@ -16,7 +18,8 @@ import { AuthService } from '../../../core/services/auth.service';
   imports: [SidebarComponent, RouterLink, NgFor, NgIf, NgClass, TitleCasePipe, ReactiveFormsModule],
 })
 export class UserManagementComponent implements OnInit {
-  users: UserResponse[] = []; // Utilise UserResponse pour la liste
+  users: UserResponse[] = [];
+  roles: Role[] = [];
   userForm: FormGroup;
   isEditing: boolean = false;
   selectedUserId: string | null = null;
@@ -27,6 +30,7 @@ export class UserManagementComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private roleService: RoleService,
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router
@@ -34,7 +38,7 @@ export class UserManagementComponent implements OnInit {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      role: ['ROLE_USER', Validators.required],
+      role: ['', Validators.required], // Initialisation vide, remplie dynamiquement
     });
   }
 
@@ -43,7 +47,23 @@ export class UserManagementComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+    this.loadRoles();
     this.loadUsers();
+  }
+
+  loadRoles(): void {
+    this.roleService.getRoles().subscribe({
+      next: (roles) => {
+        this.roles = roles;
+        if (roles.length > 0 && !this.userForm.get('role')?.value) {
+          this.userForm.get('role')?.setValue(roles[0].roleName); // Définit le premier rôle comme valeur par défaut
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load roles. Error: ' + err.message;
+        console.error('Error loading roles:', err);
+      },
+    });
   }
 
   loadUsers(): void {
@@ -134,7 +154,7 @@ export class UserManagementComponent implements OnInit {
     this.userForm.reset({
       username: '',
       email: '',
-      role: 'ROLE_USER',
+      role: this.roles.length > 0 ? this.roles[0].roleName : '', // Réinitialisation avec le premier rôle disponible
     });
   }
 
