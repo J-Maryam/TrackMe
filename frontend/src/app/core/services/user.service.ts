@@ -21,15 +21,6 @@ export class UserService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  // getUsers(): Observable<User[]> {
-  //   return this.http.get<User[]>(`${this.apiUrl}`, { headers: this.getAuthHeaders() }).pipe(
-  //     catchError(error => {
-  //       console.error('Error fetching users:', error);
-  //       return throwError(() => new Error('Failed to load users: ' + error.message));
-  //     })
-  //   );
-  // }
-
   getUsers(): Observable<UserResponse[]> {
     return this.http.get<any[]>(`${this.apiUrl}`, { headers: this.getAuthHeaders() }).pipe(
       map(response => response.map(user => ({
@@ -38,7 +29,8 @@ export class UserService {
         email: user.email,
         role: user.role?.roleName || 'N/A',
         address: user.address || 'N/A',
-        phoneNumber: user.phoneNumber || 'N/A'
+        phoneNumber: user.phoneNumber || 'N/A',
+        enabled: user.enabled !== undefined ? user.enabled : false
       }))),
       catchError(error => {
         console.error('Error fetching users:', error);
@@ -47,11 +39,22 @@ export class UserService {
     );
   }
 
-  deleteUser(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() }).pipe(
+  disableUser(id: string): Observable<void> {
+    const url = `${this.apiUrl}/${id}/disable`;
+    return this.http.put<void>(url, {}, { headers: this.getAuthHeaders() }).pipe(
       catchError(error => {
-        console.error('Error deleting user:', error);
-        return throwError(() => new Error('Failed to delete user: ' + error.message));
+        console.error('Error disabling user:', error);
+        return throwError(() => new Error('Failed to disable user: ' + error.message));
+      })
+    );
+  }
+
+  enableUser(id: string): Observable<void> {
+    const url = `${this.apiUrl}/${id}/enable`;
+    return this.http.put<void>(url, {}, { headers: this.getAuthHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error enabling user:', error);
+        return throwError(() => new Error('Failed to enable user: ' + error.message));
       })
     );
   }
