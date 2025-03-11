@@ -59,10 +59,16 @@ public class AppUserController {
 //        return new ResponseEntity<>("Utilisateur est supprimé avec succès", HttpStatus.OK);
 //    }
 
-    @DeleteMapping("/admin/users/{user_id}")
-    public ResponseEntity<ApiResponse<Void>> deleteUserById(@PathVariable("user_id") Long id) {
+    @PutMapping("/admin/users/{id}/disable")
+    public ResponseEntity<Void> disableUser(@PathVariable Long id) {
         appUserService.delete(id);
-        return ResponseEntity.ok(ApiResponse.success(null, "Item deleted successfully"));
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/admin/users/{id}/enable")
+    public ResponseEntity<Void> enableUser(@PathVariable Long id) {
+        appUserService.enableUser(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/updatePassword")
