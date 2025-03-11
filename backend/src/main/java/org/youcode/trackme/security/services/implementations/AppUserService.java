@@ -117,9 +117,18 @@ public class AppUserService implements IAppUserService {
 
     @Override
     public void delete(Long id) {
-        AppUser entity = appUserRepository.findById(id)
+        AppUser user = appUserRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User with Id " + id + " not found"));
-        appUserRepository.delete(entity);
+        user.setEnabled(false);
+        appUserRepository.save(user);
+    }
+
+    @Override
+    public void enableUser(Long id) {
+        AppUser user = appUserRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with Id " + id + " not found"));
+        user.setEnabled(true);
+        appUserRepository.save(user);
     }
 
     @Override
