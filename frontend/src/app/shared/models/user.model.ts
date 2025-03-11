@@ -6,6 +6,7 @@ export interface UserResponse {
   role: string;
   address: string;
   phoneNumber: string;
+  enabled: boolean;
 }
 
 // Interface pour les données d'entrée (avec password pour création/mise à jour)
@@ -17,10 +18,12 @@ export interface User {
   role: string;
   address: string;
   phoneNumber: string;
+  enabled?: boolean;
 }
 
 // Interface pour la réponse d'authentification du serveur
 export interface AuthResponse {
   token: string;
   role?: string;
+  enabled?: boolean;
 }
