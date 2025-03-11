@@ -4,12 +4,16 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youcode.trackme.common.PagedResponse;
 import org.youcode.trackme.common.exceptions.EntityCreationException;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.dtos.order.OrderRequestDTO;
+import org.youcode.trackme.dtos.order.OrderResponseDTO;
 import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
 
 import org.youcode.trackme.entities.Bracelet;
@@ -28,6 +32,8 @@ import org.youcode.trackme.security.entities.AppRole;
 import org.youcode.trackme.security.entities.AppUser;
 import org.youcode.trackme.security.repositories.AppRoleRepository;
 import org.youcode.trackme.services.OrderService;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -81,5 +87,19 @@ public class OrderServiceImpl implements OrderService {
             System.err.println("Erreur lors de l'exécution de completeOrder: " + e.getMessage());
             throw new EntityCreationException("Erreur lors de l'insertion de la commande: " + e.getMessage());
         }
+    }
+
+    @Override
+    public PagedResponse<OrderResponseDTO> getAll(Pageable pageable) {
+        Page<Order> dtoPage = orderRepository.findAll(pageable);
+        List<OrderResponseDTO> dtoList = dtoPage.getContent().stream().map(orderMapper::toOrderResponseDTO).toList();
+        return new PagedResponse<>(
+                dtoList,
+                dtoPage.getNumber(),
+                dtoPage.getSize(),
+                dtoPage.getTotalElements(),
+                dtoPage.getTotalPages(),
+                dtoPage.isLast()
+        );
     }
 }
