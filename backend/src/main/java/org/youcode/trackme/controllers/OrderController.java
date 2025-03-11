@@ -2,10 +2,13 @@ package org.youcode.trackme.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.youcode.trackme.common.ApiResponse;
 import org.youcode.trackme.common.ErrorResponse;
+import org.youcode.trackme.common.PagedResponse;
 import org.youcode.trackme.common.exceptions.EntityCreationException;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.dtos.order.OrderRequestDTO;
@@ -45,5 +48,11 @@ public class OrderController {
             ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<PagedResponse<OrderResponseDTO>>> getAll(Pageable pageable) {
+        PagedResponse<OrderResponseDTO> response = orderService.getAll(pageable);
+        return ResponseEntity.ok(ApiResponse.success(response, "Data retrieved successfully"));
     }
 }
