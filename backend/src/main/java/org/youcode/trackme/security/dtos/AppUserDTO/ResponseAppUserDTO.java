@@ -19,4 +19,6 @@ public class ResponseAppUserDTO {
     private String phoneNumber;
 
     private EmbeddableAppRoleDTO role;
+    private boolean enabled;
+
 }
