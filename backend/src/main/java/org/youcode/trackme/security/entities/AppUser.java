@@ -55,6 +55,8 @@ public class AppUser {
     @ManyToOne
     private AppRole role;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
 }
 
 
