@@ -27,6 +27,16 @@
       User Management
     </a>
 
+    <a *ngIf="isAdmin" routerLink="/order-management" [routerLinkActive]="'active'"
+       [ngClass]="isActive('/order-management') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+       class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+       aria-label="Go to Bracelet Management" [attr.aria-current]="isActive('/order-management') ? 'page' : null">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10M4 4h16v16H4z"></path>
+      </svg>
+      Order Management
+    </a>
+
     <!-- Lien spécifique au client : Assigned Bracelets -->
     <a *ngIf="!isAdmin" routerLink="/assigned-bracelets" [routerLinkActive]="'active'" [ngClass]="isActive('/assigned-bracelets') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
        class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
@@ -45,6 +55,16 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
       </svg>
       Alerts
+    </a>
+
+    <a *ngIf="isAdmin" routerLink="/reports" [routerLinkActive]="'active'"
+       [ngClass]="isActive('/reports') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+       class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+       aria-label="Go to Reports" [attr.aria-current]="isActive('/reports') ? 'page' : null">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m-9 4h12M5 7h14v10H5z"></path>
+      </svg>
+      Reports
     </a>
 
     <!-- Lien spécifique à l'admin : System Settings -->
