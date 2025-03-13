@@ -39,6 +39,10 @@ export class UserService {
     );
   }
 
+  getUserById(id: number): Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${this.apiUrl}/${id}`);
+  }
+
   disableUser(id: string): Observable<void> {
     const url = `${this.apiUrl}/${id}/disable`;
     return this.http.put<void>(url, {}, { headers: this.getAuthHeaders() }).pipe(
