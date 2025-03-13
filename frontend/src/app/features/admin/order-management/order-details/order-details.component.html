@@ -1,0 +1,112 @@
+<div *ngIf="order" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 animate-fade-in">
+  <div class="bg-white dark:bg-[#2E4057] p-8 rounded-2xl shadow-2xl w-full max-w-6xl transform transition-all duration-300 scale-95 hover:scale-100">
+    <div class="flex justify-between items-center mb-8 border-b border-gray-200 dark:border-[#34495E] pb-4">
+      <h2 class="text-2xl font-bold text-[#4A6572] dark:text-[#A3BFFA] flex items-center">
+        <svg class="w-6 h-6 mr-2 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6m-6 4h6m-6 4h6"></path>
+        </svg>
+        Order Details
+      </h2>
+      <button (click)="closeModal()" class="text-gray-500 dark:text-gray-400 hover:text-[#F4A261] dark:hover:text-[#E07A5F] transition-colors duration-200">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Section Bracelet -->
+      <div class="bg-gray-100 dark:bg-[#34495E] p-5 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg flex-1">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8"></path>
+          </svg>
+          Bracelet Details
+        </h3>
+        <div class="space-y-3 text-sm">
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Serial Number:</span> {{ order.bracelet?.serialNumber || 'N/A' }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Status:</span> {{ order.bracelet?.status || 'Unknown' }}</p>
+          <p class="flex items-center">
+            <span class="font-medium text-gray-700 dark:text-gray-300">Color:</span>
+            <span class="inline-block w-5 h-5 rounded-full ml-2 border border-gray-300" [ngStyle]="{ 'background-color': order.bracelet?.color || '#ccc' }"></span>
+            <span class="ml-2 text-gray-700 dark:text-gray-300">{{ order.bracelet?.color || 'N/A' }}</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Section Client -->
+      <div class="bg-gray-100 dark:bg-[#34495E] p-5 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg flex-1">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          Client Details
+        </h3>
+        <div class="space-y-3 text-sm">
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Username:</span> {{ order.user?.username || 'N/A' }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Email:</span> {{ order.user?.email || 'N/A' }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Phone:</span> {{ order.user?.phoneNumber || 'N/A' }}</p>
+<!--          <p><span class="font-medium text-gray-700 dark:text-gray-300">Address:</span> {{ order.user?.address || 'N/A' }}</p>-->
+        </div>
+      </div>
+
+      <!-- Section Patient -->
+      <div class="bg-gray-100 dark:bg-[#34495E] p-5 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg flex-1">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+          </svg>
+          Patient Details
+        </h3>
+        <div class="space-y-3 text-sm">
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Username:</span> {{ order.patient?.username || 'N/A' }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Date of Birth:</span> {{ order.patient?.dateOfBirth | date }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Age:</span> {{ calculateAge(order.patient?.dateOfBirth) }} ans</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Commande et Paiement -->
+    <div class="flex flex-col md:flex-row gap-6 mt-6">
+      <!-- Section Commande -->
+      <div class="bg-gray-100 dark:bg-[#34495E] p-5 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg flex-1">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6m-6 4h6m-6 4h6"></path>
+          </svg>
+          Order Details
+        </h3>
+        <div class="space-y-3 text-sm">
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Order ID:</span> {{ order.id }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Order Date:</span> {{ order.orderDate | date:'medium' }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Delivery Address:</span> {{ order.user?.address || 'N/A' }} </p>
+        </div>
+      </div>
+
+      <!-- Section Paiement -->
+      <div class="bg-gray-100 dark:bg-[#34495E] p-5 rounded-xl shadow-md transition-all duration-200 hover:shadow-lg flex-1">
+        <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+          </svg>
+          Payment Details
+        </h3>
+        <div class="space-y-3 text-sm">
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Amount:</span> {{ order.payment?.amount ? (order.payment.amount / 100 | number:'1.2-2') + ' £' : 'N/A' }}</p>
+          <p><span class="font-medium text-gray-700 dark:text-gray-300">Status:</span> {{ order.payment?.status || 'N/A' }}</p>
+<!--          <p><span class="font-medium text-gray-700 dark:text-gray-300">Payment Date:</span> {{ order.payment?.datePaiementl | date:'medium' }}</p>-->
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton pour fermer le modal -->
+    <div class="mt-8 flex justify-end space-x-4">
+      <button (click)="closeModal()" class="bg-[#F4A261] hover:bg-[#E07A5F] text-white px-6 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+        <span>Close</span>
+      </button>
+    </div>
+  </div>
+</div>
