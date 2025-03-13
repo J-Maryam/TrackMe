@@ -7,6 +7,8 @@ import {ClientDashboardComponent} from './features/client/client-dashboard/clien
 import {AuthGuard} from './core/guards/auth.guard';
 import {UserManagementComponent} from './features/admin/user-management/user-management.component';
 import {OrderListComponent} from './features/admin/order-management/order-list/order-list.component';
+import {ForbiddenComponent} from './shared/components/forbidden/forbidden.component';
+import {RoleGuard} from './core/guards/role.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -15,5 +17,12 @@ export const routes: Routes = [
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: ClientDashboardComponent, canActivate: [AuthGuard] },
   { path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard] },
-  { path: 'order-management', component: OrderListComponent, canActivate: [AuthGuard] },
+  {
+    path: 'order-management',
+    component: OrderListComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['ROLE_ADMIN'] },
+  },
+  { path: 'forbidden', component: ForbiddenComponent },
+
 ];
