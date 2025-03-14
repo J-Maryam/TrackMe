@@ -47,42 +47,20 @@
   transform: scale(1.05);
 }
 
-/* Grille */
-.grid-cols-1 {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.md\:grid-cols-2, .lg\:grid-cols-3 {
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Barre latérale */
-.w-64 {
-  width: 16rem;
-}
-
-.ml-64 {
-  margin-left: 16rem;
-}
-
-/* Cartes */
-.bg-white {
-  background-color: #FFFFFF;
-}
-
-.dark\:bg-\[#2E4057\] {
+/* Mode sombre */
+.dark .bg-white {
   background-color: #2E4057;
+}
+
+.dark .bg-gray-50 {
+  background-color: #34495E;
+}
+
+/* Animation pour les icônes */
+svg {
+  transition: transform 0.3s ease;
+}
+
+svg:hover {
+  transform: scale(1.1);
 }

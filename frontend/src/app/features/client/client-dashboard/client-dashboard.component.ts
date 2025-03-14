@@ -11,5 +11,8 @@ import {SidebarComponent} from '../../../shared/components/sidebar/sidebar.compo
   styleUrl: './client-dashboard.component.css'
 })
 export class ClientDashboardComponent {
-  constructor() {}
+  activeBracelets = 3;
+  recentAlerts = 2;
+  lowBattery = 1;
+  lastLocation = 'Paris, France';
 }
