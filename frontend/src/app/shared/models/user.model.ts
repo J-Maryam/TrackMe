@@ -1,6 +1,6 @@
 // Interface pour les données récupérées (sans password)
 export interface UserResponse {
-  id: string;
+  id: number;
   username: string;
   email: string;
   role: string;
@@ -10,7 +10,7 @@ export interface UserResponse {
 }
 
 export interface User {
-  id?: string;
+  id?: number;
   username: string;
   email: string;
   password?: string;
@@ -22,6 +22,11 @@ export interface User {
 
 export interface AuthResponse {
   token: string;
-  role?: string;
-  enabled?: boolean;
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+  address: string;
+  phoneNumber: string;
+  enabled: boolean;
 }
