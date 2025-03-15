@@ -1,0 +1,132 @@
+<div class="min-h-screen flex bg-[#F0F4F8] dark:bg-[#1E2A44] animate-fade">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-4 md:p-8 ml-0 md:ml-64 transition-all duration-300">
+    <header class="mb-6">
+      <h1 class="text-2xl md:text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Track Patient</h1>
+      <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-1">
+        Tracking location for {{ staticLocation.patientName }} (Static Example)
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Location Details Card -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md col-span-1 transition-all duration-300 hover:shadow-lg">
+        <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4 flex items-center space-x-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Location Details</span>
+        </h2>
+
+        <!-- Accordion-style details -->
+        <div class="space-y-2">
+          <!-- Address -->
+          <div class="border border-gray-200 dark:border-[#34495E] rounded-lg">
+            <button (click)="toggleSection('address')" class="w-full text-left p-3 flex items-center justify-between text-[#4A6572] dark:text-[#E2E8F0] hover:bg-gray-100 dark:hover:bg-[#34495E] transition-all duration-200">
+              <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 transition-transform duration-300" [ngClass]="{'rotate-90': expandedSections['address']}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="font-medium">Address</span>
+              </div>
+            </button>
+            <div *ngIf="expandedSections['address']" class="p-3 bg-gray-50 dark:bg-[#34495E] animate-slide-down">
+              <p class="text-[#4A6572] dark:text-[#E2E8F0] flex items-center justify-between">
+                {{ staticLocation.address }}
+                <button (click)="copyToClipboard(staticLocation.address)" class="text-[#F4A261] hover:text-[#E07A5F] transition-colors duration-200" title="Copy to clipboard">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2M8 5a2 2 0 002 2h4a2 2 0 002-2M8 5a2 2 0 012-2h4a2 2 0 012 2"></path>
+                  </svg>
+                </button>
+              </p>
+            </div>
+          </div>
+
+          <!-- City -->
+          <div class="border border-gray-200 dark:border-[#34495E] rounded-lg">
+            <button (click)="toggleSection('city')" class="w-full text-left p-3 flex items-center justify-between text-[#4A6572] dark:text-[#E2E8F0] hover:bg-gray-100 dark:hover:bg-[#34495E] transition-all duration-200">
+              <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 transition-transform duration-300" [ngClass]="{'rotate-90': expandedSections['city']}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="font-medium">City</span>
+              </div>
+            </button>
+            <div *ngIf="expandedSections['city']" class="p-3 bg-gray-50 dark:bg-[#34495E] animate-slide-down">
+              <p class="text-[#4A6572] dark:text-[#E2E8F0] flex items-center justify-between">
+                {{ staticLocation.city }}
+                <button (click)="copyToClipboard(staticLocation.city)" class="text-[#F4A261] hover:text-[#E07A5F] transition-colors duration-200" title="Copy to clipboard">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2M8 5a2 2 0 002 2h4a2 2 0 002-2M8 5a2 2 0 012-2h4a2 2 0 012 2"></path>
+                  </svg>
+                </button>
+              </p>
+            </div>
+          </div>
+
+          <!-- Country -->
+          <div class="border border-gray-200 dark:border-[#34495E] rounded-lg">
+            <button (click)="toggleSection('country')" class="w-full text-left p-3 flex items-center justify-between text-[#4A6572] dark:text-[#E2E8F0] hover:bg-gray-100 dark:hover:bg-[#34495E] transition-all duration-200">
+              <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 transition-transform duration-300" [ngClass]="{'rotate-90': expandedSections['country']}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="font-medium">Country</span>
+              </div>
+            </button>
+            <div *ngIf="expandedSections['country']" class="p-3 bg-gray-50 dark:bg-[#34495E] animate-slide-down">
+              <p class="text-[#4A6572] dark:text-[#E2E8F0] flex items-center justify-between">
+                {{ staticLocation.country }}
+                <button (click)="copyToClipboard(staticLocation.country)" class="text-[#F4A261] hover:text-[#E07A5F] transition-colors duration-200" title="Copy to clipboard">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2M8 5a2 2 0 002 2h4a2 2 0 002-2M8 5a2 2 0 012-2h4a2 2 0 012 2"></path>
+                  </svg>
+                </button>
+              </p>
+            </div>
+          </div>
+
+          <!-- Coordinates -->
+          <div class="border border-gray-200 dark:border-[#34495E] rounded-lg">
+            <button (click)="toggleSection('coordinates')" class="w-full text-left p-3 flex items-center justify-between text-[#4A6572] dark:text-[#E2E8F0] hover:bg-gray-100 dark:hover:bg-[#34495E] transition-all duration-200">
+              <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 transition-transform duration-300" [ngClass]="{'rotate-90': expandedSections['coordinates']}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="font-medium">Coordinates</span>
+              </div>
+            </button>
+            <div *ngIf="expandedSections['coordinates']" class="p-3 bg-gray-50 dark:bg-[#34495E] animate-slide-down">
+              <p class="text-[#4A6572] dark:text-[#E2E8F0] flex items-center justify-between">
+                Lat {{ staticLocation.lat }}, Lng {{ staticLocation.lng }}
+                <button (click)="copyToClipboard('Lat ' + staticLocation.lat + ', Lng ' + staticLocation.lng)" class="text-[#F4A261] hover:text-[#E07A5F] transition-colors duration-200" title="Copy to clipboard">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2M8 5a2 2 0 002 2h4a2 2 0 002-2M8 5a2 2 0 012-2h4a2 2 0 012 2"></path>
+                  </svg>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back Button -->
+        <button (click)="goBack()" class="mt-4 bg-[#F4A261] hover:bg-[#E07A5F] text-white px-4 py-2 rounded transition-all duration-300 flex items-center space-x-2 w-full justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          <span>Back to Bracelets</span>
+        </button>
+      </div>
+
+      <!-- Map Container -->
+      <div class="lg:col-span-2">
+        <div class="bg-white dark:bg-[#2E4057] p-4 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg">
+          <div id="map" class="h-[400px] md:h-[500px] w-full rounded-lg"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
