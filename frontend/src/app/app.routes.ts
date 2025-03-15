@@ -11,6 +11,7 @@ import {ForbiddenComponent} from './shared/components/forbidden/forbidden.compon
 import {RoleGuard} from './core/guards/role.guard';
 import {ProfileComponent} from './features/profile/profile.component';
 import {AssignedBraceletsComponent} from './features/client/assigned-bracelets/assigned-bracelets.component';
+import {TrackPatientComponent} from './features/client/track-patient/track-patient.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -28,5 +29,5 @@ export const routes: Routes = [
   },
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'assigned-bracelets', component: AssignedBraceletsComponent },
-
+  { path: 'patient-tracking/:patientId', component: TrackPatientComponent },
 ];
