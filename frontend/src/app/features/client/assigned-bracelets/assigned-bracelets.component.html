@@ -1,0 +1,67 @@
+<div class="min-h-screen flex bg-[#F0F4F8] dark:bg-[#1E2A44] animate-fade">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 ml-64">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Assigned Bracelets</h1>
+      <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">View patients linked to your bracelets.</p>
+    </header>
+
+    <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+      <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Bracelet List</h2>
+
+      <!-- Loading Spinner -->
+      <div *ngIf="isLoading" class="flex justify-center items-center py-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F4A261]"></div>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage && !isLoading" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Bracelet Table -->
+      <div *ngIf="!isLoading && bracelets.length > 0" class="overflow-x-auto rounded-lg shadow-md">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+          <tr class="bg-gray-100 dark:bg-[#34495E] border-b-2 border-[#4A6572]/20 dark:border-[#A3BFFA]/20">
+            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider">Serial Number</th>
+            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider">Status</th>
+            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider">Patient</th>
+            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider">Date of Birth</th>
+            <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA] font-medium uppercase tracking-wider">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let bracelet of bracelets" class="border-b border-gray-200 dark:border-[#34495E]/50 hover:bg-gray-50 dark:hover:bg-[#34495E]/30 transition-all duration-200">
+            <td class="py-3 px-4">{{ bracelet.serialNumber }}</td>
+            <td class="py-3 px-4">
+                <span [ngClass]="{'text-green-500': bracelet.status === 'Active', 'text-red-500': bracelet.status !== 'Active'}">
+                  {{ bracelet.status }}
+                </span>
+            </td>
+            <td class="py-3 px-4">{{ bracelet.patient.username }}</td>
+            <td class="py-3 px-4">{{ bracelet.patient.dateOfBirth | date }}</td>
+            <td class="py-3 px-4">
+              <button (click)="trackPatient(bracelet.patient.id)" class="bg-[#F4A261] hover:bg-[#E07A5F] text-white px-3 py-1 rounded transition-all duration-300 flex items-center space-x-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span>Track Location</span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- No Bracelets Message -->
+      <div *ngIf="!isLoading && bracelets.length === 0" class="text-center py-4 text-[#4A6572] dark:text-[#A3BFFA]">
+        No assigned bracelets found.
+      </div>
+    </div>
+  </main>
+</div>
