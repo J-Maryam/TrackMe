@@ -43,7 +43,7 @@ export class UserService {
     return this.http.get<UserResponse>(`${this.apiUrl}/${id}`);
   }
 
-  disableUser(id: string): Observable<void> {
+  disableUser(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}/disable`;
     return this.http.put<void>(url, {}, { headers: this.getAuthHeaders() }).pipe(
       catchError(error => {
@@ -53,7 +53,7 @@ export class UserService {
     );
   }
 
-  enableUser(id: string): Observable<void> {
+  enableUser(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}/enable`;
     return this.http.put<void>(url, {}, { headers: this.getAuthHeaders() }).pipe(
       catchError(error => {
