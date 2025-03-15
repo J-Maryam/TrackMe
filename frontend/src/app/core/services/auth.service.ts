@@ -59,7 +59,7 @@ export class AuthService {
     localStorage.removeItem(this.roleKey);
     localStorage.removeItem(this.userKey);
     this.roleSubject.next(null);
-    this.userSubject.next(null); // Ajout pour réinitialiser l'utilisateur
+    this.userSubject.next(null);
   }
 
   getToken(): string | null {
