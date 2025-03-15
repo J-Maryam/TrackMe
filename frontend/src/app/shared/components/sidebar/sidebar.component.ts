@@ -12,6 +12,7 @@ import {AuthService} from '../../../core/services/auth.service';
   imports: [RouterLink, NgIf, RouterLinkActive, NgClass],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  isSidebarOpen = false;
   isAdmin: boolean = false;
   currentRoute: string = '';
   private roleSubscription: Subscription = new Subscription();
@@ -42,5 +43,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
   // Vérifier si un lien est actif
   isActive(route: string): boolean {
     return this.currentRoute === route;
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
   }
 }

@@ -33,3 +33,13 @@
 [aria-current="page"] {
   font-weight: bold;
 }
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  .md\:translate-x-0 {
+    transform: translateX(-100%);
+  }
+  .translate-x-0 {
+    transform: translateX(0);
+  }
+}
