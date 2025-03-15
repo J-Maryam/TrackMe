@@ -27,6 +27,7 @@ export class TrackPatientComponent implements AfterViewInit {
     country: false,
     coordinates: false,
   };
+  showCopyNotification = false;
 
   constructor(private router: Router) {}
 
@@ -53,7 +54,10 @@ export class TrackPatientComponent implements AfterViewInit {
 
   copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text).then(() => {
-      alert(`Copied to clipboard: ${text}`);
+      this.showCopyNotification = true;
+      setTimeout(() => {
+        this.showCopyNotification = false;
+      }, 2000);
     }).catch(err => {
       console.error('Failed to copy: ', err);
     });
