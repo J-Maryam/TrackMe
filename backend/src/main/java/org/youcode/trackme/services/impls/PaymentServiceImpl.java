@@ -4,16 +4,24 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youcode.trackme.common.PagedResponse;
 import org.youcode.trackme.common.exceptions.EntityCreationException;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
+import org.youcode.trackme.dtos.order.OrderResponseDTO;
 import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
+import org.youcode.trackme.dtos.payment.PaymentResponseDTO;
+import org.youcode.trackme.entities.Order;
 import org.youcode.trackme.entities.Payment;
 import org.youcode.trackme.entities.enums.PaymentStatus;
 import org.youcode.trackme.mappers.PaymentMapper;
 import org.youcode.trackme.repositories.PaymentRepository;
 import org.youcode.trackme.services.PaymentService;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -64,5 +72,19 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new EntityNotFoundException("Paiement non trouvé avec transactionId: " + transactionId));
         payment.setStatus(PaymentStatus.SUCCEEDED);
         return paymentRepository.save(payment);
+    }
+
+    @Override
+    public PagedResponse<PaymentResponseDTO> getAll(Pageable pageable) {
+        Page<Payment> dtoPage = paymentRepository.findAll(pageable);
+        List<PaymentResponseDTO> dtoList = dtoPage.getContent().stream().map(paymentMapper::toDto).toList();
+        return new PagedResponse<>(
+                dtoList,
+                dtoPage.getNumber(),
+                dtoPage.getSize(),
+                dtoPage.getTotalElements(),
+                dtoPage.getTotalPages(),
+                dtoPage.isLast()
+        );
     }
 }
