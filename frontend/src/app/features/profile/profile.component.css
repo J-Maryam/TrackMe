@@ -1,0 +1,58 @@
+/* Style de base pour les formulaires */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Style pour les boutons */
+button {
+  transition: background-color 0.3s ease;
+}
+
+/* Style pour les champs désactivés */
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Style pour les sélecteurs */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+/* Mode sombre */
+.dark input,
+.dark select {
+  background-color: #374151;
+  color: #f3f4f6;
+}
+
+.dark input:disabled {
+  background-color: #4b5563;
+}
+
+/* Assurez-vous que la sidebar a une largeur fixe */
+app-sidebar {
+  width: 16rem; /* 64 en Tailwind */
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+/* Contenu principal */
+.main-content {
+  margin-left: 16rem; /* Même largeur que la sidebar */
+  flex: 1;
+  padding: 2rem; /* p-8 en Tailwind */
+}
+
+/* Mode sombre */
+.dark .main-content {
+  background-color: #111827; /* bg-gray-900 en Tailwind */
+}
