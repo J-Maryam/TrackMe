@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {Bracelet} from '../../shared/models/bracelet.model';
+import {AuthService} from './auth.service';
+import {ApiResponse} from '../../shared/models/api-response.model';
+import {catchError, map} from 'rxjs/operators';
 
-export interface Bracelet {
-  id: string;
-  status: 'active' | 'inactive';
-  batteryLevel: number;
-  assignedUser?: string;
+export interface AdminStats {
+  activeBracelets: number;
+  inactiveBracelets: number;
+  pendingAlerts: number;
+  totalClients: number;
 }
+
 
 export interface Alert {
   braceletId: string;
   time: string;
   status: 'resolved' | 'pending';
-}
-
-export interface AdminStats {
-  activeBracelets: number;
-  pendingAlerts: number;
-  averageBattery: number;
-  totalUsers: number;
 }
 
 @Injectable({
@@ -28,18 +26,23 @@ export interface AdminStats {
 export class AdminService {
   private apiUrl = 'http://localhost:8080/api/admin';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // Récupérer les statistiques globales
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getStats(): Observable<AdminStats> {
-    // Remplacer par une vraie requête HTTP
-    return of({
-      activeBracelets: 7,
-      pendingAlerts: 4,
-      averageBattery: 82,
-      totalUsers: 15,
-    });
-    // return this.http.get<AdminStats>(`${this.apiUrl}/stats`);
+    return this.http
+      .get<ApiResponse<AdminStats>>(`${this.apiUrl}/stats`, { headers: this.getAuthHeaders() })
+      .pipe(
+        map(response => response.data),
+        catchError(error => {
+          console.error('Error fetching stats:', error);
+          return throwError(() => new Error('Failed to load stats'));
+        })
+      );
   }
 
   // Récupérer l'historique des alertes
@@ -57,11 +60,11 @@ export class AdminService {
   // Récupérer la liste des bracelets
   getBracelets(): Observable<Bracelet[]> {
     // Remplacer par une vraie requête HTTP
-    return of([
-      { id: 'BR-001', status: 'active', batteryLevel: 90, assignedUser: 'John Doe' },
-      { id: 'BR-002', status: 'inactive', batteryLevel: 30, assignedUser: 'Jane Smith' },
-    ]);
-    // return this.http.get<Bracelet[]>(`${this.apiUrl}/bracelets`);
+    // return of([
+    //   { id: 'BR-001', status: 'active', batteryLevel: 90, assignedUser: 'John Doe' },
+    //   { id: 'BR-002', status: 'inactive', batteryLevel: 30, assignedUser: 'Jane Smith' },
+    // ]);
+    return this.http.get<Bracelet[]>(`${this.apiUrl}/bracelets`);
   }
 
   // Récupérer la liste des utilisateurs
