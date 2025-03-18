@@ -62,7 +62,7 @@ export class OrderComponent implements OnInit {
       email: ['', [Validators.required, Validators.email], [this.emailUniqueValidator()]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       address: ['', [Validators.required, Validators.minLength(5)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+\d{2,3}\s?\d{3}\s?\d{3}\s?\d{3}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+212\d{9}$/)]],  //Validators.pattern(/^\+\d{2,3}\s?\d{3}\s?\d{3}\s?\d{3}$/,
       patientName: ['', [Validators.required]],
       dateOfBirth: ['', [Validators.required, pastDateValidator()]],
       patientAge: [''],
@@ -115,11 +115,9 @@ export class OrderComponent implements OnInit {
     const rawValue = this.orderForm.getRawValue();
     console.log('Début de onSubmit, données envoyées:', rawValue);
 
-    this.errorMessage = ''; // Réinitialiser l'erreur avant la tentative
+    this.errorMessage = '';
     try {
-      const response = await this.http.post<any>('http://localhost:8080/api/public/orders/complete', rawValue).toPromise();
-      // Vérifier si la réponse indique un succès
-      if (response && response.text === 'Commande insérée avec succès') {
+      const response = await this.http.post<any>('http://localhost:8080/api/public/orders/complete', rawValue).toPromise();if (response && response.text === 'Commande insérée avec succès') {
         this.showSuccessAlert();
       } else {
         throw new Error('Réponse inattendue du serveur');
