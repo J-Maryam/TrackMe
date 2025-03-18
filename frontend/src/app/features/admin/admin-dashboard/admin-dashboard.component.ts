@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import {Bracelet} from '../../../shared/models/bracelet.model';
+import { Bracelet } from '../../../shared/models/bracelet.model';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -20,7 +20,6 @@ export class AdminDashboardComponent implements OnInit {
   bracelets: Bracelet[] = [];
   users: { id: string; name: string; role: string }[] = [];
 
-  // Configuration du graphique
   public lineChartData: ChartConfiguration['data'] = {
     datasets: [
       {
@@ -36,30 +35,25 @@ export class AdminDashboardComponent implements OnInit {
 
   public lineChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    plugins: {
-      legend: { display: true },
-    },
+    plugins: { legend: { display: true } },
   };
 
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
-    // Récupérer les statistiques
     this.adminService.getStats().subscribe((stats) => {
       this.stats = stats;
+      console.log(stats.totalClients, "cleint number : "+stats.totalClients+ "")
     });
 
-    // Récupérer l'historique des alertes
     this.adminService.getAlertHistory().subscribe((alerts) => {
       this.alerts = alerts;
     });
 
-    // Récupérer la liste des bracelets
     this.adminService.getBracelets().subscribe((bracelets) => {
       this.bracelets = bracelets;
     });
 
-    // Récupérer la liste des utilisateurs
     this.adminService.getUsers().subscribe((users) => {
       this.users = users;
     });
@@ -73,11 +67,9 @@ export class AdminDashboardComponent implements OnInit {
 
   editUser(userId: string): void {
     console.log('Edit user:', userId);
-    // Rediriger ou ouvrir un modal pour modifier l'utilisateur
   }
 
   deleteUser(userId: string): void {
     console.log('Delete user:', userId);
-    // Appeler une API pour supprimer l'utilisateur
   }
 }
