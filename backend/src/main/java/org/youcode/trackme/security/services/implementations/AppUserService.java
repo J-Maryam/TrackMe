@@ -2,6 +2,7 @@ package org.youcode.trackme.security.services.implementations;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,12 +16,14 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
 import org.youcode.trackme.security.config.Jwt.JwtUtils;
+import org.youcode.trackme.security.dtos.AppRoleDTO.EmbeddableAppRoleDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.CreateAppUserDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.ResponseAppUserDTO;
 import org.youcode.trackme.security.dtos.AppUserDTO.UpdateAppUserDTO;
 import org.youcode.trackme.security.dtos.AuthDTO.RequestLoginDTO;
 import org.youcode.trackme.security.dtos.AuthDTO.ResponseLoginDTO;
 import org.youcode.trackme.security.dtos.PasswordDTO.ChangePasswordDTO;
+import org.youcode.trackme.security.dtos.UpdateProfileDTO.UpdateProfileDTO;
 import org.youcode.trackme.security.entities.AppRole;
 import org.youcode.trackme.security.entities.AppUser;
 import org.youcode.trackme.security.mappers.AppUserMapper;
@@ -65,19 +68,28 @@ public class AppUserService implements IAppUserService {
     @Override
     public ResponseLoginDTO login(RequestLoginDTO loginRequest) {
 
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getEmail(),
-                            loginRequest.getPassword())
-            );
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
 
-            String token = jwtUtils.generateToken(loginRequest.getEmail());
-            ResponseLoginDTO response = new ResponseLoginDTO();
-            response.setToken(token);
-            response.setEmail(authentication.getName());
-            response.setRole(authentication.getAuthorities().iterator().next().getAuthority());
-            return response;
+        String token = jwtUtils.generateToken(loginRequest.getEmail());
 
+        AppUser user = appUserRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        ResponseLoginDTO response = new ResponseLoginDTO();
+        response.setToken(token);
+        response.setUsername(user.getUsername());
+        response.setAddress(user.getAddress());
+        response.setEmail(user.getEmail());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setRole(user.getRole().getRoleName());
+        response.setId(user.getId());
+        response.setEnabled(user.isEnabled());
+        return response;
     }
 
 //    @Override
@@ -158,17 +170,62 @@ public class AppUserService implements IAppUserService {
 
     @Override
     public void changePassword(ChangePasswordDTO changePasswordDTO) {
-        if(changePasswordDTO.getOldPassword().equals(changePasswordDTO.getNewPassword())) {
+        if (changePasswordDTO.getOldPassword().equals(changePasswordDTO.getNewPassword())) {
             throw new BadCredentialsException("Le nouveau mot de passe ne peut pas être identique à l'ancien mot de passe.");
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userAuth = authentication.getName();
-        AppUser user = appUserRepository.findByUsername(userAuth)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
+        String email = authentication.getName();
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé: " + email));
         if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(), user.getPassword())) {
             throw new BadCredentialsException("Ancien mot de passe incorrect");
         }
-         user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
-         appUserRepository.save(user);
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        appUserRepository.save(user);
+    }
+
+    @Override
+    public ResponseAppUserDTO getCurrentUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + email));
+        return mapToResponseDTO(user);
+    }
+
+    @Override
+    public ResponseAppUserDTO updateProfile(UpdateProfileDTO updateProfileDTO) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé: " + email));
+        user.setPhoneNumber(updateProfileDTO.phoneNumber());
+        user.setAddress(updateProfileDTO.address());
+        AppUser updatedUser = appUserRepository.save(user);
+        return mapToResponseDTO(updatedUser);
+    }
+
+    public void validateOldPassword(String oldPassword) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AppUser user = appUserRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new BadCredentialsException("Ancien mot de passe incorrect");
+        }
+    }
+
+    private ResponseAppUserDTO mapToResponseDTO(AppUser user) {
+        EmbeddableAppRoleDTO roleDTO = user.getRole() != null
+                ? new EmbeddableAppRoleDTO(user.getRole().getRoleName())
+                : null;
+
+        return new ResponseAppUserDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhoneNumber(),
+                roleDTO,
+                user.isEnabled()
+        );
     }
 }
