@@ -8,9 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.youcode.trackme.entities.enums.AlertStatus;
+import org.youcode.trackme.entities.enums.AlertType;
 
 import java.time.LocalDateTime;
-
 
 @Entity
 @Getter
@@ -30,10 +30,14 @@ public class Alert {
     private LocalDateTime timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    @JoinColumn(name = "bracelet_id", nullable = false)
+    private Bracelet bracelet;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private AlertStatus status;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AlertType type;
 }
