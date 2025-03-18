@@ -26,6 +26,17 @@ export class BraceletService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+  getAssignedBracelets(): Observable<Bracelet[]> {
+    return this.http
+      .get<Bracelet[]>(`${this.apiUrl}/public/bracelets/me`, { headers: this.getAuthHeaders() })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching assigned bracelets:', error);
+          return throwError(() => new Error('Failed to load assigned bracelets: ' + error.message));
+        })
+      );
+  }
+
   getAllBracelets(page: number = 0, size: number = 10): Observable<ApiResponse<PagedResponse<Bracelet>>> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -40,17 +51,6 @@ export class BraceletService {
         catchError(error => {
           console.error('Error fetching all bracelets:', error);
           return throwError(() => new Error('Failed to load all bracelets: ' + error.message));
-        })
-      );
-  }
-
-  getAssignedBracelets(): Observable<Bracelet[]> {
-    return this.http
-      .get<Bracelet[]>(`${this.apiUrl}/public/bracelets/me`, { headers: this.getAuthHeaders() })
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching assigned bracelets:', error);
-          return throwError(() => new Error('Failed to load assigned bracelets: ' + error.message));
         })
       );
   }
