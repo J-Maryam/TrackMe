@@ -3,12 +3,16 @@ package org.youcode.trackme.controllers;
 import com.stripe.exception.StripeException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.youcode.trackme.common.ApiResponse;
 import org.youcode.trackme.common.ErrorResponse;
+import org.youcode.trackme.common.PagedResponse;
 import org.youcode.trackme.common.exceptions.EntityCreationException;
 import org.youcode.trackme.common.exceptions.EntityNotFoundException;
+import org.youcode.trackme.dtos.order.OrderResponseDTO;
 import org.youcode.trackme.dtos.payment.ConfirmPaymentRequest;
 import org.youcode.trackme.dtos.payment.PaymentRequestDTO;
 import org.youcode.trackme.dtos.payment.PaymentResponseDTO;
@@ -69,5 +73,11 @@ public class PaymentController {
             ErrorResponse error = new ErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "Erreur inattendue : " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<PagedResponse<PaymentResponseDTO>>> getAll(Pageable pageable) {
+        PagedResponse<PaymentResponseDTO> response = paymentService.getAll(pageable);
+        return ResponseEntity.ok(ApiResponse.success(response, "Data retrieved successfully"));
     }
 }
