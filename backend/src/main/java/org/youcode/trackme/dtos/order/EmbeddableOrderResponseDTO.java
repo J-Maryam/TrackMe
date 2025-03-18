@@ -12,7 +12,7 @@ public record EmbeddableOrderResponseDTO(
         EmbeddableBraceletResponseDTO braceletId,
         OrderStatus status,
         double totalAmount,
-        LocalDateTime dateCommande,
+        LocalDateTime orderDate,
         LocalDateTime dateLivraison,
         String deliveryAddress,
         Long paymentId 
