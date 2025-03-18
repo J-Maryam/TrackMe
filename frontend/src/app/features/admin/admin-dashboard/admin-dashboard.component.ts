@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
-import { AdminService, AdminStats, Alert, Bracelet } from '../../../core/services/admin.service';
+import { AdminService, AdminStats, Alert } from '../../../core/services/admin.service';
 import { RouterLink } from '@angular/router';
 import { NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import {Bracelet} from '../../../shared/models/bracelet.model';
 
 @Component({
   selector: 'app-admin-dashboard',

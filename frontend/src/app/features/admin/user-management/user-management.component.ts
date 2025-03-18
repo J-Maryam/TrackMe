@@ -50,7 +50,6 @@ export class UserManagementComponent implements OnInit {
     this.loadUsers();
   }
 
-  /** Load users from the API */
   loadUsers(): void {
     this.isLoading = true;
     this.errorMessage = null;
@@ -67,7 +66,6 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  /** Apply status filter to the user list */
   applyFilter(): void {
     this.filteredUsers = this.filterStatus === 'all'
       ? [...this.users]
@@ -76,7 +74,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   /** Toggle user status (activate/deactivate) */
-  toggleUserStatus(id: string, enabled: boolean): void {
+  toggleUserStatus(id: number | undefined, enabled: boolean): void {
     const action = enabled ? 'deactivate' : 'activate';
     if (!confirm(`Are you sure you want to ${action} this user?`)) return;
 
@@ -101,29 +99,24 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  /** Get paginated users for the current page */
   get paginatedUsers(): UserResponse[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     return this.filteredUsers.slice(start, end);
   }
 
-  /** Get total number of pages */
   get totalPages(): number {
     return Math.ceil(this.filteredUsers.length / this.itemsPerPage) || 1;
   }
 
-  /** Navigate to the previous page */
   previousPage(): void {
     if (this.currentPage > 1) this.currentPage--;
   }
 
-  /** Navigate to the next page */
   nextPage(): void {
     if (this.currentPage < this.totalPages) this.currentPage++;
   }
 
-  /** Handle API errors */
   private handleError(err: any): void {
     if (err.status === 401) {
       this.errorMessage = 'Your session has expired. Please log in again.';

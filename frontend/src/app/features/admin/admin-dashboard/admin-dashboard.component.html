@@ -1,21 +1,18 @@
 <div class="min-h-screen flex bg-[#F0F4F8] dark:bg-[#1E2A44] animate-fade">
   <app-sidebar></app-sidebar>
-  <!-- Section principale -->
   <main class="flex-1 p-8 ml-64">
-    <!-- En-tête -->
     <header class="mb-8 flex justify-between items-center">
       <div>
         <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Admin Dashboard Overview</h1>
         <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Monitor and manage your SafeTrack system.</p>
       </div>
-      <div>
-        <button (click)="addUser()" class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-2 px-4 rounded-xl transition-all duration-300" aria-label="Add new user">
-          Add New User
-        </button>
-      </div>
+<!--      <div>-->
+<!--        <button (click)="addUser()" class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-2 px-4 rounded-xl transition-all duration-300" aria-label="Add new user">-->
+<!--          Add New User-->
+<!--        </button>-->
+<!--      </div>-->
     </header>
 
-    <!-- Cartes principales -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <!-- Carte Bracelets Actifs -->
       <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
@@ -26,7 +23,7 @@
           </svg>
         </div>
         <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.activeBracelets || 0 }}</p>
-        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Online devices</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Activate Bracelets</p>
       </div>
 
       <!-- Carte Alertes -->
@@ -136,8 +133,8 @@
               <td class="py-2" [ngClass]="bracelet.status === 'active' ? 'text-green-500' : 'text-red-500'">
                 {{ bracelet.status | titlecase }}
               </td>
-              <td class="py-2">{{ bracelet.batteryLevel }}%</td>
-              <td class="py-2">{{ bracelet.assignedUser || 'Unassigned' }}</td>
+<!--              <td class="py-2">{{ bracelet.batteryLevel }}%</td>-->
+<!--              <td class="py-2">{{ bracelet.assignedUser || 'Unassigned' }}</td>-->
             </tr>
             </tbody>
           </table>
