@@ -60,6 +60,14 @@
         </svg>
         Order Management
       </a>
+      <a routerLink="/bracelet-management" [routerLinkActive]="'active'" [ngClass]="isActive('/bracelet-management') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Bracelet Management" [attr.aria-current]="isActive('/bracelet-management') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10M4 4h16v16H4z"></path>
+        </svg>
+        Bracelet Management
+      </a>
     </div>
 
     <!-- Section : Surveillance (Client uniquement) -->
