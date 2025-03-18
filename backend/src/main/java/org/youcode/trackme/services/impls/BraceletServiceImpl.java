@@ -14,10 +14,13 @@ import org.youcode.trackme.entities.enums.BraceletStatus;
 import org.youcode.trackme.mappers.BraceletMapper;
 import org.youcode.trackme.repositories.BraceletRepository;
 import org.youcode.trackme.repositories.PatientRepository;
+import org.youcode.trackme.repositories.UserRepository;
 import org.youcode.trackme.services.BraceletService;
 import org.youcode.trackme.services.PatientService;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,12 +30,14 @@ public class BraceletServiceImpl extends GenericServiceImpl<Bracelet, Long, Brac
     private final BraceletRepository braceletRepository;
     private final BraceletMapper braceletMapper;
     private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
 
-    public BraceletServiceImpl(BraceletRepository repository, BraceletMapper mapper, PatientRepository patientRepository) {
+    public BraceletServiceImpl(BraceletRepository repository, BraceletMapper mapper, PatientRepository patientRepository, UserRepository userRepository) {
         super(repository, mapper);
         this.braceletRepository = repository;
         this.braceletMapper = mapper;
         this.patientRepository = patientRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -76,5 +81,38 @@ public class BraceletServiceImpl extends GenericServiceImpl<Bracelet, Long, Brac
     private String generateSerialNumber() {
         String randomPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         return "BRAC-" + randomPart;
+    }
+
+    @Override
+    public List<BraceletResponseDTO> getBraceletsByClientId(Long clientId) {
+        if (!userRepository.existsById(clientId)) {
+            throw new EntityNotFoundException("Client with ID " + clientId + " not found.");
+        }
+
+        List<Bracelet> bracelets = braceletRepository.findByPatientUserClientId(clientId);
+
+        if (bracelets.isEmpty()) {
+            throw new EntityNotFoundException("No bracelets found for client with ID " + clientId);
+        }
+
+        return bracelets.stream()
+                .map(braceletMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void activateBracelet(Long id) {
+        Bracelet bracelet = braceletRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Bracelet with id " + id + " not found"));
+        bracelet.setStatus(BraceletStatus.ACTIVE);
+        braceletRepository.save(bracelet);
+    }
+
+    @Override
+    public void deactivateBracelet(Long id) {
+        Bracelet bracelet = braceletRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Bracelet with id " + id + " not found"));
+        bracelet.setStatus(BraceletStatus.INACTIVE);
+        braceletRepository.save(bracelet);
     }
 }
