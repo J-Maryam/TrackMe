@@ -10,7 +10,7 @@ import org.youcode.trackme.security.dtos.AppRoleDTO.EmbeddableAppRoleDTO;
 @AllArgsConstructor
 public class ResponseAppUserDTO {
 
-    private String id;
+    private Long id;
 
     private String username;
 
