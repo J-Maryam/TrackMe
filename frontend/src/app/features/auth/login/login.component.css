@@ -87,4 +87,7 @@ button:disabled {
   .max-w-5xl {
     max-width: 100%;
   }
+  .w-80 {
+    width: 100%;
+  }
 }

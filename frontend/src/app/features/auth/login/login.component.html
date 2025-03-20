@@ -1,5 +1,5 @@
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#3498DB]/80 via-[#2C3E50]/80 to-[#3498DB]/80 py-12 px-4 sm:px-6 lg:px-8 animate-gradient">
-  <div class="relative max-w-5xl w-full bg-white/90 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden">
+  <div class="relative max-w-4xl w-full bg-white/90 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden">
     <!-- Fond géométrique décoratif -->
     <div class="absolute top-0 left-0 w-40 h-40 bg-[#E67E22]/20 rounded-full -translate-x-20 -translate-y-20 animate-pulse-slow"></div>
     <div class="absolute bottom-0 right-0 w-56 h-56 bg-[#3498DB]/30 rounded-full translate-x-24 translate-y-24 animate-pulse-slow"></div>
@@ -34,16 +34,16 @@
         <!-- Formulaire -->
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
           <!-- Email -->
-          <div class="relative">
+          <div class="relative mx-auto w-80">
             <input
               type="email"
               formControlName="email"
               placeholder="Adresse email"
               autocomplete="email"
-              class="w-full pl-6 pr-12 py-4 bg-white/70 dark:bg-[#2C3E50]/70 border-2 border-[#3498DB]/50 dark:border-[#3498DB]/30 rounded-full focus:border-[#E67E22] focus:ring-0 text-[#2C3E50] dark:text-white placeholder-[#7F8C8D] dark:placeholder-gray-400 transition-all duration-300"
+              class="w-full pl-6 pr-10 py-3 bg-white/70 dark:bg-[#2C3E50]/70 border-2 border-[#3498DB]/50 dark:border-[#3498DB]/30 rounded-full focus:border-[#E67E22] focus:ring-0 text-[#2C3E50] dark:text-white placeholder-[#7F8C8D] dark:placeholder-gray-400 transition-all duration-300 text-sm"
               aria-label="Adresse email"
             >
-            <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#3498DB] dark:text-[#E67E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#3498DB] dark:text-[#E67E22]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l9-6 9 6v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"></path>
             </svg>
             <div class="text-[#D35400] text-xs mt-2 pl-2" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
@@ -53,19 +53,19 @@
           </div>
 
           <!-- Mot de passe -->
-          <div class="relative">
+          <div class="relative mx-auto w-80">
             <input
               [type]="showPassword ? 'text' : 'password'"
               formControlName="password"
               placeholder="Mot de passe"
               autocomplete="current-password"
-              class="w-full pl-6 pr-12 py-4 bg-white/70 dark:bg-[#2C3E50]/70 border-2 border-[#3498DB]/50 dark:border-[#3498DB]/30 rounded-full focus:border-[#E67E22] focus:ring-0 text-[#2C3E50] dark:text-white placeholder-[#7F8C8D] dark:placeholder-gray-400 transition-all duration-300"
+              class="w-full pl-6 pr-10 py-3 bg-white/70 dark:bg-[#2C3E50]/70 border-2 border-[#3498DB]/50 dark:border-[#3498DB]/30 rounded-full focus:border-[#E67E22] focus:ring-0 text-[#2C3E50] dark:text-white placeholder-[#7F8C8D] dark:placeholder-gray-400 transition-all duration-300 text-sm"
               aria-label="Mot de passe"
             >
             <button
               type="button"
               (click)="togglePasswordVisibility()"
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-[#3498DB] hover:text-[#E67E22] focus:outline-none transition-all duration-300"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-[#3498DB] hover:text-[#E67E22] focus:outline-none transition-all duration-300"
               aria-label="Afficher ou masquer le mot de passe"
             >
               <svg *ngIf="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -83,17 +83,19 @@
           </div>
 
           <!-- Bouton Connexion -->
-          <button
-            type="submit"
-            class="w-full bg-[#E67E22] hover:bg-[#D35400] text-white py-3 px-6 rounded-full text-lg font-semibold transition-all duration-300 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-[#E67E22]/50 flex items-center justify-center shadow-md hover:shadow-lg"
-            [disabled]="!loginForm.valid || isLoading"
-            aria-label="Se connecter"
-          >
-            <svg *ngIf="isLoading" class="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 1116 0A8 8 0 014 12z"></path>
-            </svg>
-            <span>{{ isLoading ? 'Connexion...' : 'Se connecter' }}</span>
-          </button>
+          <div class="mx-auto w-80">
+            <button
+              type="submit"
+              class="w-full bg-[#E67E22] hover:bg-[#D35400] text-white py-3 px-6 rounded-full text-lg font-semibold transition-all duration-300 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-[#E67E22]/50 flex items-center justify-center shadow-md hover:shadow-lg"
+              [disabled]="!loginForm.valid || isLoading"
+              aria-label="Se connecter"
+            >
+              <svg *ngIf="isLoading" class="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 1116 0A8 8 0 014 12z"></path>
+              </svg>
+              <span>{{ isLoading ? 'Connexion...' : 'Se connecter' }}</span>
+            </button>
+          </div>
         </form>
 
         <!-- Liens -->
