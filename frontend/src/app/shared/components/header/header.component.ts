@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {LoginComponent} from '../../../features/auth/login/login.component';
+import {AuthComponent} from '../../../features/auth/auth.component';
 import {RouterLink} from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import {RouterLink} from '@angular/router';
   templateUrl: './header.component.html',
   standalone: true,
   imports: [
-    LoginComponent,
+    AuthComponent,
     RouterLink
   ],
   styleUrls: ['./header.component.css']

@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from './features/home/home.component';
-import {LoginComponent} from './features/auth/login/login.component';
+import {AuthComponent} from './features/auth/auth.component';
 import {OrderComponent} from './features/order/order.component';
 import {AdminDashboardComponent} from './features/admin/admin-dashboard/admin-dashboard.component';
 import {ClientDashboardComponent} from './features/client/client-dashboard/client-dashboard.component';
@@ -17,7 +17,7 @@ import {BraceletManagementComponent} from './features/admin/bracelet-management/
 
 export const routes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: AuthComponent},
   {path: 'commande', component: OrderComponent},
   {path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard]},
   {path: 'dashboard', component: ClientDashboardComponent, canActivate: [AuthGuard]},
