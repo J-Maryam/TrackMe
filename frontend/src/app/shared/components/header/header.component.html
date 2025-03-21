@@ -1,14 +1,13 @@
 <header class="bg-[#2C3E50] fixed top-0 left-0 right-0 z-50 transition-shadow duration-300 shadow-lg p-4 rounded-full mx-auto mt-4 w-11/12 flex items-center justify-between">
   <div class="text-2xl font-bold text-white pl-6">SafeTrack</div>
   <nav class="space-x-6 hidden md:flex">
-    <a href="#home" class="text-gray-300 font-medium hover:text-[#3498DB] transition-all">Home</a>
-    <a href="#about" class="text-gray-300 hover:text-[#3498DB] transition-all">About</a>
-    <a href="#features" class="text-gray-300 hover:text-[#3498DB] transition-all">Features</a>
-    <a href="#pricing" class="text-gray-300 hover:text-[#3498DB] transition-all">Pricing</a>
-    <a href="#contact" class="text-gray-300 hover:text-[#3498DB] transition-all">Contact</a>
+    <a (click)="scrollToHome()" class="text-gray-300 font-medium hover:text-[#3498DB] transition-all cursor-pointer">Home</a>
+    <a (click)="scrollToAbout()" class="text-gray-300 hover:text-[#3498DB] transition-all cursor-pointer">About</a>
+    <a (click)="scrollToFeatures()" class="text-gray-300 hover:text-[#3498DB] transition-all cursor-pointer">Features</a>
+    <a (click)="scrollToFaq()" class="text-gray-300 hover:text-[#3498DB] transition-all cursor-pointer">FAQ</a>
+    <a (click)="scrollToContact()" class="text-gray-300 hover:text-[#3498DB] transition-all cursor-pointer">Contact</a>
   </nav>
 
-  <!-- Bouton pour ouvrir la popup -->
   <button routerLink="/login" class="bg-[#E67E22] text-white px-6 py-2 rounded-full hover:bg-[#D35400] transition-all mr-6">
     Get Started
   </button>

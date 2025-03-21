@@ -1,12 +1,9 @@
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#3498DB]/80 via-[#2C3E50]/80 to-[#3498DB]/80 py-12 px-4 sm:px-6 lg:px-8 animate-gradient">
   <div class="relative max-w-4xl w-full bg-white/90 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden">
-    <!-- Fond géométrique décoratif -->
     <div class="absolute top-0 left-0 w-40 h-40 bg-[#E67E22]/20 rounded-full -translate-x-20 -translate-y-20 animate-pulse-slow"></div>
     <div class="absolute bottom-0 right-0 w-56 h-56 bg-[#3498DB]/30 rounded-full translate-x-24 translate-y-24 animate-pulse-slow"></div>
 
-    <!-- Contenu principal -->
     <div class="grid grid-cols-1 lg:grid-cols-5 relative z-10">
-      <!-- Section Image (gauche) -->
       <div class="hidden lg:block lg:col-span-2 relative overflow-hidden bg-[#2C3E50]/10">
         <div class="absolute inset-0 bg-gradient-to-br from-[#3498DB]/50 via-[#2C3E50]/50 to-[#E67E22]/30 animate-flow"></div>
         <div class="flex items-center justify-center h-full p-6 relative z-10">
@@ -18,7 +15,6 @@
         </div>
       </div>
 
-      <!-- Section Formulaire (droite) -->
       <div class="lg:col-span-3 p-8 sm:p-12 flex flex-col justify-center">
         <div class="relative mb-10">
           <h2 class="text-4xl font-bold text-[#2C3E50] dark:text-white tracking-wide text-center lg:text-left">{{ isRegisterMode ? 'Inscription' : 'Connexion' }}</h2>
@@ -26,16 +22,12 @@
           <p class="text-[#7F8C8D] dark:text-gray-400 text-sm mt-4 text-center lg:text-left">{{ isRegisterMode ? 'Créez votre compte SafeTrack' : 'Accédez à vos bracelets en un clic' }}</p>
         </div>
 
-        <!-- Message d'erreur -->
         <div *ngIf="serverError" class="mb-6 p-3 bg-[#E67E22]/10 border-l-4 border-[#D35400] text-[#D35400] rounded-r-lg text-sm animate-pulse">
           {{ serverError }}
         </div>
 
-        <!-- Formulaire -->
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-6">
-          <!-- Mode Connexion : Inputs originaux -->
           <ng-container *ngIf="!isRegisterMode">
-            <!-- Email -->
             <div class="relative mx-auto w-80">
               <input
                 type="email"
@@ -54,7 +46,6 @@
               </div>
             </div>
 
-            <!-- Mot de passe -->
             <div class="relative mx-auto w-80">
               <input
                 [type]="showPassword ? 'text' : 'password'"
@@ -83,7 +74,6 @@
                 <span *ngIf="authForm.get('password')?.errors?.['minlength']">Minimum 6 caractères.</span>
               </div>
             </div>
-            <!-- Bouton en mode Connexion -->
             <div class="mx-auto w-80">
               <button
                 type="submit"
@@ -99,10 +89,8 @@
             </div>
           </ng-container>
 
-          <!-- Mode Inscription : Inputs côte à côte avec bouton à côté de phoneNumber -->
           <ng-container *ngIf="isRegisterMode">
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 mx-auto max-w-3xl">
-              <!-- Nom -->
               <div class="relative">
                 <input
                   type="text"
@@ -120,7 +108,6 @@
                 </div>
               </div>
 
-              <!-- Email -->
               <div class="relative">
                 <input
                   type="email"
@@ -139,7 +126,6 @@
                 </div>
               </div>
 
-              <!-- Mot de passe -->
               <div class="relative">
                 <input
                   [type]="showPassword ? 'text' : 'password'"
@@ -169,7 +155,6 @@
                 </div>
               </div>
 
-              <!-- Adresse -->
               <div class="relative">
                 <input
                   type="text"
@@ -188,9 +173,7 @@
                 </div>
               </div>
 
-              <!-- Numéro de téléphone et Bouton côte à côte -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-4 sm:col-span-2">
-                <!-- Numéro de téléphone -->
                 <div class="relative">
                   <input
                     type="tel"
@@ -209,7 +192,6 @@
                   </div>
                 </div>
 
-                <!-- Bouton -->
                 <div>
                   <button
                     type="submit"

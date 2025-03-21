@@ -1,4 +1,3 @@
-/* Fond dégradé animé */
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradientAnimation 10s ease infinite;
@@ -10,7 +9,6 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Effet de flow pour le fond de l'image */
 .animate-flow {
   background-size: 300% 300%;
   animation: flowAnimation 12s ease infinite;
@@ -24,7 +22,6 @@
   100% { background-position: 0% 0%; }
 }
 
-/* Animation pour les messages d'erreur et cercles décoratifs */
 .animate-pulse-slow {
   animation: pulseSlow 4s infinite;
 }
@@ -35,7 +32,6 @@
   100% { transform: scale(1); }
 }
 
-/* Animation de spinner */
 .animate-spin {
   animation: spin 1s linear infinite;
 }
@@ -45,22 +41,18 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Amélioration des champs de saisie */
 input:focus {
   outline: none;
 }
 
-/* Glassmorphism */
 .backdrop-blur-2xl {
   backdrop-filter: blur(12px);
 }
 
-/* Boutons */
 button:disabled {
   cursor: not-allowed;
 }
 
-/* Ajustements pour la grille */
 .grid-cols-1 {
   display: grid;
   grid-template-columns: 1fr;
@@ -76,7 +68,6 @@ button:disabled {
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .p-8 {
     padding: 1.5rem;
