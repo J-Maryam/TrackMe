@@ -6,11 +6,6 @@
         <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Admin Dashboard Overview</h1>
         <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Monitor and manage your SafeTrack system.</p>
       </div>
-<!--      <div>-->
-<!--        <button (click)="addUser()" class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-2 px-4 rounded-xl transition-all duration-300" aria-label="Add new user">-->
-<!--          Add New User-->
-<!--        </button>-->
-<!--      </div>-->
     </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -96,13 +91,12 @@
       <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
         <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-4">Tracking Trends</h3>
         <div class="flex justify-between text-sm mb-2">
-          <span class="text-[#7D9D9C] dark:text-[#A3BFFA]/70">Success Rate</span>
-          <span class="text-green-500">88%</span>
+          <span class="text-[#7D9D9C] dark:text-[#A3BFFA]/70">Success Rate (Avg)</span>
+          <span class="text-green-500">{{ calculateAverageSuccessRate() }}%</span>
         </div>
         <div class="w-full bg-gray-200 dark:bg-[#34495E] rounded-full h-2 mb-4">
-          <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" style="width: 88%"></div>
+          <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" [style.width]="calculateAverageSuccessRate() + '%'"></div>
         </div>
-        <!-- Graphique -->
         <div class="h-48">
           <canvas baseChart
                   [data]="lineChartData"

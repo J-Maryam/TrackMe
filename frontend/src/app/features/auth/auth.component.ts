@@ -5,12 +5,13 @@ import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import {HeaderComponent} from '../../shared/components/header/header.component';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, RouterLink],
+  imports: [NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent {

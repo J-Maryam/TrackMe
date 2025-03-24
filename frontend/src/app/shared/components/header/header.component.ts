@@ -7,7 +7,6 @@ import { RouterLink } from '@angular/router';
   templateUrl: './header.component.html',
   standalone: true,
   imports: [
-    AuthComponent,
     RouterLink
   ],
   styleUrls: ['./header.component.css']

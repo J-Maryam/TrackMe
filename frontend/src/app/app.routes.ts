@@ -16,27 +16,78 @@ import {AlertsComponent} from './features/client/alerts/alerts.component';
 import {BraceletManagementComponent} from './features/admin/bracelet-management/bracelet-management.component';
 
 export const routes: Routes = [
+  // public routes
   {path: '', component: HomeComponent, pathMatch: 'full'},
-  {path: 'login', component: AuthComponent},
+  {
+    path: 'login',
+    component: AuthComponent,
+    canActivate: [AuthGuard],
+    data: {redirectIfAuthenticated: true}
+  },
   {path: 'commande', component: OrderComponent},
-  {path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard]},
-  {path: 'dashboard', component: ClientDashboardComponent, canActivate: [AuthGuard]},
-  {path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+
+  // protected routes
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+
+  // routes for admin
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['ROLE_ADMIN']}
+  },
+  {
+    path: 'user-management',
+    component: UserManagementComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['ROLE_ADMIN']}
+  },
   {
     path: 'order-management',
     component: OrderListComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {roles: ['ROLE_ADMIN']},
+    data: {roles: ['ROLE_ADMIN']}
   },
   {
     path: 'bracelet-management',
     component: BraceletManagementComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {roles: ['ROLE_ADMIN']},
+    data: {roles: ['ROLE_ADMIN']}
   },
+
+  // routes for clients
+  {
+    path: 'dashboard',
+    component: ClientDashboardComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['ROLE_USER']}
+  },
+  {
+    path: 'assigned-bracelets',
+    component: AssignedBraceletsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['ROLE_USER']}
+  },
+  {
+    path: 'patient-tracking/:patientId',
+    component: TrackPatientComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['ROLE_USER']}
+  },
+  {
+    path: 'alerts',
+    component: AlertsComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: {roles: ['ROLE_USER']}
+  },
+
+  // Route pour accès interdit
   {path: 'forbidden', component: ForbiddenComponent},
-  {path: 'assigned-bracelets', component: AssignedBraceletsComponent},
-  {path: 'patient-tracking/:patientId', component: TrackPatientComponent},
-  {path: 'alerts', component: AlertsComponent},
+
+  // Route wildcard pour les URL non trouvees
+  {path: '**', redirectTo: ''}
 ];
