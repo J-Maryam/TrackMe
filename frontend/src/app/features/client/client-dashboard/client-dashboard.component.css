@@ -1,6 +1,5 @@
-/* Animation de fondu pour le fond */
 .animate-fade {
-  animation: fadeIn 2s ease-in-out;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -8,29 +7,6 @@
   100% { opacity: 1; }
 }
 
-/* Animation pour les placeholders */
-.animate-pulse {
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
-}
-
-/* Animation lente pour le logo */
-.animate-pulse-slow {
-  animation: pulseSlow 4s infinite;
-}
-
-@keyframes pulseSlow {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Styles généraux */
 .shadow-md {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -43,24 +19,86 @@
   transition: all 0.3s ease-in-out;
 }
 
-.transform:hover:scale-105 {
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hover\:scale-105:hover {
   transform: scale(1.05);
 }
 
-/* Mode sombre */
-.dark .bg-white {
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 1rem;
+}
+
+.ml-64 {
+  margin-left: 16rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.md\:grid-cols-2 {
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.lg\:grid-cols-3 {
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.last\:mb-0:last-child {
+  margin-bottom: 0;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.bg-white {
+  background-color: #FFFFFF;
+}
+
+.dark\:bg-\[#2E4057\] {
   background-color: #2E4057;
 }
 
-.dark .bg-gray-50 {
+.bg-\[#F0F4F8\] {
+  background-color: #F0F4F8;
+}
+
+.dark\:bg-\[#34495E\] {
   background-color: #34495E;
-}
-
-/* Animation pour les icônes */
-svg {
-  transition: transform 0.3s ease;
-}
-
-svg:hover {
-  transform: scale(1.1);
 }

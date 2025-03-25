@@ -1,121 +1,125 @@
-<div class="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-  <!-- Sidebar -->
+<div class="flex min-h-screen bg-[#F0F4F8] dark:bg-[#1E2A44] animate-fade">
   <app-sidebar></app-sidebar>
 
-  <!-- Contenu principal -->
-  <div class="flex-1 p-8 ml-64"> <!-- ml-64 pour laisser de l'espace à la sidebar -->
+  <div class="flex-1 p-8 ml-64">
     <div class="max-w-7xl mx-auto">
-      <!-- Titre du dashboard -->
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Tableau de bord</h1>
+      <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA] mb-8">Tableau de bord</h1>
 
-      <!-- Cartes principales -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <!-- Carte Bracelets Actifs -->
-        <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Bracelets actifs</h3>
-            <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 2c-2.761 0-5 2.239-5 5h10c0-2.761-2.239-5-5-5z"></path>
             </svg>
           </div>
-          <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">7</p>
+          <p class="text-4xl font-bold text-[#F4A261]">{{ activeBracelets }}</p>
           <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Appareils en ligne</p>
         </div>
 
         <!-- Carte Alertes -->
-        <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Alertes en attente</h3>
-            <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">4</p>
+          <p class="text-4xl font-bold text-[#F4A261]">{{ recentAlerts }}</p>
           <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">En attente d'action</p>
         </div>
 
         <!-- Carte Batterie -->
-        <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Batterie moyenne</h3>
-            <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
             </svg>
           </div>
-          <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">82%</p>
-          <div class="w-full bg-gray-200 dark:bg-[#34495E] rounded-full h-2 mt-2">
-            <div class="bg-[#F4A261] dark:bg-[#E07A5F] h-2 rounded-full" style="width: 82%"></div>
+          <p class="text-4xl font-bold text-[#F4A261]">{{ batteryAverage }}%</p>
+          <div class="w-full bg-[#F0F4F8] dark:bg-[#34495E] rounded-full h-2 mt-2">
+            <div class="bg-[#F4A261] h-2 rounded-full" [style.width]="batteryAverage + '%'"></div>
           </div>
         </div>
       </div>
 
       <!-- Section : Carte de localisation -->
-      <div class="bg-white dark:bg-[#2E4057] shadow rounded-lg p-6 mb-8">
+      <div class="bg-white dark:bg-[#2E4057] shadow-md rounded-xl p-6 mb-8">
         <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-6">Localisation des bracelets</h2>
-        <div class="h-96 bg-gray-200 dark:bg-[#34495E] rounded-lg flex items-center justify-center">
-          <p class="text-gray-500 dark:text-gray-400">Carte interactive ici</p>
+        <div class="h-65 rounded-lg overflow-y-auto">
+          <div *ngIf="patientLocations.length === 0" class="flex items-center justify-center h-full text-[#7D9D9C] dark:text-[#A3BFFA]/70">
+            Aucune localisation disponible
+          </div>
+          <div *ngFor="let patient of patientLocations" class="flex items-center p-4 bg-[#F0F4F8] dark:bg-[#34495E] rounded-lg mb-2 last:mb-0">
+            <div class="flex-shrink-0">
+              <svg class="w-6 h-6 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-[#4A6572] dark:text-[#A3BFFA]">{{ patient.name }}</p>
+              <p class="text-sm text-[#7D9D9C] dark:text-[#A3BFFA]/70">Lat: {{ patient.lat.toFixed(4) }}, Lng: {{ patient.lng.toFixed(4) }}</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Section : Alertes récentes -->
-      <div class="bg-white dark:bg-[#2E4057] shadow rounded-lg p-6 mb-8">
+      <div class="bg-white dark:bg-[#2E4057] shadow-md rounded-xl p-6 mb-8">
         <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-6">Alertes récentes</h2>
         <div class="space-y-4">
-          <!-- Alerte 1 -->
-          <div class="flex items-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+          <div class="flex items-center p-4 bg-[#E07A5F]/10 dark:bg-[#E07A5F]/20 rounded-lg">
             <div class="flex-shrink-0">
-              <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-red-700 dark:text-red-300">Alerte : Bracelet hors zone</p>
-              <p class="text-sm text-red-600 dark:text-red-400">Il y a 15 minutes</p>
+              <p class="text-sm font-medium text-[#E07A5F]">Alerte : Bracelet hors zone</p>
+              <p class="text-sm text-[#7D9D9C] dark:text-[#A3BFFA]/70">Il y a 15 minutes</p>
             </div>
           </div>
-
-          <!-- Alerte 2 -->
-          <div class="flex items-center p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+          <div class="flex items-center p-4 bg-[#F4A261]/10 dark:bg-[#F4A261]/20 rounded-lg">
             <div class="flex-shrink-0">
-              <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-[#F4A261]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-yellow-700 dark:text-yellow-300">Alerte : Batterie faible</p>
-              <p class="text-sm text-yellow-600 dark:text-yellow-400">Il y a 2 heures</p>
+              <p class="text-sm font-medium text-[#F4A261]">Alerte : Batterie faible</p>
+              <p class="text-sm text-[#7D9D9C] dark:text-[#A3BFFA]/70">Il y a 2 heures</p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Section : Historique des activités -->
-      <div class="bg-white dark:bg-[#2E4057] shadow rounded-lg p-6">
+      <div class="bg-white dark:bg-[#2E4057] shadow-md rounded-xl p-6">
         <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-6">Historique des activités</h2>
         <div class="space-y-4">
-          <!-- Activité 1 -->
-          <div class="flex items-center p-4 bg-gray-50 dark:bg-[#34495E] rounded-lg">
+          <div class="flex items-center p-4 bg-[#F0F4F8] dark:bg-[#34495E] rounded-lg">
             <div class="flex-shrink-0">
-              <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-[#7D9D9C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Bracelet localisé à Paris</p>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Il y a 3 heures</p>
+              <p class="text-sm font-medium text-[#4A6572] dark:text-[#A3BFFA]">Bracelet localisé à Paris</p>
+              <p class="text-sm text-[#7D9D9C] dark:text-[#A3BFFA]/70">Il y a 3 heures</p>
             </div>
           </div>
-
-          <!-- Activité 2 -->
-          <div class="flex items-center p-4 bg-gray-50 dark:bg-[#34495E] rounded-lg">
+          <div class="flex items-center p-4 bg-[#F0F4F8] dark:bg-[#34495E] rounded-lg">
             <div class="flex-shrink-0">
-              <svg class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 text-[#7D9D9C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
             <div class="ml-4">
-              <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Bracelet connecté</p>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Il y a 5 heures</p>
+              <p class="text-sm font-medium text-[#4A6572] dark:text-[#A3BFFA]">Bracelet connecté</p>
+              <p class="text-sm text-[#7D9D9C] dark:text-[#A3BFFA]/70">Il y a 5 heures</p>
             </div>
           </div>
         </div>
