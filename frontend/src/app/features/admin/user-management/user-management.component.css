@@ -1,6 +1,5 @@
-/* Animation de fondu pour le fond */
 .animate-fade {
-  animation: fadeIn 2s ease-in-out;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -17,16 +16,10 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Barre latérale */
-.w-64 {
-  width: 16rem;
-}
-
 .ml-64 {
   margin-left: 16rem;
 }
 
-/* Formulaire */
 .bg-white {
   background-color: #FFFFFF;
 }
@@ -35,57 +28,42 @@
   background-color: #2E4057;
 }
 
-input, select {
-  outline: none;
-  width: 100%;
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
-input:focus, select:focus {
-  border-color: #F4A261;
-  box-shadow: 0 0 0 2px rgba(244, 162, 97, 0.2);
+.rounded-xl {
+  border-radius: 1rem;
 }
 
-button:disabled {
-  background-color: #A3BFFA;
-  cursor: not-allowed;
-}
-
-/* Tables */
 table {
   border-collapse: collapse;
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
+  width: 100%;
 }
 
 th, td {
   text-align: left;
+  padding: 0.75rem 1rem;
 }
 
 th {
   font-weight: 600;
-  background-color: #f7fafc;
-  color: #4A6572;
 }
 
-.dark th {
-  background-color: #34495E;
-  color: #A3BFFA;
-}
-
-td {
-  color: #4A6572;
-}
-
-.dark td {
-  color: #A3BFFA;
+button {
+  outline: none;
 }
 
 button:disabled {
-  opacity: 0.6;
+  background-color: #7D9D9C;
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
-/* Pagination */
-button {
-  outline: none;
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-x-2 > * + * {
+  margin-left: 0.5rem;
 }

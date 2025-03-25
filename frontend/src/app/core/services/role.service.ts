@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Role } from '../../shared/models/role.model'; // Assure-toi que cet import est présent
+import { Role } from '../../shared/models/role.model';
 import { AuthService } from './auth.service';
 
 @Injectable({

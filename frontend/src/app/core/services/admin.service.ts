@@ -42,7 +42,6 @@ export class AdminService {
   }
 
   getAlertHistory(): Observable<Alert[]> {
-    // Remplacer par une vraie requête HTTP
     return of([
       { braceletId: 'BR-001', time: '10:30 AM', status: 'resolved' },
       { braceletId: 'BR-002', time: '09:15 AM', status: 'pending' },
