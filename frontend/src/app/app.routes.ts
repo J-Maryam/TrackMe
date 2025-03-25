@@ -20,9 +20,7 @@ export const routes: Routes = [
   {path: '', component: HomeComponent, pathMatch: 'full'},
   {
     path: 'login',
-    component: AuthComponent,
-    canActivate: [AuthGuard],
-    data: {redirectIfAuthenticated: true}
+    component: AuthComponent
   },
   {path: 'commande', component: OrderComponent},
 

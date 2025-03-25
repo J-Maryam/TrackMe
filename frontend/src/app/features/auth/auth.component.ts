@@ -1,26 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import {HeaderComponent} from '../../shared/components/header/header.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.css'],
   standalone: true,
   imports: [NgIf, ReactiveFormsModule, RouterLink, HeaderComponent],
-  styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent {
+export class AuthComponent implements OnDestroy {
   authForm: FormGroup;
   serverError: string = '';
   isLoading = false;
   showPassword = false;
   isRegisterMode = false;
   image = 'logo_homepage.png';
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +35,10 @@ export class AuthComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
@@ -43,7 +49,7 @@ export class AuthComponent {
     if (this.isRegisterMode) {
       this.authForm.addControl('name', this.fb.control('', Validators.required));
       this.authForm.addControl('address', this.fb.control('', Validators.required));
-      this.authForm.addControl('phoneNumber', this.fb.control('', [Validators.required, Validators.pattern('^[0-9]{10}$')])); // Exemple : 10 chiffres
+      this.authForm.addControl('phoneNumber', this.fb.control('', [Validators.required, Validators.pattern('^[0-9]{10}$')]));
     } else {
       this.authForm.removeControl('name');
       this.authForm.removeControl('address');
@@ -53,54 +59,39 @@ export class AuthComponent {
   }
 
   onSubmit(): void {
-    if (this.authForm.valid) {
-      this.isLoading = true;
-      this.serverError = '';
+    if (this.authForm.invalid) return;
 
-      if (this.isRegisterMode) {
-        const { name, email, password, address, phoneNumber } = this.authForm.value;
-          this.authService.register({ name, email, password, address, phoneNumber }).subscribe({
-          next: () => {
-            this.isLoading = false;
-            this.isRegisterMode = false;
-            this.authForm.removeControl('name');
-            this.authForm.removeControl('address');
-            this.authForm.removeControl('phoneNumber');
-            this.authForm.reset();
-          },
-          error: (error) => {
-            this.isLoading = false;
-            if (error.status === 400) {
-              this.serverError = 'Cet email est déjà utilisé.';
-            } else {
-              this.serverError = 'Une erreur est survenue. Veuillez réessayer.';
-            }
-          },
-        });
-      } else {
-        const { email, password } = this.authForm.value;
-        this.authService.login({ email, password }).subscribe({
-          next: () => {
-            this.isLoading = false;
-            const role = this.authService.getUserRole();
-            if (role === 'ROLE_ADMIN') {
-              this.router.navigate(['/admin-dashboard']);
-            } else if (role === 'ROLE_USER') {
-              this.router.navigate(['/dashboard']);
-            } else {
-              this.router.navigate(['/dashboard']);
-            }
-          },
-          error: (error) => {
-            this.isLoading = false;
-            if (error.status === 401) {
-              this.serverError = 'Email ou mot de passe incorrect.';
-            } else {
-              this.serverError = 'Une erreur est survenue. Veuillez réessayer.';
-            }
-          },
-        });
-      }
+    this.isLoading = true;
+    this.serverError = '';
+
+    const authRequest = this.isRegisterMode
+      ? this.authService.register(this.authForm.value)
+      : this.authService.login(this.authForm.value);
+
+    const sub = authRequest.subscribe({
+      next: () => {
+        this.isLoading = false;
+        if (this.isRegisterMode) {
+          this.toggleMode(); // Retour au mode login après inscription réussie
+        } else {
+          const role = this.authService.getUserRole();
+          const redirectRoute = role === 'ROLE_ADMIN' ? '/admin-dashboard' : '/dashboard';
+          this.router.navigate([redirectRoute]);
+        }
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.serverError = this.getErrorMessage(error);
+      },
+    });
+
+    this.subscriptions.push(sub);
+  }
+
+  private getErrorMessage(error: any): string {
+    if (this.isRegisterMode) {
+      return error.status === 400 ? 'Cet email est déjà utilisé.' : 'Une erreur est survenue. Veuillez réessayer.';
     }
+    return error.status === 401 ? 'Email ou mot de passe incorrect.' : 'Une erreur est survenue. Veuillez réessayer.';
   }
 }
