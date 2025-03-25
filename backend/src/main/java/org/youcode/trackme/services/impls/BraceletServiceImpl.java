@@ -75,9 +75,6 @@ public class BraceletServiceImpl extends GenericServiceImpl<Bracelet, Long, Brac
         return braceletMapper.toDto(updatedBracelet);
     }
 
-    /**
-     * Méthode pour générer un numéro de série unique au format BRAC-XXXXXX
-     */
     private String generateSerialNumber() {
         String randomPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         return "BRAC-" + randomPart;
