@@ -62,25 +62,25 @@ export const routes: Routes = [
     path: 'dashboard',
     component: ClientDashboardComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {roles: ['ROLE_USER']}
+    data: {roles: ['ROLE_CLIENT']}
   },
   {
     path: 'assigned-bracelets',
     component: AssignedBraceletsComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {roles: ['ROLE_USER']}
+    data: {roles: ['ROLE_CLIENT']}
   },
   {
     path: 'patient-tracking/:patientId',
     component: TrackPatientComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {roles: ['ROLE_USER']}
+    data: {roles: ['ROLE_CLIENT']}
   },
   {
     path: 'alerts',
     component: AlertsComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: {roles: ['ROLE_USER']}
+    data: {roles: ['ROLE_CLIENT']}
   },
 
   // Route pour accès interdit

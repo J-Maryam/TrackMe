@@ -1,15 +1,12 @@
-<!-- Bouton de menu pour les petits écrans -->
 <button (click)="toggleSidebar()" class="md:hidden fixed top-4 left-4 z-50 p-2 bg-[#4A6572] dark:bg-[#2E4057] text-white rounded-lg">
   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
   </svg>
 </button>
 
-<!-- Sidebar -->
 <aside [ngClass]="{'translate-x-0': isSidebarOpen, '-translate-x-full': !isSidebarOpen}"
        class="w-64 bg-[#4A6572] dark:bg-[#2E4057] p-6 text-white shadow-lg fixed h-screen transition-all duration-300 transform md:translate-x-0 z-40"
        aria-label="Navigation sidebar">
-  <!-- Logo et titre -->
   <div class="flex items-center mb-8 space-x-2">
     <svg class="w-8 h-8 text-[#F4A261] dark:text-[#E07A5F] animate-pulse-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -17,9 +14,7 @@
     <h2 class="text-2xl font-bold">SafeTrack</h2>
   </div>
 
-  <!-- Navigation -->
   <nav class="space-y-3" role="navigation">
-    <!-- Section : Tableau de bord -->
     <div class="mb-4">
       <h3 class="text-sm font-semibold text-gray-400 mb-2">Tableau de bord</h3>
       <a *ngIf="isAdmin" routerLink="/admin-dashboard" [routerLinkActive]="'active'" [ngClass]="isActive('/admin-dashboard') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
@@ -41,7 +36,6 @@
       </a>
     </div>
 
-    <!-- Section : Gestion (Admin uniquement) -->
     <div *ngIf="isAdmin" class="mb-4">
       <h3 class="text-sm font-semibold text-gray-400 mb-2">Gestion</h3>
       <a routerLink="/user-management" [routerLinkActive]="'active'" [ngClass]="isActive('/user-management') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
@@ -70,7 +64,6 @@
       </a>
     </div>
 
-    <!-- Section : Surveillance (Client uniquement) -->
     <div *ngIf="!isAdmin" class="mb-4">
       <h3 class="text-sm font-semibold text-gray-400 mb-2">Surveillance</h3>
       <a routerLink="/assigned-bracelets" [routerLinkActive]="'active'" [ngClass]="isActive('/assigned-bracelets') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
@@ -91,21 +84,7 @@
       </a>
     </div>
 
-<!--    &lt;!&ndash; Section : Rapports (Admin uniquement) &ndash;&gt;-->
-<!--    <div *ngIf="isAdmin" class="mb-4">-->
-<!--      <h3 class="text-sm font-semibold text-gray-400 mb-2">Rapports</h3>-->
-<!--      <a routerLink="/reports" [routerLinkActive]="'active'" [ngClass]="isActive('/reports') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"-->
-<!--         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"-->
-<!--         aria-label="Go to Reports" [attr.aria-current]="isActive('/reports') ? 'page' : null">-->
-<!--        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
-<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m-9 4h12M5 7h14v10H5z"></path>-->
-<!--        </svg>-->
-<!--        Rapports-->
-<!--      </a>-->
-<!--    </div>-->
-
-    <!-- Section : Historique des activités -->
-    <div class="mb-4">
+   <div class="mb-4">
       <h3 class="text-sm font-semibold text-gray-400 mb-2">Historique</h3>
       <a routerLink="/activity-history" [routerLinkActive]="'active'" [ngClass]="isActive('/activity-history') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
          class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
@@ -117,13 +96,10 @@
       </a>
     </div>
 
-    <!-- Section : Profil -->
     <div class="mb-4">
-      <h3 class="text-sm font-semibold text-gray-400 mb-2">Compte</h3>
       <a routerLink="/profile" [routerLinkActive]="'active'" [ngClass]="isActive('/profile') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
          class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
          aria-label="Go to Profile" [attr.aria-current]="isActive('/profile') ? 'page' : null">
-        <!-- Nouvelle icône de profil -->
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
         </svg>
@@ -132,7 +108,6 @@
     </div>
   </nav>
 
-  <!-- Bouton de déconnexion -->
   <div class="absolute bottom-6 left-6 right-6">
     <button (click)="logout()" class="w-full bg-[#F4A261] hover:bg-[#E07A5F] text-white py-2 rounded-xl transition-all duration-300" aria-label="Logout">
       Logout
