@@ -1,19 +1,17 @@
 server:
   port: 8080
-#  servlet:
-#    context-path: /api/v1
 
 spring:
   application:
     name: TrackMe
   datasource:
-    url: jdbc:postgresql://localhost:5432/trackme_db
-    username: postgres
-    password: "@aahmhmm28"
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/trackme_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:@aahmhmm28}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
