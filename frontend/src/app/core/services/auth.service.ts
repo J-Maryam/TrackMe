@@ -27,30 +27,30 @@ export class AuthService {
 
   login(user: Pick<User, 'email' | 'password'>): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe(
-        tap((response) => {
-          if (response.token) {
-            localStorage.setItem(this.tokenKey, response.token);
-            localStorage.setItem(this.roleKey, response.role);
+      tap((response) => {
+        if (response.token) {
+          localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem(this.roleKey, response.role);
 
-            const userData: User = {
-              id: response.id,
-              email: response.email,
-              role: response.role,
-              username: response.username,
-              address: response.address || 'N/A',
-              phoneNumber: response.phoneNumber || 'N/A',
-              enabled: response.enabled ?? true,
-            };
+          const userData: User = {
+            id: response.id,
+            email: response.email,
+            role: response.role,
+            username: response.username,
+            address: response.address || 'N/A',
+            phoneNumber: response.phoneNumber || 'N/A',
+            enabled: response.enabled ?? true,
+          };
 
-            localStorage.setItem(this.userKey, JSON.stringify(userData));
-            this.roleSubject.next(response.role);
-            this.userSubject.next(userData);
-          }
-        }),
-        catchError((error) => {
-          console.error('Login failed:', error);
-          return throwError(() => new Error('Login failed. Please check your credentials.'));
-        })
+          localStorage.setItem(this.userKey, JSON.stringify(userData));
+          this.roleSubject.next(response.role);
+          this.userSubject.next(userData);
+        }
+      }),
+      catchError((error) => {
+        console.error('Login failed:', error);
+        return throwError(() => new Error('Login failed. Please check your credentials.'));
+      })
     );
   }
 
@@ -88,6 +88,12 @@ export class AuthService {
   }
 
   register(user: { name: string; email: string; password: string; address: string; phoneNumber: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.post(`${this.apiUrl}/register`, user).pipe(
+      tap(response => console.log('Registration successful:', response)),
+      catchError(error => {
+        console.error('Registration failed:', error);
+        return throwError(() => new Error('Registration failed. Please try again.'));
+      })
+    );
   }
 }

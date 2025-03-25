@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -23,15 +23,10 @@ export interface Alert {
 export class AdminService {
   private apiUrl = 'http://localhost:8080/api/admin';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  }
+  constructor(private http: HttpClient) {}
 
   getStats(): Observable<AdminStats> {
-    return this.http.get<{ data: AdminStats }>(`${this.apiUrl}/stats`, { headers: this.getAuthHeaders() })
+    return this.http.get<{ data: AdminStats }>(`${this.apiUrl}/stats`)
       .pipe(
         map(response => response.data),
         catchError(error => {
@@ -48,6 +43,7 @@ export class AdminService {
       { braceletId: 'BR-001', time: '10:30 AM', status: 'resolved' },
       { braceletId: 'BR-002', time: '09:15 AM', status: 'pending' },
     ]);
+    // Uncomment when ready to use the real API:
     // return this.http.get<Alert[]>(`${this.apiUrl}/alerts/history`);
   }
 }
