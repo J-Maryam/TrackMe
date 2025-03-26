@@ -1,0 +1,33 @@
+<section class="bg-gray-100 py-16">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+
+    <!-- 📸 Image à gauche -->
+    <div class="flex justify-center">
+<!--      <img-->
+<!--        src="https://files.oaiusercontent.com/file-2eeBYV5bXwKeCmkh3pNCRp?se=2025-02-19T11%3A15%3A16Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D2f63ca06-1b93-4f73-b56d-8039b9f84cfa.webp&sig=UL9x0xFhr4fgV18sk1oO9Vz9uNymGxWNIBorx0SPyt4%3D"-->
+<!--        alt="Aide Alzheimer"-->
+<!--           class="max-w-full rounded-lg shadow-lg">-->
+      <img
+        [src]="image"
+        alt="Aide Alzheimer"
+        class="max-w-full rounded-lg shadow-lg" height="1024" width="1024">
+    </div>
+
+    <!-- ❓ Questions Fréquentes à droite -->
+    <div>
+      <h2 class="text-3xl font-extrabold text-gray-800 mb-8 text-center md:text-left">🤔 Questions Fréquentes</h2>
+
+      <div *ngFor="let item of faqList; let i = index" class="mb-4">
+        <button (click)="toggleFAQ(i)"
+                class="w-full flex justify-between items-center bg-white p-5 rounded-lg shadow-md text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-300">
+          <span>{{ item.question }}</span>
+          <span class="text-[#E67E22] text-2xl">{{ activeFAQ === i ? '−' : '+' }}</span>
+        </button>
+
+        <div *ngIf="activeFAQ === i" class="bg-white p-5 mt-2 rounded-lg shadow-md text-gray-600">
+          {{ item.answer }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

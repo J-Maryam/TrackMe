@@ -1,0 +1,67 @@
+.animate-fade {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transition-all {
+  transition: all 0.3s ease-in-out;
+}
+
+.ml-64 {
+  margin-left: 16rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 1rem;
+}
+
+.bg-white {
+  background-color: #FFFFFF;
+}
+
+.dark\:bg-\[#2E4057\] {
+  background-color: #2E4057;
+}
+
+input {
+  outline: none;
+  width: 100%;
+}
+
+input:focus {
+  box-shadow: 0 0 0 2px rgba(244, 162, 97, 0.2);
+}
+
+button {
+  outline: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+app-sidebar {
+  width: 16rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+}

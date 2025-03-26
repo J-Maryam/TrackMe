@@ -1,0 +1,85 @@
+<div class="p-6 bg-white rounded-lg">
+  <h3 class="text-xl font-semibold text-gray-800 text-center mb-6">Informations Personnelles</h3>
+
+  <form [formGroup]="orderForm">
+    <!-- Nom d'utilisateur -->
+    <div class="mb-5">
+      <label for="username" class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+      <input type="text" id="username" formControlName="username" placeholder="Entrez votre nom"
+             class="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
+      <div *ngIf="orderForm.get('username')?.invalid && (orderForm.get('username')?.dirty || orderForm.get('username')?.touched)"
+           class="text-red-500 text-sm mt-1">
+        <span *ngIf="orderForm.get('username')?.errors?.['required']">Le nom est requis.</span>
+        <span *ngIf="orderForm.get('username')?.errors?.['minlength']">Minimum 3 caractères.</span>
+        <span *ngIf="orderForm.get('username')?.errors?.['maxlength']">Maximum 50 caractères.</span>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="mb-5 relative">
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <div class="relative">
+        <input type="email" id="email" formControlName="email" placeholder="Entrez votre email"
+               class="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
+        <span *ngIf="orderForm.get('email')?.valid && orderForm.get('email')?.touched && !orderForm.get('email')?.pending"
+              class="absolute right-3 top-3 text-green-500">✅</span>
+        <span *ngIf="orderForm.get('email')?.invalid && orderForm.get('email')?.touched"
+              class="absolute right-3 top-3 text-red-500">❌</span>
+      </div>
+      <div *ngIf="orderForm.get('email')?.pending" class="text-gray-500 text-sm mt-1">Vérification en cours...</div>
+      <div *ngIf="orderForm.get('email')?.invalid && orderForm.get('email')?.touched"
+           class="text-red-500 text-sm mt-1">
+        <span *ngIf="orderForm.get('email')?.errors?.['required']">L'email est requis.</span>
+        <span *ngIf="orderForm.get('email')?.errors?.['email']">Email invalide.</span>
+        <span *ngIf="orderForm.get('email')?.errors?.['emailTaken']">Cet email est déjà utilisé.</span>
+        <span *ngIf="orderForm.get('email')?.errors?.['emailCheckFailed']">Erreur lors de la vérification de l'email.</span>
+      </div>
+    </div>
+
+    <!-- Mot de passe -->
+    <div class="mb-5">
+      <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+      <input type="password" id="password" formControlName="password" placeholder="Choisissez un mot de passe"
+             class="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
+      <div *ngIf="orderForm.get('password')?.invalid && (orderForm.get('password')?.dirty || orderForm.get('password')?.touched)"
+           class="text-red-500 text-sm mt-1">
+        <span *ngIf="orderForm.get('password')?.errors?.['required']">Le mot de passe est requis.</span>
+        <span *ngIf="orderForm.get('password')?.errors?.['minlength']">Minimum 6 caractères.</span>
+      </div>
+    </div>
+
+    <!-- Adresse -->
+    <div class="mb-5">
+      <label for="address" class="block text-sm font-medium text-gray-700">Adresse (pour la livraison)</label>
+      <input type="text" id="address" formControlName="address" placeholder="Entrez votre adresse"
+             class="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
+      <div *ngIf="orderForm.get('address')?.invalid && (orderForm.get('address')?.dirty || orderForm.get('address')?.touched)"
+           class="text-red-500 text-sm mt-1">
+        <span *ngIf="orderForm.get('address')?.errors?.['required']">L'adresse est requise.</span>
+        <span *ngIf="orderForm.get('address')?.errors?.['minlength']">Minimum 5 caractères.</span>
+        <span *ngIf="orderForm.get('address')?.errors?.['maxlength']">Maximum 255 caractères.</span>
+      </div>
+    </div>
+
+    <!-- Numéro de téléphone -->
+    <div class="mb-5">
+      <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Numéro de téléphone (pour la livraison)</label>
+      <input type="tel" id="phoneNumber" formControlName="phoneNumber" placeholder="Ex: +212 755 555 555"
+             class="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E67E22] focus:border-[#E67E22] bg-gray-50">
+      <div *ngIf="orderForm.get('phoneNumber')?.invalid && (orderForm.get('phoneNumber')?.dirty || orderForm.get('phoneNumber')?.touched)"
+           class="text-red-500 text-sm mt-1">
+        <span *ngIf="orderForm.get('phoneNumber')?.errors?.['required']">Le numéro est requis.</span>
+        <span *ngIf="orderForm.get('phoneNumber')?.errors?.['pattern']">Numéro invalide (ex. +212 755 555 555).</span>
+      </div>
+    </div>
+
+    <!-- Bouton Suivant -->
+    <div class="text-center">
+      <button type="button"
+              (click)="saveAndNext()"
+              class="bg-[#E67E22] hover:bg-[#D35400] text-white py-3 px-6 rounded-lg text-lg font-medium transition duration-300 ease-in-out">
+        Suivant
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,69 @@
+.animate-fade {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Styles généraux */
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transition-all {
+  transition: all 0.3s ease-in-out;
+}
+
+.ml-64 {
+  margin-left: 16rem;
+}
+
+.bg-white {
+  background-color: #FFFFFF;
+}
+
+.dark\:bg-\[#2E4057\] {
+  background-color: #2E4057;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+
+th {
+  font-weight: 600;
+}
+
+button {
+  outline: none;
+}
+
+button:disabled {
+  background-color: #7D9D9C;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-x-2 > * + * {
+  margin-left: 0.5rem;
+}

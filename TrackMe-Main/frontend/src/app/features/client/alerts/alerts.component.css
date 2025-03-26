@@ -1,0 +1,70 @@
+/* Styles pour le texte */
+.text-#4A6572 {
+  color: #4a6572;
+}
+
+.dark .text-#E2E8F0 {
+  color: #e2e8f0;
+}
+
+.text-#7D9D9C {
+  color: #7d9d9c;
+}
+
+.dark .text-#A3BFFA\70 {
+                       color: rgba(163, 191, 250, 0.7);
+                     }
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* Styles pour les alertes */
+.text-red-500 {
+  color: #ef4444;
+}
+
+.text-green-500 {
+  color: #10b981;
+}
+
+.bg-red-100 {
+  background-color: #fee2e2;
+}
+
+.text-red-700 {
+  color: #b91c1c;
+}
+
+.bg-green-100 {
+  background-color: #d1fae5;
+}
+
+.text-green-700 {
+  color: #047857;
+}
+
+/* Effets de survol */
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hover\:shadow-md:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Bouton */
+button svg {
+  transition: transform 0.3s ease;
+}
+
+button:hover svg {
+  transform: translateX(-4px);
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+  .p-4 {
+    padding: 1rem;
+  }
+}

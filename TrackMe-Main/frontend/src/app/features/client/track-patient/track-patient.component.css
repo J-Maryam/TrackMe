@@ -1,0 +1,82 @@
+#map {
+  height: 400px;
+  width: 100%;
+}
+
+.text-#4A6572 {
+  color: #4a6572;
+}
+
+.dark .text-#E2E8F0 {
+  color: #e2e8f0;
+}
+
+.font-medium, strong {
+  font-weight: 500;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 100px;
+  }
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+button svg {
+  transition: transform 0.3s ease, color 0.2s ease;
+}
+
+button:hover svg {
+  transform: translateX(-4px);
+}
+
+.text-#F4A261 {
+  color: #f4a261;
+}
+
+.hover\:text-#E07A5F:hover {
+  color: #e07a5f;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  #map {
+    height: 300px;
+  }
+}
+
+@media (min-width: 1025px) {
+  #map {
+    height: 500px;
+  }
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+button[title="Copy to clipboard"] svg {
+  transform: scale(1);
+}
+
+button[title="Copy to clipboard"]:hover svg {
+  transform: scale(1.1);
+}

@@ -1,0 +1,131 @@
+<div class="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+  <app-sidebar></app-sidebar>
+
+  <div class="flex-1 p-6 md:p-8 ml-0 md:ml-64 transition-all duration-300">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+        <div>
+          <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Gestion des Bracelets</h1>
+          <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Activer ou désactiver des bracelets.</p>
+        </div>
+        <input
+          type="text"
+          placeholder="Rechercher un bracelet..."
+          class="mt-4 md:mt-0 w-full md:w-64 px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-[#7D9D9C]/50 dark:border-[#A3BFFA]/50 text-[#4A6572] dark:text-[#A3BFFA] focus:outline-none focus:ring-2 focus:ring-[#F4A261] transition-all"
+          (input)="searchBracelets($event)"
+        />
+      </div>
+
+      <div *ngIf="isLoading" class="flex justify-center items-center py-6">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#F4A261]"></div>
+      </div>
+
+      <div *ngIf="errorMessage && !isLoading" class="bg-[#F4A261]/10 border-l-4 border-[#E07A5F] text-[#E07A5F] p-4 rounded-lg mb-6 animate-pulse">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="!isLoading && displayedBracelets.length > 0" class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6">
+        <h2 class="text-xl font-semibold text-[#4A6572] dark:text-[#A3BFFA] mb-6">Bracelets des Clients</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left table-auto">
+            <thead>
+            <tr class="bg-[#7D9D9C]/10 dark:bg-[#A3BFFA]/10 text-[#4A6572] dark:text-[#A3BFFA]">
+              <th class="py-3 px-6 font-medium">Numéro de série</th>
+              <th class="py-3 px-6 font-medium">Client</th>
+              <th class="py-3 px-6 font-medium">Statut</th>
+              <th class="py-3 px-6 font-medium">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let bracelet of displayedBracelets" class="border-b border-[#7D9D9C]/20 dark:border-[#A3BFFA]/20 hover:bg-[#7D9D9C]/5 dark:hover:bg-[#A3BFFA]/5 transition-colors">
+              <td class="py-4 px-6 text-[#4A6572] dark:text-[#A3BFFA]">{{ bracelet.serialNumber }}</td>
+              <td class="py-4 px-6 text-[#4A6572] dark:text-[#A3BFFA]">{{ bracelet.patient?.username }}</td>
+              <td class="py-4 px-6">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium"
+                    [ngClass]="{
+                      'bg-[#F4A261]/20 text-[#F4A261]': bracelet.status === 'ACTIVE',
+                      'bg-[#E07A5F]/20 text-[#E07A5F]': bracelet.status === 'INACTIVE'
+                    }"
+                  >
+                    {{ bracelet.status === 'ACTIVE' ? 'Actif' : 'Inactif' }}
+                  </span>
+              </td>
+              <td class="py-4 px-6 flex space-x-2">
+                <button
+                  *ngIf="bracelet.status === 'INACTIVE'"
+                  (click)="activateBracelet(bracelet.id)"
+                  class="flex items-center bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg transition-colors"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Activer
+                </button>
+                <button
+                  *ngIf="bracelet.status === 'ACTIVE'"
+                  (click)="deactivateBracelet(bracelet.id)"
+                  class="flex items-center bg-[#E07A5F] hover:bg-[#F4A261] text-white py-1 px-3 rounded-lg transition-colors"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                  Désactiver
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="text-[#7D9D9C] dark:text-[#A3BFFA]/70">
+            Affichage de {{ displayedBracelets.length }} sur {{ totalElements }} bracelets
+          </div>
+          <div class="flex items-center space-x-2">
+            <select
+              [(ngModel)]="pageSize"
+              (change)="onPageSizeChange()"
+              class="px-2 py-1 rounded-lg bg-white dark:bg-gray-800 border border-[#7D9D9C]/50 dark:border-[#A3BFFA]/50 text-[#4A6572] dark:text-[#A3BFFA] focus:outline-none transition-all"
+            >
+              <option [value]="5">5 par page</option>
+              <option [value]="10">10 par page</option>
+              <option [value]="20">20 par page</option>
+            </select>
+            <button
+              (click)="previousPage()"
+              [disabled]="currentPage === 0"
+              class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg disabled:bg-[#7D9D9C]/50 disabled:cursor-not-allowed transition-colors"
+            >
+              Précédent
+            </button>
+            <div class="flex space-x-1">
+              <button
+                *ngFor="let page of getPageNumbers()"
+                (click)="goToPage(page)"
+                [ngClass]="{
+                  'bg-[#F4A261] text-white': currentPage === page,
+                  'bg-[#7D9D9C]/20 dark:bg-[#A3BFFA]/20 text-[#4A6572] dark:text-[#A3BFFA]': currentPage !== page
+                }"
+                class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#E07A5F] hover:text-white transition-colors"
+              >
+                {{ page + 1 }}
+              </button>
+            </div>
+            <button
+              (click)="nextPage()"
+              [disabled]="currentPage >= totalPages - 1"
+              class="bg-[#F4A261] hover:bg-[#E07A5F] text-white py-1 px-3 rounded-lg disabled:bg-[#7D9D9C]/50 disabled:cursor-not-allowed transition-colors"
+            >
+              Suivant
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isLoading && displayedBracelets.length === 0" class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 text-center">
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70">Aucun bracelet trouvé.</p>
+      </div>
+    </div>
+  </div>
+</div>

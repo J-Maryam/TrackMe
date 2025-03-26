@@ -1,0 +1,236 @@
+<div class="min-h-screen flex bg-[#F0F4F8] dark:bg-[#1E2A44] animate-fade">
+  <app-sidebar></app-sidebar>
+  <main class="flex-1 p-8 ml-64">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-[#4A6572] dark:text-[#A3BFFA]">Admin Dashboard Overview</h1>
+      <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Monitor and manage your SafeTrack system.</p>
+    </header>
+
+    <!-- Statistiques -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Carte Bracelets Actifs -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Bracelets Actifs</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 2c-2.761 0-5 2.239-5 5h10c0-2.761-2.239-5-5-5z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.activeBracelets || 0 }}</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Bracelets actuellement actifs</p>
+      </div>
+
+      <!-- Carte Alertes en attente -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Alertes en attente</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.pendingAlerts || 0 }}</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Actions en attente</p>
+      </div>
+
+      <!-- Carte Bracelets Inactifs -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Bracelets Inactifs</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.inactiveBracelets || 0 }}</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Bracelets non utilisés</p>
+      </div>
+
+      <!-- Carte Total Clients -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Total Clients</h3>
+          <svg class="w-6 h-6 text-[#F4A261] dark:text-[#E07A5F]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+        <p class="text-4xl font-bold text-[#F4A261] dark:text-[#E07A5F]">{{ stats?.totalClients || 0 }}</p>
+        <p class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm mt-2">Clients enregistrés</p>
+      </div>
+    </div>
+
+    <!-- Sections -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Alert History</h3>
+          <a routerLink="/history" class="text-[#F4A261] hover:underline text-sm">View All</a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+            <tr class="dark:border-[#34495E] bg-[#F0F4F8] dark:bg-[#34495E]/30">
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Bracelet ID</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Time</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let alert of alerts" class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">{{ alert.braceletId }}</td>
+              <td class="py-3 px-4">{{ alert.time }}</td>
+              <td class="py-3 px-4" [ngClass]="alert.status === 'resolved' ? 'text-[#F4A261]' : 'text-[#E07A5F]'">
+                {{ alert.status | titlecase }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tracking Trends -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Tracking Trends</h3>
+          <a routerLink="/trends" class="px-3 py-1 bg-[#F4A261] text-white rounded-md hover:bg-[#E07A5F] transition-colors text-sm">
+            View Details
+          </a>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+          <div class="bg-[#F0F4F8] dark:bg-[#34495E]/30 p-4 rounded-lg">
+            <div class="flex justify-between items-center">
+              <span class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm">Success Rate (Avg)</span>
+              <span class="text-[#F4A261] font-semibold">88%</span>
+            </div>
+            <div class="w-full bg-white dark:bg-[#34495E] rounded-full h-2 mt-2">
+              <div class="bg-[#F4A261] h-2 rounded-full" style="width: 88%;"></div>
+            </div>
+          </div>
+          <div class="bg-[#F0F4F8] dark:bg-[#34495E]/30 p-4 rounded-lg">
+            <div class="flex justify-between items-center">
+              <span class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm">Alerts This Week</span>
+              <span class="text-[#F4A261] font-semibold">12</span>
+            </div>
+          </div>
+          <div class="bg-[#F0F4F8] dark:bg-[#34495E]/30 p-4 rounded-lg">
+            <div class="flex justify-between items-center">
+              <span class="text-[#7D9D9C] dark:text-[#A3BFFA]/70 text-sm">Active Bracelets Today</span>
+              <span class="text-[#F4A261] font-semibold">45</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bracelets Overview -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Bracelets Overview</h3>
+          <a routerLink="/bracelet-management" class="px-3 py-1 bg-[#F4A261] text-white rounded-md hover:bg-[#E07A5F] transition-colors text-sm">
+            Manage Bracelets
+          </a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+            <tr class=" dark:border-[#34495E] bg-[#F0F4F8] dark:bg-[#34495E]/30">
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Bracelet ID</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Status</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Battery</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Assigned User</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">BR-001</td>
+              <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#F4A261]/20 text-[#F4A261]">Active</span>
+              </td>
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <div class="w-20 h-2 bg-[#F0F4F8] dark:bg-[#34495E] rounded-full mr-2">
+                    <div class="h-2 bg-[#F4A261] rounded-full" style="width: 90%;"></div>
+                  </div>
+                  90%
+                </div>
+              </td>
+              <td class="py-3 px-4">John Doe</td>
+            </tr>
+            <tr class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">BR-002</td>
+              <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#E07A5F]/20 text-[#E07A5F]">Inactive</span>
+              </td>
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <div class="w-20 h-2 bg-[#F0F4F8] dark:bg-[#34495E] rounded-full mr-2">
+                    <div class="h-2 bg-[#E07A5F] rounded-full" style="width: 30%;"></div>
+                  </div>
+                  30%
+                </div>
+              </td>
+              <td class="py-3 px-4">Jane Smith</td>
+            </tr>
+            <tr class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">BR-003</td>
+              <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#7D9D9C]/20 text-[#7D9D9C]">Low Battery</span>
+              </td>
+              <td class="py-3 px-4">
+                <div class="flex items-center">
+                  <div class="w-20 h-2 bg-[#F0F4F8] dark:bg-[#34495E] rounded-full mr-2">
+                    <div class="h-2 bg-[#7D9D9C] rounded-full" style="width: 15%;"></div>
+                  </div>
+                  15%
+                </div>
+              </td>
+              <td class="py-3 px-4">Unassigned</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Users Overview -->
+      <div class="bg-white dark:bg-[#2E4057] p-6 rounded-xl shadow-md">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-[#4A6572] dark:text-[#A3BFFA]">Users Overview</h3>
+          <a routerLink="/user-management" class="px-3 py-1 bg-[#F4A261] text-white rounded-md hover:bg-[#E07A5F] transition-colors text-sm">
+            Manage Users
+          </a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+            <tr class=" dark:border-[#34495E] bg-[#F0F4F8] dark:bg-[#34495E]/30">
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Name</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Role</th>
+              <th class="py-3 px-4 text-left text-[#4A6572] dark:text-[#A3BFFA]">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">John Doe</td>
+              <td class="py-3 px-4">Admin</td>
+              <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#F4A261]/20 text-[#F4A261]">Active</span>
+              </td>
+            </tr>
+            <tr class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">Jane Smith</td>
+              <td class="py-3 px-4">User</td>
+              <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#F4A261]/20 text-[#F4A261]">Active</span>
+              </td>
+            </tr>
+            <tr class="dark:border-[#34495E] hover:bg-[#F0F4F8] dark:hover:bg-[#34495E]/50">
+              <td class="py-3 px-4">Bob Johnson</td>
+              <td class="py-3 px-4">User</td>
+              <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#7D9D9C]/20 text-[#7D9D9C]">Inactive</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

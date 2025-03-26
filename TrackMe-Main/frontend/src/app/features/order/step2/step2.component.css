@@ -1,0 +1,23 @@
+img {
+  object-fit: cover;
+}
+
+.bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+button {
+  padding: 0.5rem; /* Réduction du padding pour des boutons plus petits */
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+.ring-2 {
+  box-shadow: 0 0 0 2px #E67E22;
+}
+
+.rounded-full {
+  border-radius: 9999px; /* Boutons parfaitement ronds */
+}

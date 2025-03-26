@@ -1,0 +1,116 @@
+<button (click)="toggleSidebar()" class="md:hidden fixed top-4 left-4 z-50 p-2 bg-[#4A6572] dark:bg-[#2E4057] text-white rounded-lg">
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+</button>
+
+<aside [ngClass]="{'translate-x-0': isSidebarOpen, '-translate-x-full': !isSidebarOpen}"
+       class="w-64 bg-[#4A6572] dark:bg-[#2E4057] p-6 text-white shadow-lg fixed h-screen transition-all duration-300 transform md:translate-x-0 z-40"
+       aria-label="Navigation sidebar">
+  <div class="flex items-center mb-8 space-x-2">
+    <svg class="w-8 h-8 text-[#F4A261] dark:text-[#E07A5F] animate-pulse-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <h2 class="text-2xl font-bold">SafeTrack</h2>
+  </div>
+
+  <nav class="space-y-3" role="navigation">
+    <div class="mb-4">
+      <h3 class="text-sm font-semibold text-gray-400 mb-2">Tableau de bord</h3>
+      <a *ngIf="isAdmin" routerLink="/admin-dashboard" [routerLinkActive]="'active'" [ngClass]="isActive('/admin-dashboard') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 text-[#F4A261] dark:text-[#E07A5F] hover:text-white transition-all duration-300"
+         aria-label="Go to Dashboard" [attr.aria-current]="isActive('/admin-dashboard') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+        Dashboard
+      </a>
+
+      <a *ngIf="!isAdmin" routerLink="/dashboard" [routerLinkActive]="'active'" [ngClass]="isActive('/dashboard') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 text-[#F4A261] dark:text-[#E07A5F] hover:text-white transition-all duration-300"
+         aria-label="Go to Dashboard" [attr.aria-current]="isActive('/dashboard') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+        Dashboard
+      </a>
+    </div>
+
+    <div *ngIf="isAdmin" class="mb-4">
+      <h3 class="text-sm font-semibold text-gray-400 mb-2">Gestion</h3>
+      <a routerLink="/user-management" [routerLinkActive]="'active'" [ngClass]="isActive('/user-management') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to User Management" [attr.aria-current]="isActive('/user-management') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+        User Management
+      </a>
+      <a routerLink="/order-management" [routerLinkActive]="'active'" [ngClass]="isActive('/order-management') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Order Management" [attr.aria-current]="isActive('/order-management') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10M4 4h16v16H4z"></path>
+        </svg>
+        Order Management
+      </a>
+      <a routerLink="/bracelet-management" [routerLinkActive]="'active'" [ngClass]="isActive('/bracelet-management') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Bracelet Management" [attr.aria-current]="isActive('/bracelet-management') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10M4 4h16v16H4z"></path>
+        </svg>
+        Bracelet Management
+      </a>
+    </div>
+
+    <div *ngIf="!isAdmin" class="mb-4">
+      <h3 class="text-sm font-semibold text-gray-400 mb-2">Surveillance</h3>
+      <a routerLink="/assigned-bracelets" [routerLinkActive]="'active'" [ngClass]="isActive('/assigned-bracelets') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Assigned Bracelets" [attr.aria-current]="isActive('/assigned-bracelets') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 2c-2.761 0-5 2.239-5 5h10c0-2.761-2.239-5-5-5z"></path>
+        </svg>
+        Assigned Bracelets
+      </a>
+      <a routerLink="/alerts" [routerLinkActive]="'active'" [ngClass]="isActive('/alerts') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Alerts" [attr.aria-current]="isActive('/alerts') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Alerts
+      </a>
+    </div>
+
+   <div class="mb-4">
+      <h3 class="text-sm font-semibold text-gray-400 mb-2">Historique</h3>
+      <a routerLink="/activity-history" [routerLinkActive]="'active'" [ngClass]="isActive('/activity-history') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Activity History" [attr.aria-current]="isActive('/activity-history') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Activity History
+      </a>
+    </div>
+
+    <div class="mb-4">
+      <a routerLink="/profile" [routerLinkActive]="'active'" [ngClass]="isActive('/profile') ? 'bg-[#F4A261]/30 dark:bg-[#E07A5F]/30' : ''"
+         class="flex items-center p-3 rounded-lg hover:bg-[#F4A261]/20 dark:hover:bg-[#E07A5F]/20 hover:text-white transition-all duration-300"
+         aria-label="Go to Profile" [attr.aria-current]="isActive('/profile') ? 'page' : null">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+        Profil
+      </a>
+    </div>
+  </nav>
+
+  <div class="absolute bottom-6 left-6 right-6">
+    <button (click)="logout()" class="w-full bg-[#F4A261] hover:bg-[#E07A5F] text-white py-2 rounded-xl transition-all duration-300" aria-label="Logout">
+      Logout
+    </button>
+  </div>
+</aside>

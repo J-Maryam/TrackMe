@@ -1,0 +1,84 @@
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-flow {
+  background-size: 300% 300%;
+  animation: flowAnimation 12s ease infinite;
+}
+
+@keyframes flowAnimation {
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 4s infinite;
+}
+
+@keyframes pulseSlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+input:focus {
+  outline: none;
+}
+
+.backdrop-blur-2xl {
+  backdrop-filter: blur(12px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.grid-cols-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.lg\:grid-cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .p-8 {
+    padding: 1.5rem;
+  }
+  .sm\:p-12 {
+    padding: 2rem;
+  }
+  .max-w-4xl {
+    max-width: 100%;
+  }
+  .w-80 {
+    width: 100%;
+  }
+}
