@@ -4,12 +4,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.youcode.trackme.dtos.alert.AlertDTO;
+import org.youcode.trackme.entities.Alert;
 import org.youcode.trackme.entities.enums.AlertStatus;
 import org.youcode.trackme.entities.enums.AlertType;
 import org.youcode.trackme.mappers.AlertMapper;
 import org.youcode.trackme.repositories.AlertRepository;
 import org.youcode.trackme.services.AlertService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
